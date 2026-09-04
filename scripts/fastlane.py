@@ -32,9 +32,9 @@ STATE_FILE = os.path.join(ROOT, "data", "live", "fastlane-state.json")
 LOG = os.path.join(ROOT, "logs", "trades.jsonl")
 
 MAX_OPEN = 2
-MAX_TRADE = 5.0
-DAILY_CAP = 10.0
-DAILY_LOSS_HALT = 6.0
+MAX_TRADE = 10.0      # single-chain book (~$66) - clips sized to real coins
+DAILY_CAP = 25.0
+DAILY_LOSS_HALT = 12.0
 STOP_PCT = -15.0
 BANK_PCT = 30.0
 TRAIL_PCT = -12.0
