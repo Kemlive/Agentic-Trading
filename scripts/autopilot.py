@@ -547,6 +547,22 @@ def main():
     if not queue:
         prev["emptyRuns"] = dry_runs + 1
         atomic_write(STATE, prev)
+        if dry_runs in (2, 5, 10, 20):  # CURIOSITY LOOP (boss 2026-09-04): ask WHY no fill
+            try:
+                liq15 = [c for c in cands if float(c.get("liqUsd") or 0) >= 15000]
+                boosted = sum(1 for c in cands if c.get("boosted"))
+                top = []
+                for c in sorted(cands, key=lambda x: float(x.get("liqUsd") or 0), reverse=True)[:3]:
+                    top.append("%s(liq$%.0f h1=%s m5=%s flags=%d)" % (
+                        c.get("symbol"), float(c.get("liqUsd") or 0),
+                        c.get("chg_h1"), c.get("chg_m5"), len(c.get("flags") or [])))
+                diag = ("🔍 WHY-NO-FILL #%d [%s] scanned=%d liq>=15k=%d boosted=%d barMinLiq=$%s | top: %s"
+                        % (dry_runs + 1, entry_note, len(cands), len(liq15), boosted,
+                           _BAR.get("minLiq"), " ; ".join(top) if top else "none"))
+                log({"event": "autopilot_diagnosis", "detail": diag})
+                tg(diag)
+            except Exception:
+                pass
         if dry_runs >= 4:
             tg("🕸️ AUTOPILOT dry tape #%d: even the relief net is empty. Reserve $%.2f ready." % (dry_runs + 1, cash_disp))
         else:
