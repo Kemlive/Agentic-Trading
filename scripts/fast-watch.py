@@ -66,19 +66,22 @@ def log_event(rec):
         f.write(json.dumps(rec) + "\n")
 
 
-# Curated REAL Solana coins (liquid memes + ecosystem) - resolved live via DexScreener
+# Curated anchor REAL Solana coins (always watched) - resolved live via DexScreener
 SYMBOLS = ["WIF", "POPCAT", "BONK", "MEW", "FWOG", "GIGA", "GOAT", "PNUT", "TRUMP",
            "JUP", "JTO", "PYTH", "RENDER", "RAY", "HNT", "MOODENG", "PONKE", "SLERF",
-           "MICHI", "RETARDIO", "SAMO", "BOME", "MYRO", "ANDY"]
+           "MICHI", "RETARDIO", "SAMO", "BOME"]
+QUOTE_NAMES = {"sol", "usdc", "usdt", "weth", "jitosol", "wbtc"}
 
 
 def refresh_watchlist():
-    """Resolve curated real-coin symbols to live Solana addresses via DexScreener
-    search (highest-liquidity pair per symbol). Cache 10 min."""
+    """HYBRID DYNAMIC watchlist (boss 2026-09-04): curated anchors + auto-discovered
+    top liquid/trending Solana coins (gecko trending + top h24-volume), capped at
+    MAX_TOKENS. Rebuilt every 10 min so new movers enter and dead coins drop out."""
     st = load(WATCH_FILE, {})
     if st.get("asOf", 0) > time.time() - 600 and st.get("tokens"):
         return st.get("tokens", [])
     found = {}
+    # 1) curated anchors (highest-liquidity pair per symbol via DexScreener search)
     for sym in SYMBOLS:
         try:
             d = get("https://api.dexscreener.com/latest/dex/search?q=" + sym)
@@ -92,20 +95,41 @@ def refresh_watchlist():
                 liq = float((p.get("liquidity") or {}).get("usd") or 0)
             except Exception:
                 liq = 0
-            bt = (p.get("baseToken") or {}).get("symbol") or ""
-            if bt.upper() != sym.upper():
+            if ((p.get("baseToken") or {}).get("symbol") or "").upper() != sym.upper():
                 continue
             if best is None or liq > best[0]:
                 best = (liq, p)
-        if not best or best[0] < 100000:
+        if best and best[0] >= 100000:
+            p = best[1]
+            a = (p.get("baseToken") or {}).get("address")
+            if a:
+                found[a] = (p.get("baseToken") or {}).get("symbol") or sym
+    # 2) dynamic discovery: gecko trending + high h24-volume pools, liquid only
+    for url in ("https://api.geckoterminal.com/api/v2/networks/solana/trending_pools",
+                "https://api.geckoterminal.com/api/v2/networks/solana/pools?sort=h24_volume_usd_desc&page=1",
+                "https://api.geckoterminal.com/api/v2/networks/solana/pools?sort=h24_volume_usd_desc&page=2"):
+        try:
+            g = get(url)
+        except Exception:
             continue
-        p = best[1]
-        addr = (p.get("baseToken") or {}).get("address")
-        if addr:
-            found[addr] = (p.get("baseToken") or {}).get("symbol") or sym
-    tokens = list(found.keys())
+        for pool in (g or {}).get("data") or []:
+            at = pool.get("attributes") or {}
+            rel = ((pool.get("relationships") or {}).get("base_token") or {}).get("data") or {}
+            a = str(rel.get("id") or "").split("/")[-1]
+            if not a or a == "None" or a in found:
+                continue
+            nm = str(at.get("name") or "").lower().replace(" ", "")
+            try:
+                liq = float(at.get("reserve_in_usd") or 0)
+            except Exception:
+                continue
+            if liq < 100000 or nm in QUOTE_NAMES or len(nm) < 2:
+                continue
+            found[a] = (at.get("name") or a[:6])
+    tokens = list(found.keys())[:MAX_TOKENS]
     if tokens:
-        save(WATCH_FILE, {"asOf": time.time(), "tokens": tokens, "names": found})
+        save(WATCH_FILE, {"asOf": time.time(), "tokens": tokens, "names": found,
+                          "anchors": len(SYMBOLS), "dynamic": max(0, len(tokens) - len(SYMBOLS))})
         return tokens
     return st.get("tokens", [])
 
