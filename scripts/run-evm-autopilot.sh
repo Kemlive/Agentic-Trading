@@ -4,6 +4,10 @@ D=/Users/earn/Agentic-Trading
 cd "$D" || exit 1
 OUT="$D/logs/evm-autopilot.out"
 export PATH="/opt/homebrew/opt/node@20/bin:/usr/bin:/bin"
+# PRE-FLIGHT SECURITY GATE: never tick on a paused/mis-configured/under-funded desk
+if ! bash "$D/scripts/security-gate.sh" evm >> "$OUT" 2>&1; then
+  exit 1
+fi
 {
   echo "=== evm-autopilot $(date -u +%FT%TZ) ==="
   cd "$D/evm-signer" && env -u EVM_KEYSTORE -u EVM_PASSPHRASE node src/autopilot.mjs --go
