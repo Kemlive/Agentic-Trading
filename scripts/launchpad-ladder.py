@@ -41,7 +41,7 @@ def load_config():
                           ["TRENDING", "NOT_GRADUATED"], ["NEW", "GRADUATED"],
                           ["MARKET_CAP", "GRADUATED"], ["TRENDING", "GRADUATED"]]},
             "longyourlongs": {"status": "research",
-                              "note": "Solana curve + Hyperliquid perp, no graduation; frontend indexer unconfirmed; docs at longyourlongs.fun/docs"},
+                              "note": "Solana curve launchpad (we trade the TOKEN only, USDC/SOL on Solana); indexer API pending JS recon"}},
             "ansem": {"status": "research", "note": "ansem.io bot-walled (403); recon needed"},
             "pons": {"status": "research", "note": "pons.money bot-walled (403); recon needed"}},
         "ladder": {"tierA_minVol24": 25000, "tierA_minLiq": 100000,
@@ -207,22 +207,6 @@ def classify(c):
         return "WATCH", reasons, mc, vol1, tx1, vol24, buy_share
     return "D", reasons, mc, vol1, tx1, vol24, buy_share
 
-def hyperliquid_marks(assets=None):
-    """Live Hyperliquid mid marks (public) - the perp feed behind LYL-style NAV."""
-    url = CFG["pads"]["hyperliquid"]["base"]
-    req = urllib.request.Request(url, data=json.dumps({"type": "allMids"}).encode(),
-                                 headers={"content-type": "application/json", "User-Agent": "Mozilla/5.0"})
-    d = json.loads(urllib.request.urlopen(req, timeout=12).read())
-    if assets:
-        print("📈 HYPERLIQUID MARKS (LYL perp backing):")
-        for a in assets:
-            print("   %-8s %s" % (a, d.get(a, "n/a")))
-    else:
-        print("📈 HYPERLIQUID MARKS: %d perps (e.g. BTC %s, SOL %s, HYPE %s)"
-              % (len(d), d.get("BTC"), d.get("SOL"), d.get("HYPE")))
-    return d
-
-
 def main():
     global FOCUS
     args = sys.argv[1:]
@@ -230,9 +214,6 @@ def main():
         for name, pad in CFG["pads"].items():
             st = pad.get("status") if "status" in pad else ("live" if "base" in pad else "config")
             print("  %-14s %-10s %s" % (name, st, (pad.get("note") or "")[:80]))
-        return
-    if args and args[0] == "--hyperliquid":
-        hyperliquid_marks(args[1:] or None)
         return
     if "--focus" in args:
         i = args.index("--focus")
