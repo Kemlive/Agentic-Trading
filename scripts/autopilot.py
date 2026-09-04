@@ -99,6 +99,14 @@ def _iso_secs(iso):
         return None
 
 
+def atomic_write(path, obj):
+    """Crash-safe state write: tmp file + atomic rename (no truncation on races)."""
+    tmp = path + ".tmp"
+    with open(tmp, "w") as f:
+        json.dump(obj, f, indent=2)
+    os.replace(tmp, path)
+
+
 def log(rec):
     rec["ts"] = datetime.datetime.now(datetime.timezone.utc).isoformat()
     with open(os.path.join(ROOT, "logs", "trades.jsonl"), "a") as f:
@@ -274,7 +282,7 @@ def snatcher_decision(pos):
     pct = (price / entry - 1) * 100 if entry else 0
     peak = max(peaks.get(pid, 0), price)
     peaks[pid] = peak
-    json.dump(st, open(STATE, "w"), indent=2)
+    atomic_write(STATE, st)
     txn = pr.get("txns") or {}
     chg = pr.get("priceChange") or {}
     try:
@@ -362,7 +370,7 @@ def save_position(pos):
     h = json.load(open(HOLD))
     h["positions"].insert(0, pos)
     h["updatedAt"] = datetime.datetime.now(datetime.timezone.utc).isoformat()
-    json.dump(h, open(HOLD, "w"), indent=2)
+    atomic_write(HOLD, h)
 
 
 def main():
@@ -416,7 +424,7 @@ def main():
         open(OFF, "w").write("daily loss guard")
         tg("⛔ AUTO PAUSED: daily loss guard (<= -10%%). Equity $%.2f" % equity_now(usdc, sol))
         return 0
-    json.dump(prev, open(STATE, "w"), indent=2)
+    atomic_write(STATE, prev)
     h = json.load(open(HOLD))
     opens = [p for p in h.get("positions", []) if p["status"] == "open"]
     # 1) manage ALL open positions - each exits on its own snatcher triggers (independent peaks)
@@ -432,7 +440,7 @@ def main():
             pos["status"] = "closed"
             pos["closedAt"] = datetime.datetime.now(datetime.timezone.utc).isoformat()
             pos["closeReason"] = "autopilot:dust_zero_qty"
-            json.dump(h, open(HOLD, "w"), indent=2)
+            atomic_write(HOLD, h)
             continue
         usdc_before_sell = token_balance(USDC)
         sig, err = build_and_send(pos["mint"], USDC, qty_raw, 1000, "/tmp/auto_sell.b64")
@@ -453,8 +461,8 @@ def main():
             if prev["lossStreak"] >= 2 and time.time() >= float(prev.get("cooldownUntil") or 0):
                 prev["cooldownUntil"] = time.time() + 6 * 3600
                 tg("🧊 AUTO COOLDOWN: %d straight stop-outs -> no new entries for 6h" % prev["lossStreak"])
-            json.dump(prev, open(STATE, "w"), indent=2)
-            json.dump(h, open(HOLD, "w"), indent=2)
+            atomic_write(STATE, prev)
+            atomic_write(HOLD, h)
             log({"event": "autopilot_sell", "symbol": pos["symbol"], "reason": dec["reason"], "tx": sig, "pct": round(dec["pct"], 1)})
             tg("🔴 AUTO SELL %s (%s) pnl %.1f%% realized $%.2f tx %s" % (pos["symbol"], dec["reason"], dec["pct"], realized, sig[:12]))
             try:  # rich close card (never blocks the engine)
@@ -538,7 +546,7 @@ def main():
          "strict": len(strict), "relief": len(relief)})
     if not queue:
         prev["emptyRuns"] = dry_runs + 1
-        json.dump(prev, open(STATE, "w"), indent=2)
+        atomic_write(STATE, prev)
         if dry_runs >= 4:
             tg("🕸️ AUTOPILOT dry tape #%d: even the relief net is empty. Reserve $%.2f ready." % (dry_runs + 1, cash_disp))
         else:
@@ -568,7 +576,7 @@ def main():
         # cleared cross-check -> persist rotation + reset dry counter
         prev["tried"] = tried[-40:]
         prev["emptyRuns"] = 0
-        json.dump(prev, open(STATE, "w"), indent=2)
+        atomic_write(STATE, prev)
         # VAULT FUNDING (Safe-style): pull the PM-sized amount from the vault under the
         # SPL delegate cap (if hot doesn't already hold it), then swap as usual.
         size = pm_size
@@ -576,11 +584,19 @@ def main():
             if not vault_pull(size):
                 return 0
         amt_raw = int(size * 1e6)
-        # USDC-ONLY GATE (UNIFIED USDC desk): this lane buys strictly with USDC; native
-        # SOL stays reserve/gas. If the input token is ever not USDC, refuse the fill.
-        if str(cand.get("inputAsset") or "USDC").upper() != "USDC" or cand.get("token") != USDC:
-            tg("🚫 USDC-ONLY GATE: refusing %s buy - input must be USDC (got %s)" %
-               (cand.get("symbol"), cand.get("token")))
+        # USDC-ONLY GATE (UNIFIED USDC desk): the lane always SPENDS USDC and opens a
+        # position in the target token. Two checks: (1) input asset must be USDC,
+        # (2) the target must NOT be USDC (never open a position in the settlement mint).
+        if str(cand.get("inputAsset") or "USDC").upper() != "USDC":
+            log({"event": "autopilot_shot", "symbol": cand.get("symbol"), "outcome": "not_usdc_input",
+                 "inputAsset": cand.get("inputAsset")})
+            tg("🚫 USDC-ONLY GATE: refusing %s buy - input asset must be USDC (got %s)" %
+               (cand.get("symbol"), cand.get("inputAsset")))
+            continue
+        if str(cand.get("token") or "").lower() == USDC.lower():
+            log({"event": "autopilot_shot", "symbol": cand.get("symbol"), "outcome": "target_is_usdc"})
+            tg("🚫 USDC-ONLY GATE: refusing %s - cannot open a position in the settlement mint USDC" %
+               cand.get("symbol"))
             continue
         sig, err = build_and_send(USDC, cand["token"], amt_raw, 1500, "/tmp/auto_buy.b64")
         if not sig:
@@ -588,7 +604,16 @@ def main():
             tg("⚠️ AUTO buy FAILED %s: %s -> next shot" % (cand.get("symbol"), err))
             continue
         qty = token_balance_retry(cand["token"])
-        entry = size / qty if qty else 0
+        if not qty:  # fill tx landed but token balance unread/zero (RPC lag or bad fill)
+            time.sleep(3)
+            qty = token_balance_retry(cand["token"])
+        if not qty:
+            log({"event": "autopilot_shot", "symbol": cand.get("symbol"), "outcome": "qty_unread_after_fill",
+                 "tx": sig, "sizeUsdc": size})
+            tg("🚨 FILLED %s BUT QTY UNREADABLE (tx %s, $%.2f) - NO $0 entry recorded; human review" %
+               (cand.get("symbol"), sig[:16], size))
+            return 0  # stop the tick: unaccounted exposure must be resolved, not compounded
+        entry = size / qty
         pos = {"id": "auto-" + datetime.datetime.now(datetime.timezone.utc).strftime("%H%M%S"),
                "ticket": "autopilot", "status": "open", "chain": "solana", "wallet": WALLET,
                "symbol": cand.get("symbol"), "mint": cand["token"],
@@ -616,7 +641,7 @@ def main():
         return 0
     # queue exhausted without a fill
     prev["emptyRuns"] = dry_runs + 1
-    json.dump(prev, open(STATE, "w"), indent=2)
+    atomic_write(STATE, prev)
     tg("🎯 %d eligible shot(s) attempted, none filled this tick (reserve $%.2f). Continuing hunt."
        % (len(queue), cash_disp))
     return 0
