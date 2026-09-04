@@ -135,17 +135,23 @@ def refresh_watchlist():
 
 
 def best_pair(pairs):
-    best = None
-    for p in pairs or []:
-        if str(p.get("chainId")) != "solana":
-            continue
+    """Pick the tradable pair: must carry live h1/m5 price data (that's what signals
+    read). Among data-carrying Solana pairs choose the most liquid; fall back to any
+    Solana pair if none carry data (so price still resolves)."""
+    def has_data(pr):
+        chg = (pr.get("priceChange") or {})
+        return chg.get("h1") is not None and chg.get("m5") is not None
+    def liq(pr):
         try:
-            liq = float((p.get("liquidity") or {}).get("usd") or 0)
+            return float((pr.get("liquidity") or {}).get("usd") or 0)
         except Exception:
-            liq = 0
-        if best is None or liq > best[0]:
-            best = (liq, p)
-    return best[1] if best else None
+            return 0
+    pool = [p for p in (pairs or []) if str(p.get("chainId")) == "solana"]
+    data_pool = [p for p in pool if has_data(p)]
+    chosen = data_pool or pool
+    if not chosen:
+        return None
+    return max(chosen, key=liq)
 
 
 def fnum(x):
