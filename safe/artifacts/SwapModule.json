@@ -1,0 +1,310 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_safe",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_router",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "perSwap",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "daily",
+          "type": "uint256"
+        }
+      ],
+      "name": "CapsSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "delegate",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "sellToken",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "buyToken",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amountIn",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "minOut",
+          "type": "uint256"
+        }
+      ],
+      "name": "Swap",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "allowedBuy",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "allowedSell",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        }
+      ],
+      "name": "approveRouter",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "caps",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "perSwap",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "daily",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "dayStart",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "spent",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "delegate",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "router",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "safe",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "perSwap",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "daily",
+          "type": "uint256"
+        }
+      ],
+      "name": "setCaps",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_delegate",
+          "type": "address"
+        }
+      ],
+      "name": "setDelegate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "asSell",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "asBuy",
+          "type": "bool"
+        }
+      ],
+      "name": "setToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "sellToken",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "buyToken",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amountIn",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "minOut",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "poolFactory",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "stable",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "deadline",
+          "type": "uint256"
+        }
+      ],
+      "name": "swap",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x60c060405234801561000f575f80fd5b50604051610e11380380610e1183398101604081905261002e91610060565b6001600160a01b039182166080521660a052610091565b80516001600160a01b038116811461005b575f80fd5b919050565b5f8060408385031215610071575f80fd5b61007a83610045565b915061008860208401610045565b90509250929050565b60805160a051610d216100f05f395f81816101fd015281816104a2015261091001525f818160af0152818161023d015281816102cf01528181610338015281816103fe0152818161050e0152818161086401526108e30152610d215ff3fe608060405234801561000f575f80fd5b50600436106100a6575f3560e01c8063c89e43611161006e578063c89e4361146101ad578063ca5eb5e1146101bf578063efeec38c146101d2578063f259cd27146101e5578063f887ea40146101f8578063fe80ea251461021f575f80fd5b8063186f0354146100aa57806349141db7146100ee57806366d97b21146101035780637e4d0f321461015957806395f7b0881461018b575b5f80fd5b6100d17f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b0390911681526020015b60405180910390f35b6101016100fc366004610a62565b610232565b005b610139610111366004610aa8565b600360208190525f918252604090912080546001820154600283015492909301549092919084565b6040805194855260208501939093529183015260608201526080016100e5565b61017b610167366004610aa8565b60026020525f908152604090205460ff1681565b60405190151581526020016100e5565b61017b610199366004610aa8565b60016020525f908152604090205460ff1681565b5f546100d1906001600160a01b031681565b6101016101cd366004610aa8565b6102c4565b6101016101e0366004610ac8565b61032d565b6101016101f3366004610aa8565b6103f3565b6100d17f000000000000000000000000000000000000000000000000000000000000000081565b61010161022d366004610af8565b6105ca565b336001600160a01b037f000000000000000000000000000000000000000000000000000000000000000016146102835760405162461bcd60e51b815260040161027a90610b68565b60405180910390fd5b6001600160a01b039092165f908152600160209081526040808320805494151560ff1995861617905560029091529020805492151592909116919091179055565b336001600160a01b037f0000000000000000000000000000000000000000000000000000000000000000161461030c5760405162461bcd60e51b815260040161027a90610b68565b5f80546001600160a01b0319166001600160a01b0392909216919091179055565b336001600160a01b037f000000000000000000000000000000000000000000000000000000000000000016146103755760405162461bcd60e51b815260040161027a90610b68565b6001600160a01b0383165f9081526003602052604081208381556001810183905560028101549091036103a9574260028201555b60408051848152602081018490526001600160a01b038616917f6806c6169898920521cc6099da39b1c3207743aa68299fb40eb9cc655f645f35910160405180910390a250505050565b336001600160a01b037f0000000000000000000000000000000000000000000000000000000000000000161461043b5760405162461bcd60e51b815260040161027a90610b68565b6001600160a01b0381165f9081526001602052604090205460ff166104945760405162461bcd60e51b815260206004820152600f60248201526e1b9bdd08185b1b1bdddb1a5cdd1959608a1b604482015260640161027a565b604080516001600160a01b037f0000000000000000000000000000000000000000000000000000000000000000811660248301525f1960448084019190915283518084039091018152606490920183526020820180516001600160e01b031663095ea7b360e01b179052915163468721a760e01b815290917f0000000000000000000000000000000000000000000000000000000000000000169063468721a7906105499085905f9086908290600401610b8b565b6020604051808303815f875af1158015610565573d5f803e3d5ffd5b505050506040513d601f19601f820116820180604052508101906105899190610bf7565b6105c65760405162461bcd60e51b815260206004820152600e60248201526d185c1c1c9bdd994819985a5b195960921b604482015260640161027a565b5050565b5f546001600160a01b031633146106135760405162461bcd60e51b815260206004820152600d60248201526c6f6e6c792064656c656761746560981b604482015260640161027a565b6001600160a01b0387165f9081526001602052604090205460ff1661066d5760405162461bcd60e51b815260206004820152601060248201526f1cd95b1b081b9bdd08185b1b1bddd95960821b604482015260640161027a565b6001600160a01b0386165f9081526002602052604090205460ff166106c65760405162461bcd60e51b815260206004820152600f60248201526e189d5e481b9bdd08185b1b1bddd959608a1b604482015260640161027a565b6001600160a01b0387165f90815260036020526040902085158015906106ed575080548611155b6107285760405162461bcd60e51b815260206004820152600c60248201526b07065722d73776170206361760a41b604482015260640161027a565b61073181610a12565b80600101548682600301546107469190610c12565b11156107805760405162461bcd60e51b815260206004820152600960248201526806461696c79206361760bc1b604482015260640161027a565b85816003015f8282546107939190610c12565b90915550506040805160018082528183019092525f91816020015b604080516080810182525f8082526020808301829052928201819052606082015282525f199092019101816107ae57905050905060405180608001604052808a6001600160a01b03168152602001896001600160a01b031681526020018515158152602001866001600160a01b0316815250815f8151811061083257610832610c37565b60200260200101819052505f7fcac88ea9bb9110278bc30a643a2133ee9c81c649f093b5f9835a4bb396e7b7b08888847f000000000000000000000000000000000000000000000000000000000000000088604051602401610898959493929190610c4b565b60408051601f198184030181529181526020820180516001600160e01b03166001600160e01b031990941693909317909252905163468721a760e01b81529091506001600160a01b037f0000000000000000000000000000000000000000000000000000000000000000169063468721a79061093e907f0000000000000000000000000000000000000000000000000000000000000000905f9086908290600401610b8b565b6020604051808303815f875af115801561095a573d5f803e3d5ffd5b505050506040513d601f19601f8201168201806040525081019061097e9190610bf7565b6109b85760405162461bcd60e51b815260206004820152600b60248201526a1cddd85c0819985a5b195960aa1b604482015260640161027a565b5f54604080518a8152602081018a90526001600160a01b038c8116938e8216939116917fcd3829a3813dc3cdd188fd3d01dcf3268c16be2fdd2dd21d0665418816e46062910160405180910390a450505050505050505050565b6002810154610a249062015180610c12565b4210610a37574260028201555f60038201555b50565b80356001600160a01b0381168114610a50575f80fd5b919050565b8015158114610a37575f80fd5b5f805f60608486031215610a74575f80fd5b610a7d84610a3a565b92506020840135610a8d81610a55565b91506040840135610a9d81610a55565b809150509250925092565b5f60208284031215610ab8575f80fd5b610ac182610a3a565b9392505050565b5f805f60608486031215610ada575f80fd5b610ae384610a3a565b95602085013595506040909401359392505050565b5f805f805f805f60e0888a031215610b0e575f80fd5b610b1788610a3a565b9650610b2560208901610a3a565b95506040880135945060608801359350610b4160808901610a3a565b925060a0880135610b5181610a55565b8092505060c0880135905092959891949750929550565b6020808252600990820152686f6e6c79207361666560b81b604082015260600190565b60018060a01b03851681525f602085818401526080604084015284518060808501525f5b81811015610bcb5786810183015185820160a001528201610baf565b505f60a0828601015260a0601f19601f8301168501019250505060ff8316606083015295945050505050565b5f60208284031215610c07575f80fd5b8151610ac181610a55565b80820180821115610c3157634e487b7160e01b5f52601160045260245ffd5b92915050565b634e487b7160e01b5f52603260045260245ffd5b5f60a0820187835260208781850152604060a08186015282885180855260c087019150838a0194505f5b81811015610cbf57855180516001600160a01b0390811685528682015181168786015285820151151586860152606091820151169084015294840194608090920191600101610c75565b50506001600160a01b03881660608701529350610cdb92505050565b826080830152969550505050505056fea26469706673582212202b90d6ced7d8f920fd12db350ec5d3cebc35c04fd6945168870b85c11cffc88c64736f6c63430008140033",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.20;\n\n/// @dev Minimal Safe interface for module-executed calls.\ninterface ISafe {\n    function execTransactionFromModule(address to, uint256 value, bytes calldata data, uint8 operation) external returns (bool success);\n}\n\n/// @title SwapModule — whitelist-guarded, capped swaps executed BY the Safe.\n/// @notice The Safe owns the funds and executes the DEX swap (so proceeds return to the Safe).\n///         A single delegate EOA may trigger swaps within per-token per-swap and daily caps,\n///         restricted to whitelisted sell/buy tokens and one whitelisted router. Only the Safe\n///         can configure it.\ncontract SwapModule {\n    address public immutable safe;\n    address public immutable router;\n\n    address public delegate;\n\n    struct Caps {\n        uint256 perSwap;   // sell-token raw units per single swap\n        uint256 daily;     // sell-token raw units per rolling 24h\n        uint256 dayStart;\n        uint256 spent;\n    }\n\n    mapping(address => bool) public allowedSell;\n    mapping(address => bool) public allowedBuy;\n    mapping(address => Caps) public caps; // per sell-token caps\n\n    bytes4 internal constant SWAP_SELECTOR = bytes4(keccak256(\"swapExactTokensForTokens(uint256,uint256,(address,address,bool,address)[],address,uint256)\"));\n    bytes4 internal constant APPROVE_SELECTOR = bytes4(keccak256(\"approve(address,uint256)\"));\n\n    struct Route {\n        address from;\n        address to;\n        bool stable;\n        address factory;\n    }\n\n    event Swap(address indexed delegate, address indexed sellToken, address indexed buyToken, uint256 amountIn, uint256 minOut);\n    event CapsSet(address indexed token, uint256 perSwap, uint256 daily);\n\n    modifier onlySafe() { require(msg.sender == safe, \"only safe\"); _; }\n    modifier onlyDelegate() { require(msg.sender == delegate, \"only delegate\"); _; }\n\n    constructor(address _safe, address _router) {\n        safe = _safe;\n        router = _router;\n    }\n\n    /// @notice Set the delegate EOA.\n    function setDelegate(address _delegate) external onlySafe {\n        delegate = _delegate;\n    }\n\n    /// @notice Set per-sell-token caps (raw units). daily == 0 disables that token's trading.\n    function setCaps(address token, uint256 perSwap, uint256 daily) external onlySafe {\n        Caps storage c = caps[token];\n        c.perSwap = perSwap;\n        c.daily = daily;\n        if (c.dayStart == 0) c.dayStart = block.timestamp;\n        emit CapsSet(token, perSwap, daily);\n    }\n\n    /// @notice Allow/deny a token as sell and/or buy side.\n    function setToken(address token, bool asSell, bool asBuy) external onlySafe {\n        allowedSell[token] = asSell;\n        allowedBuy[token] = asBuy;\n    }\n\n    /// @notice One-time: grant the router max allowance for a whitelisted sell token (Safe is spender).\n    function approveRouter(address token) external onlySafe {\n        require(allowedSell[token], \"not allowlisted\");\n        bytes memory data = abi.encodeWithSelector(APPROVE_SELECTOR, router, type(uint256).max);\n        require(ISafe(safe).execTransactionFromModule(token, 0, data, 0), \"approve failed\");\n    }\n\n    /// @notice Delegate-triggered swap. Proceeds are sent to the Safe (recipient == safe).\n    function swap(\n        address sellToken,\n        address buyToken,\n        uint256 amountIn,\n        uint256 minOut,\n        address poolFactory,\n        bool stable,\n        uint256 deadline\n    ) external onlyDelegate {\n        require(allowedSell[sellToken], \"sell not allowed\");\n        require(allowedBuy[buyToken], \"buy not allowed\");\n\n        Caps storage c = caps[sellToken];\n        require(amountIn > 0 && amountIn <= c.perSwap, \"per-swap cap\");\n        _rollDay(c);\n        require(c.spent + amountIn <= c.daily, \"daily cap\");\n        c.spent += amountIn;\n\n        Route[] memory route = new Route[](1);\n        route[0] = Route(sellToken, buyToken, stable, poolFactory);\n\n        bytes memory data = abi.encodeWithSelector(SWAP_SELECTOR, amountIn, minOut, route, safe, deadline);\n        require(ISafe(safe).execTransactionFromModule(router, 0, data, 0), \"swap failed\");\n\n        emit Swap(delegate, sellToken, buyToken, amountIn, minOut);\n    }\n\n    function _rollDay(Caps storage c) internal {\n        if (block.timestamp >= c.dayStart + 1 days) {\n            c.dayStart = block.timestamp;\n            c.spent = 0;\n        }\n    }\n}\n\n"
+}

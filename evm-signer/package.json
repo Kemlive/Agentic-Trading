@@ -1,0 +1,10 @@
+{
+  "name": "evm-signer",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Self-hosted EVM signing daemon (our own Turnkey replacement) - encrypted keystore + policy guardrails + sign/broadcast",
+  "license": "MIT",
+  "dependencies": {
+    "ethers": "^6.17.0"
+  }
+}

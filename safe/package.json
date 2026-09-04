@@ -1,0 +1,14 @@
+{
+  "name": "agentic-safe",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Safe + AllowanceModule deployment for the agentic trading EVM lane (on-chain policy layer)",
+  "license": "MIT",
+  "dependencies": {
+    "@safe-global/protocol-kit": "^8.0.6",
+    "@safe-global/safe-deployments": "^1.37.62",
+    "@safe-global/safe-modules-deployments": "^3.0.9",
+    "ethers": "^6.17.0",
+    "solc": "^0.8.20"
+  }
+}

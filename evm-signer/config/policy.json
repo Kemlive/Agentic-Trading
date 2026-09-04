@@ -1,0 +1,21 @@
+{
+  "enabled": true,
+  "killSwitch": false,
+  "chains": [1, 56, 8453, 42161, 999, 4663],
+  "allowlistedTo": [
+    "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+    "0x4200000000000000000000000000000000000006",
+    "0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43",
+    "0x3335733c454805df6a77f825f266e136FB4a3333",
+    "0x111111125421cA6dc452d289314280a0f8842A65",
+    "0x315f754ef53bb14c2f9001be8fe0d857e2e31013",
+    "0x203FD7cefb443672ef5700A1E27521c22A6E7B3A",
+    "0xAA46724893dedD72658219405185Fb0Fc91e091C"
+  ],
+  "perTxValueWeiCap": "20000000000000000",
+  "dailyValueWeiCap": "50000000000000000",
+  "perTxUsdCap": 2.0,
+  "dailyUsdCap": 25.0,
+  "note": "Native value caps are wei. ERC-20 trade-size caps ($/trade) are enforced by the engine (trade-agent) on top of this allowlist + value cap. allowlistedTo = USDC/AERO/WETH (approve targets) + Aerodrome/Rubic/1inch routers."
+}

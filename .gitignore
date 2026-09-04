@@ -1,0 +1,26 @@
+node_modules/
+.env
+.DS_Store
+logs/
+dist/
+.mcp.json
+
+# python artifacts
+__pycache__/
+*.pyc
+
+# operational halt markers
+*.off
+
+# PUBLIC-REPO SANITIZATION: internal wallet/live state + ephemeral scan/paper state
+# (boss decision 2026-09-04: public repo under github.com/Kemlive -> keep code+docs,
+#  exclude internal chat/board, wallet-state details, and live desk state)
+data/live/
+data/portfolio.json
+data/pump-scan-*.json
+data/paper/
+
+# wallet-intel snapshots aggregate wallet balances/history - not for public repos
+data/wallet-intel*
+
+

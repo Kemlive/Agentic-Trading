@@ -1,0 +1,26 @@
+name = "agentic-snatcher"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+# Cron: wake every 15 minutes, 24/7 (Cloudflare runs this - no laptop needed)
+[triggers]
+crons = ["*/15 * * * *"]
+
+# State namespace (holdings/peaks/tried). Create once with:
+#   wrangler kv namespace create STATE
+# then paste the id below (or use --binding STATE ...)
+[[kv_namespaces]]
+binding = "STATE"
+id = "106b68e4ea284bbfbd00c2ff421d1892"
+
+[vars]
+WALLET = "GHojAXGEY8DrcDNTjCJcA5hjNt5NBXS4j2dfsxsJKxJM"
+USDC = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+SIZE_USDC = "1.5"
+RESERVE_MIN = "15"
+
+# Secrets (set with `wrangler secret put <NAME>`): never in this file/repo
+# SOLANA_PRIVATE_KEY   (agent hot wallet base58 key)
+# HELIUS_KEY
+# TG_TOKEN
+# TG_CHAT

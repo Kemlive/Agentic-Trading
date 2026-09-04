@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Agentic Trading - Solana Delegate-Cap Approve</title>
+<script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.95.3/lib/index.iife.min.js"></script>
+<style>
+  body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;max-width:760px;margin:40px auto;padding:0 16px;color:#111}
+  h1{font-size:20px} code{background:#f1f1f1;padding:1px 5px;border-radius:4px;font-size:12px}
+  .box{border:1px solid #ddd;border-radius:8px;padding:14px;margin:14px 0}
+  label{display:block;font-size:13px;margin:10px 0 4px;font-weight:600}
+  input{width:100%;box-sizing:border-box;padding:8px;font-family:monospace;font-size:13px}
+  button{padding:10px 16px;border:0;border-radius:8px;background:#2563eb;color:#fff;font-size:14px;margin-top:12px;cursor:pointer}
+  button:disabled{opacity:.5;cursor:default}
+  .warn{color:#b45309;background:#fef3c7;padding:8px;border-radius:6px;font-size:13px;white-space:pre-wrap}
+  .ok{color:#047857;background:#d1fae5;padding:8px;border-radius:6px;font-size:13px}
+  .err{color:#b91c1c;background:#fee2e2;padding:8px;border-radius:6px;font-size:13px;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<h1>Solana Delegate-Cap Approve (pilot)</h1>
+<p>Asks Phantom (vault owner <code>8ZGuiQZ…</code>) to approve a delegate allowance so the
+agent hot wallet <code>GHojAX…</code> can spend up to the cap. Local-only page - keys stay in Phantom.</p>
+
+<div class="box">
+  <button id="connect">1. Connect Phantom (vault account)</button>
+  <div id="conn" class="warn" style="margin-top:10px">Not connected.</div>
+</div>
+
+<div class="box">
+  <label>Source (vault USDC token account)</label>
+  <input id="source" value="GRiCEHnTyfNHKvCXpkcxqHwHmkFFxhHz5Yjhq4MxGJK8"/>
+  <label>Delegate (agent hot wallet)</label>
+  <input id="delegate" value="GHojAXGEY8DrcDNTjCJcA5hjNt5NBXS4j2dfsxsJKxJM"/>
+  <label>Cap (micro-USDC, 1 USDC = 1,000,000). 15,000,000 = $15.00 (vault has ~$23.63, leaves ~$8.63 buffer)</label>
+  <input id="cap" value="15000000"/>
+  <button id="approve" disabled>2. Approve delegate cap in Phantom</button>
+  <div id="status" class="warn" style="margin-top:10px"></div>
+</div>
+
+<script>
+const OWNER = '8ZGuiQZzb6BMDeWjzPzowr6B839ftaJS15ihoscfqEk4';
+const TOKEN = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA';
+const RPC_LIST = [
+  'https://api.mainnet-beta.solana.com',
+  'https://solana-rpc.publicnode.com',
+  'https://rpc.ankr.com/solana',
+];
+const $ = (id) => document.getElementById(id);
+const connEl = $('conn'), statusEl = $('status');
+let wallet = null;
+
+function status(cls, msg) { statusEl.className = cls; statusEl.textContent = msg; }
+
+function withTimeout(p, ms, label) {
+  return new Promise((resolve, reject) => {
+    const t = setTimeout(() => reject(new Error('timeout: ' + label)), ms);
+    p.then((v) => { clearTimeout(t); resolve(v); }, (e) => { clearTimeout(t); reject(e); });
+  });
+}
+
+async function getConnection() {
+  let lastErr = null;
+  for (const url of RPC_LIST) {
+    try {
+      const c = new solanaWeb3.Connection(url, 'confirmed');
+      await withTimeout(c.getLatestBlockhash(), 8000, 'getLatestBlockhash via ' + url);
+      return c; // reachable
+    } catch (e) { lastErr = e; }
+  }
+  throw new Error('All RPCs unreachable from this browser: ' + (lastErr && lastErr.message));
+}
+
+async function connect() {
+  if (!window.solana || !window.solana.isPhantom) {
+    connEl.className = 'warn'; connEl.textContent = 'Phantom not detected - enable the Phantom browser extension.';
+    return;
+  }
+  wallet = window.solana;
+  try { await wallet.connect({ onlyIfTrusted: false }); }
+  catch (e) { connEl.className = 'warn'; connEl.textContent = 'Connect cancelled: ' + e.message; return; }
+  const pk = wallet.publicKey.toBase58();
+  if (pk !== OWNER) {
+    connEl.className = 'warn';
+    connEl.textContent = 'Connected to ' + pk.slice(0, 6) + '… but the VAULT owner must be selected (' + OWNER.slice(0, 6) + '…). Switch account in Phantom and reconnect.';
+    $('approve').disabled = true; return;
+  }
+  connEl.className = 'ok'; connEl.textContent = 'Connected as vault owner ' + pk;
+  $('approve').disabled = false;
+}
+
+async function approve() {
+  try {
+    status('warn', 'Connecting to Solana RPC…');
+    const conn = await getConnection();
+    const bh = await withTimeout(conn.getLatestBlockhash(), 10000, 'blockhash');
+    status('warn', 'Building Approve tx (cap $' + (Number($('cap').value) / 1e6) + ')…');
+
+    const source = new solanaWeb3.PublicKey($('source').value.trim());
+    const delegate = new solanaWeb3.PublicKey($('delegate').value.trim());
+    const owner = new solanaWeb3.PublicKey(OWNER);
+    const tokenProgram = new solanaWeb3.PublicKey(TOKEN);
+    const cap = BigInt($('cap').value.trim());
+    if (cap <= 0n) { status('err', 'cap must be > 0'); return; }
+
+    const data = new Uint8Array(9);
+    data[0] = 4; // SPL Approve
+    new DataView(data.buffer, 1, 8).setBigUint64(0, cap, true);
+    const ix = new solanaWeb3.TransactionInstruction({
+      keys: [
+        { pubkey: source, isSigner: false, isWritable: true },
+        { pubkey: delegate, isSigner: false, isWritable: false },
+        { pubkey: owner, isSigner: true, isWritable: false },
+      ],
+      programId: tokenProgram, data,
+    });
+    const tx = new solanaWeb3.Transaction({ feePayer: owner, recentBlockhash: bh.blockhash, blockhash: bh.blockhash });
+    tx.add(ix);
+
+    status('warn', 'Phantom popup should be open - REVIEW and APPROVE the Approve transaction.');
+    const signed = await withTimeout(wallet.signTransaction(tx), 120000, 'Phantom signTransaction');
+    status('warn', 'Signed - broadcasting…');
+    const sig = await withTimeout(conn.sendRawTransaction(signed.serialize(), { skipPreflight: false, preflightCommitment: 'confirmed' }), 30000, 'broadcast');
+    status('ok', 'Approved! Tx: ' + sig + '\nExplorer: https://explorer.solana.com/tx/' + sig);
+  } catch (e) {
+    status('err', 'ERROR: ' + (e && e.message) + '\nIf it says timeout on Phantom signTransaction: Phantom may not have opened - unlock Phantom and click Approve again.');
+  }
+}
+
+$('connect').onclick = connect;
+$('approve').onclick = approve;
+</script>
+</body>
+</html>
+

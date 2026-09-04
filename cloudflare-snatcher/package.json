@@ -1,0 +1,11 @@
+{
+  "name": "agentic-snatcher",
+  "private": true,
+  "type": "module",
+  "scripts": { "dev": "wrangler dev", "deploy": "wrangler deploy" },
+  "dependencies": {
+    "@solana/web3.js": "1.95.3",
+    "bs58": "^5.0.0"
+  },
+  "devDependencies": { "wrangler": "^3.0.0" }
+}

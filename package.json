@@ -1,0 +1,10 @@
+{
+  "name": "agentic-trading",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Starter structure for an agentic trading system using Rabby wallet.",
+  "main": "src/services/trading.js",
+  "scripts": {
+    "start": "node src/services/trading.js"
+  }
+}
