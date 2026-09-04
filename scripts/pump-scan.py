@@ -33,6 +33,8 @@ for a in args:
 BOOSTS = "https://api.dexscreener.com/token-boosts/latest/v1"
 PROFILES = "https://api.dexscreener.com/token-profiles/latest/v1"
 TOKEN = "https://api.dexscreener.com/latest/dex/tokens/{}"
+TOP_BOOSTS = "https://api.dexscreener.com/token-boosts/top/v1"
+SOL_PAIRS = "https://api.dexscreener.com/latest/dex/pairs/solana"
 
 
 # ---------------------------------------------------------------------------
@@ -162,6 +164,55 @@ def collect_addresses(chains):
         key = (ch, a)
         if key not in addrs:
             addrs[key] = {"chain": ch, "boosted": True, "why": boosted_why.get(key, "")}
+    # top-voted boosts (second discovery list) - same boost payload shape
+    try:
+        for b in http_get(TOP_BOOSTS) or []:
+            ch = b.get("chainId")
+            a = b.get("tokenAddress")
+            if not ch or not a:
+                continue
+            if chains is not None and ch not in chains:
+                continue
+            key = (ch, a)
+            if key not in addrs:
+                addrs[key] = {"chain": ch, "boosted": True,
+                              "why": "top-voted:" + (b.get("description") or "")[:60]}
+    except Exception:
+        pass
+    # GECKO VOLUME-RANKED POOLS (real-liquidity discovery) - micro-cap band only.
+    # Base token address lives in relationships.base_token.data.id ("solana/<addr>").
+    if chains is None or "solana" in chains:
+        try:
+            extras = 0
+            for page in ("1", "2"):
+                if extras >= 60:
+                    break
+                g = http_get("https://api.geckoterminal.com/api/v2/networks/solana/pools?sort=h24_volume_usd_desc&include=base_token&page=" + page)
+                for pool in (g or {}).get("data") or []:
+                    if extras >= 60:
+                        break
+                    rel = ((pool.get("relationships") or {}).get("base_token") or {}).get("data") or {}
+                    a = str(rel.get("id") or "").split("/")[-1]
+                    if not a or a == "None":
+                        continue
+                    key = ("solana", a)
+                    if key in addrs:
+                        continue
+                    at = pool.get("attributes") or {}
+                    try:
+                        liq = float(at.get("reserve_in_usd") or 0)
+                        vol = float(((at.get("volume_usd") or {}).get("h24")) or 0)
+                        fdv = float(at.get("fdv_usd") or 0)
+                        h1 = float(((at.get("price_change_percentage") or {}).get("h1")) or 0)
+                    except Exception:
+                        continue
+                    if liq < 12000 or vol < 10000 or not (20000 <= fdv <= 600000) or not (-40 <= h1 <= 200):
+                        continue
+                    addrs[key] = {"chain": "solana", "boosted": False, "why": "gecko-vol($%.0f)" % vol,
+                                  "liq_est": liq}
+                    extras += 1
+        except Exception:
+            pass
     return addrs
 
 
@@ -322,9 +373,13 @@ def main():
     if not addrs:
         print("no candidates found right now")
         return
-    # bias enrichment towards freshest-looking entries but cap total requests
+    # bias enrichment: core (profiles/boosts) first, then feed tokens ranked by est.
+    # liquidity/volume desc (they are the most likely to pass the liq floors), cap total requests
+    def _enrich_key(kv):
+        est = (kv[1] or {}).get("liq_est")
+        return (0 if est is None else 1, -(float(est or 0.0)))
     rows = []
-    for (ch_addr, meta) in list(addrs.items())[:LIMIT]:
+    for (ch_addr, meta) in sorted(addrs.items(), key=_enrich_key)[:LIMIT]:
         addr = ch_addr[1]
         rows.append(analyze(addr, meta))
         time.sleep(0.15)

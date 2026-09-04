@@ -529,17 +529,14 @@ def main():
     cands = sorted([c for c in latest_scan_candidates() if c.get("token") not in tried],
                    key=lambda x: float(x.get("liqUsd") or 0), reverse=True)
     bar, entry_note = _BAR, _BAR.get("mode", "NEUTRAL_SNATCH")
-    cand = None
-    for c in cands:  # strict tactic of the ACTIVE market phase first
-        if eligible(c, bar):
-            cand = c
-            break
-    if not cand and dry_runs >= 4:  # DRY-TAPE RELIEF: the desk never idles out for hours
-        for c in cands:
-            if eligible(c, RELIEF_BAR):
-                cand, bar, entry_note = c, RELIEF_BAR, "RELIEF(dry-tape)"
-                break
-    if not cand:
+    strict = [c for c in cands if eligible(c, bar)]
+    relief = [c for c in cands if eligible(c, RELIEF_BAR)] if (not strict and dry_runs >= 2) else []
+    queue = (strict or relief)[:3]
+    log({"event": "autopilot_hunt", "mode": entry_note,
+         "queue": [{"s": c.get("symbol"), "liq": c.get("liqUsd"), "fdv": c.get("fdv"),
+                    "h1": c.get("chg_h1"), "m5": c.get("chg_m5")} for c in queue],
+         "strict": len(strict), "relief": len(relief)})
+    if not queue:
         prev["emptyRuns"] = dry_runs + 1
         json.dump(prev, open(STATE, "w"), indent=2)
         if dry_runs >= 4:
@@ -548,66 +545,80 @@ def main():
             tg("AUTOPILOT [%s] scan: no clean entry (dry #%d -> relief net at 5). Reserve $%.2f ready."
                % (entry_note, dry_runs + 1, cash_disp))
         return 0
-    tried.append(cand["token"])
-    # INDEPENDENT CROSS-CHECK (GeckoTerminal) - reject when the second provider disagrees
-    ck = gecko_check(cand["token"])
-    if ck:
-        gl = float(ck.get("liq_usd") or 0)
-        gf = float(ck.get("fdv_usd") or 0)
-        pc = ck.get("pool_chg") or {}
-        gh1 = float(pc.get("h1") or 0)
-        gh24 = float(pc.get("h24") or 0)
-        if gl < 10000 or gf < 30000 or gh1 > 150 or gh24 > 800:
-            prev["tried"] = tried[-30:]
-            json.dump(prev, open(STATE, "w"), indent=2)
-            tg("🚫 SKIP %s: GeckoTerminal disagrees (liq $%.0f, fdv $%.0f, h1 %+.0f%%, h24 %+.0f%%)" % (cand.get("symbol"), gl, gf, gh1, gh24))
-            return 0
-    prev["tried"] = tried[-30:]
-    prev["emptyRuns"] = 0
+    # MULTI-SHOT HUNT (boss 2026-09-04): try up to 3 eligible candidates per tick.
+    # A gecko / USDC-gate / swap rejection falls through to the NEXT candidate instead
+    # of ending the whole tick (was: one shot, tick over).
+    for cand in queue:
+        shot_mode = ("RELIEF(dry-tape)" if cand in relief else entry_note)
+        tried.append(cand["token"])
+        # INDEPENDENT CROSS-CHECK (GeckoTerminal) - reject when the second provider disagrees
+        ck = gecko_check(cand["token"])
+        if ck:
+            gl = float(ck.get("liq_usd") or 0)
+            gf = float(ck.get("fdv_usd") or 0)
+            pc = ck.get("pool_chg") or {}
+            gh1 = float(pc.get("h1") or 0)
+            gh24 = float(pc.get("h24") or 0)
+            if gl < 10000 or gf < 30000 or gh1 > 150 or gh24 > 800:
+                log({"event": "autopilot_shot", "symbol": cand.get("symbol"), "outcome": "gecko_reject",
+                     "gl": gl, "gf": gf, "gh1": gh1, "gh24": gh24})
+                tg("🚫 SKIP %s: GeckoTerminal disagrees (liq $%.0f, fdv $%.0f, h1 %+.0f%%, h24 %+.0f%%) -> next shot"
+                   % (cand.get("symbol"), gl, gf, gh1, gh24))
+                continue
+        # cleared cross-check -> persist rotation + reset dry counter
+        prev["tried"] = tried[-40:]
+        prev["emptyRuns"] = 0
+        json.dump(prev, open(STATE, "w"), indent=2)
+        # VAULT FUNDING (Safe-style): pull the PM-sized amount from the vault under the
+        # SPL delegate cap (if hot doesn't already hold it), then swap as usual.
+        size = pm_size
+        if VAULT_MODE and token_balance(USDC) < size * 0.99:
+            if not vault_pull(size):
+                return 0
+        amt_raw = int(size * 1e6)
+        # USDC-ONLY GATE (UNIFIED USDC desk): this lane buys strictly with USDC; native
+        # SOL stays reserve/gas. If the input token is ever not USDC, refuse the fill.
+        if str(cand.get("inputAsset") or "USDC").upper() != "USDC" or cand.get("token") != USDC:
+            tg("🚫 USDC-ONLY GATE: refusing %s buy - input must be USDC (got %s)" %
+               (cand.get("symbol"), cand.get("token")))
+            continue
+        sig, err = build_and_send(USDC, cand["token"], amt_raw, 1500, "/tmp/auto_buy.b64")
+        if not sig:
+            log({"event": "autopilot_shot", "symbol": cand.get("symbol"), "outcome": "swap_error", "err": str(err)[:200]})
+            tg("⚠️ AUTO buy FAILED %s: %s -> next shot" % (cand.get("symbol"), err))
+            continue
+        qty = token_balance_retry(cand["token"])
+        entry = size / qty if qty else 0
+        pos = {"id": "auto-" + datetime.datetime.now(datetime.timezone.utc).strftime("%H%M%S"),
+               "ticket": "autopilot", "status": "open", "chain": "solana", "wallet": WALLET,
+               "symbol": cand.get("symbol"), "mint": cand["token"],
+               "settleToUsdcLane": "solana-usdc", "inputAsset": "USDC",
+               "fundedFrom": "vault-delegate" if VAULT_MODE else "hot",
+               "openedAt": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+               "txSignature": sig, "qty": qty, "costUsdc": size,
+               "entryImpliedUsd": round(entry, 12), "exitStrategy": "snatcher autopilot"}
+        save_position(pos)
+        log({"event": "autopilot_buy", "symbol": pos["symbol"], "mint": pos["mint"], "qty": qty,
+             "sizeUsdc": size, "entry": entry, "tx": sig})
+        tg("🟢 AUTO BUY %s [%s] $%.2f -> %s tokens @ $%.8g | hot USDC left $%.2f | tx %s" %
+           (pos["symbol"], shot_mode, size, qty, entry, token_balance(USDC), sig[:12]))
+        try:  # rich open card (never blocks the engine)
+            _rem = delegate_remaining()
+            tg_card("open", {"engine": "Solana Snatcher Engine", "symbol": pos.get("symbol"),
+                             "ca": pos.get("mint", "")[:8] + "…",
+                             "entryTime": pos.get("openedAt", "").replace("T", " ")[:16] + " UTC",
+                             "sizeUsdc": size, "qty": qty, "entryPrice": "%.8g" % entry,
+                             "delegatedLeft": _rem, "slip": "≤15% guard (Jupiter route)",
+                             "hardStopPct": "-30.00%", "hardStopPrice": (entry * 0.70) if entry else 0,
+                             "targetPct": "+50% rung / trail", "regime": shot_mode})
+        except Exception:
+            pass
+        return 0
+    # queue exhausted without a fill
+    prev["emptyRuns"] = dry_runs + 1
     json.dump(prev, open(STATE, "w"), indent=2)
-    # VAULT FUNDING (Safe-style): pull the PM-sized amount from the vault under the
-    # SPL delegate cap (if hot doesn't already hold it), then swap as usual.
-    size = pm_size
-    if VAULT_MODE and token_balance(USDC) < size * 0.99:
-        if not vault_pull(size):
-            return 0
-    amt_raw = int(size * 1e6)
-    # USDC-ONLY GATE (UNIFIED USDC desk): this lane buys strictly with USDC; native
-    # SOL stays reserve/gas. If the input token is ever not USDC, refuse the fill.
-    if str(cand.get("inputAsset") or "USDC").upper() != "USDC" or cand.get("token") != USDC:
-        tg("🚫 USDC-ONLY GATE: refusing %s buy - input must be USDC (got %s)" %
-           (cand.get("symbol"), cand.get("token")))
-        return 0
-    sig, err = build_and_send(USDC, cand["token"], amt_raw, 1500, "/tmp/auto_buy.b64")
-    if not sig:
-        tg("⚠️ AUTO buy FAILED %s: %s" % (cand.get("symbol"), err))
-        return 0
-    qty = token_balance_retry(cand["token"])
-    entry = size / qty if qty else 0
-    pos = {"id": "auto-" + datetime.datetime.now(datetime.timezone.utc).strftime("%H%M%S"),
-           "ticket": "autopilot", "status": "open", "chain": "solana", "wallet": WALLET,
-           "symbol": cand.get("symbol"), "mint": cand["token"],
-           "settleToUsdcLane": "solana-usdc", "inputAsset": "USDC",
-           "fundedFrom": "vault-delegate" if VAULT_MODE else "hot",
-           "openedAt": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-           "txSignature": sig, "qty": qty, "costUsdc": size,
-           "entryImpliedUsd": round(entry, 12), "exitStrategy": "snatcher autopilot"}
-    save_position(pos)
-    log({"event": "autopilot_buy", "symbol": pos["symbol"], "mint": pos["mint"], "qty": qty,
-         "sizeUsdc": size, "entry": entry, "tx": sig})
-    tg("🟢 AUTO BUY %s [%s] $%.2f -> %s tokens @ $%.8g | hot USDC left $%.2f | tx %s" %
-       (pos["symbol"], entry_note, size, qty, entry, token_balance(USDC), sig[:12]))
-    try:  # rich open card (never blocks the engine)
-        _rem = delegate_remaining()
-        tg_card("open", {"engine": "Solana Snatcher Engine", "symbol": pos.get("symbol"),
-                         "ca": pos.get("mint", "")[:8] + "…",
-                         "entryTime": pos.get("openedAt", "").replace("T", " ")[:16] + " UTC",
-                         "sizeUsdc": size, "qty": qty, "entryPrice": "%.8g" % entry,
-                         "delegatedLeft": _rem, "slip": "≤15% guard (Jupiter route)",
-                         "hardStopPct": "-30.00%", "hardStopPrice": (entry * 0.70) if entry else 0,
-                         "targetPct": "+50% rung / trail", "regime": entry_note})
-    except Exception:
-        pass
+    tg("🎯 %d eligible shot(s) attempted, none filled this tick (reserve $%.2f). Continuing hunt."
+       % (len(queue), cash_disp))
     return 0
 
 
