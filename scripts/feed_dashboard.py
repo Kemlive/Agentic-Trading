@@ -84,8 +84,18 @@ def collect():
                     "rh": last_ts(os.path.join(FD, "robinhood.jsonl"))}
     met = read(os.path.join(FD, "metrics.json"), {})
     d["metrics"] = met
-    bm = read(os.path.join(FD, "bench-matrix.json"), {})
-    d["bench"] = bm
+    # Earliness computed LIVE from bench.jsonl (single source of truth) so the
+    # dashboard reflects forward deltas immediately after any purge/reset.
+    br = [json.loads(l) for l in open(os.path.join(FD, "bench.jsonl"))] if os.path.exists(os.path.join(FD, "bench.jsonl")) else []
+    with_d = [r for r in br if r.get("deltaSec") is not None]
+    avg = (sum(r["deltaSec"] for r in with_d) / len(with_d)) if with_d else None
+    d["bench"] = {"benchmarks": len(br), "withDelta": len(with_d),
+                  "avgDeltaSec": round(avg, 1) if avg is not None else None,
+                  "note": "live from bench.jsonl — forward capture only after purge",
+                  "liquidityVsDelta": [{"liqUsd": r.get("liqUsd"), "deltaSec": r.get("deltaSec"),
+                                        "chain": r.get("chain"), "mint": (r.get("mint") or "")[:10]}
+                                       for r in with_d[-12:]]}
+
     alpha = read(os.path.join(FD, "rh_alpha.json"), {})
     clusters = alpha.get("clusters", {}) if alpha else {}
     d["alpha"] = {k: len(v) for k, v in clusters.items()}
@@ -205,11 +215,16 @@ class H(http.server.BaseHTTPRequestHandler):
         pass
 
 
+class S(socketserver.ThreadingTCPServer):
+    allow_reuse_address = True
+    daemon_threads = True
+
+
 def main():
     port = 8127
     if "--port" in sys.argv:
         port = int(sys.argv[sys.argv.index("--port") + 1])
-    with socketserver.ThreadingTCPServer(("127.0.0.1", port), H) as srv:
+    with S(("127.0.0.1", port), H) as srv:
         print("📊 Feed dashboard on http://127.0.0.1:%d  (ctrl-c to stop)" % port)
         srv.serve_forever()
 
