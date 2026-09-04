@@ -1,5 +1,13 @@
 # Desk Results Monitor — 2026-09-04 (chief on watch, boss away)
 
+> **UPDATE 19:55Z — watch-window results (11:00→19:55Z):**
+> - DUMBMONEY buy $2.50 (11:00) → hard-stop close 11:23 **realized −$2.50 (−100%)** (bond dumped; stop filled ≈ $0)
+> - EVM AERO TIME_STOP sell (15:1x, tx `0x30b7e850…`) — exited 3.086 AERO, ≈ −$0.001 (~flat, as designed)
+> - STOCKCAT buy $2.50 (19:06) → price −97.9%, feed went dead → **forced close by chief 19:55, realized −$2.50 (−100%)**
+> - Net realized while away: **≈ −$5.00**. No open positions now. Cash: vault 29.498 + hot 0.168 + Safe 38.259 = **$67.93**
+> - **Root cause of the no-profit problem (boss's question):** microcap bond tokens dump to zero in minutes; a −30% stop *cannot fill* → realized ≈ −100%, not −30%. 4/4 automated meme buys (BENNIE, CTO, DUMBMONEY, STOCKCAT) hit this. Only profitable close ever = SOLFONE +28% (manual). Equity vs $72.91 baseline ≈ **−6.8%**.
+> - Recommendation on the table for boss: pause real-USDC SOL meme entries until paper-validated, or restrict buys to graduated Raydium pools with deep liquidity + proven stop fills.
+
 > Purpose: one file to read when you return. Live desk keeps running under guardrails;
 > every result/change lands in `logs/trades.jsonl`, `data/live/team/board.json`,
 > `data/live/team/chat.jsonl`, Telegram, and this file. Refresh anytime with:
