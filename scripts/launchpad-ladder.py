@@ -22,21 +22,50 @@ import datetime
 import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE = "https://api.mintlp.io/v1/fun?"
-DEX_BATCH = "https://api.dexscreener.com/latest/dex/tokens/{}"
+CONFIG_FILE = os.path.join(ROOT, "data", "live", "launchpads.json")
 OUT = os.path.join(ROOT, "data", "live", "launchpad-ladder.json")
 LOG = os.path.join(ROOT, "logs", "trades.jsonl")
 NOW = datetime.datetime.now(datetime.timezone.utc).isoformat()
+DEX_BATCH = "https://api.dexscreener.com/latest/dex/tokens/{}"
 
-FOCUS = ["PONS", "ANSEM", "LONG", "PONSLESS", "ANSEMINU"]
-VIEWS = [  # (sortBy, state) - known-working combos on Moonit API
-    ("NEW", "NOT_GRADUATED"),
-    ("MARKET_CAP", "NOT_GRADUATED"),
-    ("TRENDING", "NOT_GRADUATED"),
-    ("NEW", "GRADUATED"),
-    ("MARKET_CAP", "GRADUATED"),
-    ("TRENDING", "GRADUATED"),
-]
+
+def load_config():
+    """All pads, endpoints, thresholds and focus live in config (no hardcoded assets/
+    numbers in code). Written once with defaults if missing."""
+    default = {
+        "pads": {
+            "moonit": {
+                "base": "https://api.mintlp.io/v1/fun",
+                "params": "vanityExtension=moon&blockchainSymbol=SOL",
+                "views": [["NEW", "NOT_GRADUATED"], ["MARKET_CAP", "NOT_GRADUATED"],
+                          ["TRENDING", "NOT_GRADUATED"], ["NEW", "GRADUATED"],
+                          ["MARKET_CAP", "GRADUATED"], ["TRENDING", "GRADUATED"]]},
+            "longyourlongs": {"status": "research",
+                              "note": "Solana curve + Hyperliquid perp, no graduation; frontend indexer unconfirmed; docs at longyourlongs.fun/docs"},
+            "ansem": {"status": "research", "note": "ansem.io bot-walled (403); recon needed"},
+            "pons": {"status": "research", "note": "pons.money bot-walled (403); recon needed"}},
+        "ladder": {"tierA_minVol24": 25000, "tierA_minLiq": 100000,
+                   "tierA2_minVol24": 5000, "tierA2_minLiq": 40000,
+                   "gradA_vol24": 20000, "gradA_vol1": 2000,
+                   "gradB2_vol24": 2000, "gradB2_vol1": 500,
+                   "curveReadyPct": 9000, "curveMinVol1": 500, "curveMinTx": 3,
+                   "buyShareFloor": 0.5, "focus": []}}
+    try:
+        return json.load(open(CONFIG_FILE))
+    except Exception:
+        tmp = CONFIG_FILE + ".tmp"
+        with open(tmp, "w") as fh:
+            json.dump(default, fh, indent=2)
+        os.replace(tmp, CONFIG_FILE)
+        return default
+
+
+CFG = load_config()
+MOON = CFG["pads"]["moonit"]
+BASE = MOON["base"] + "?"
+VIEWS = [tuple(v) for v in MOON["views"]]
+TH = CFG["ladder"]
+FOCUS = list(TH.get("focus") or [])
 
 
 def dex_pair(pairs):
@@ -93,7 +122,7 @@ def get_json(url):
 
 
 def get(params, page=1, size=50):
-    url = BASE + params + "&vanityExtension=moon&blockchainSymbol=SOL&page=%d&pageSize=%d" % (page, size)
+    url = BASE + params + "&" + MOON["params"] + "&page=%d&pageSize=%d" % (page, size)
     d = get_json(url)
     return (d.get("data") or []) if isinstance(d, dict) else (d or [])
 
@@ -163,14 +192,14 @@ def classify(c):
         reasons.append("vol1h=$%.0f tx1h=%.0f buyshare=%s" % (vol1, tx1, ("%.2f" % buy_share) if buy_share else "n/a"))
     # tier
     if grad:
-        if vol24 >= 20000 and vol1 >= 2000:
+        if vol24 >= TH["gradA_vol24"] and vol1 >= TH["gradA_vol1"]:
             return "A", reasons, mc, vol1, tx1, vol24, buy_share
-        if vol24 >= 2000 or vol1 >= 500:
+        if vol24 >= TH["gradB2_vol24"] or vol1 >= TH["gradB2_vol1"]:
             return "B2", reasons, mc, vol1, tx1, vol24, buy_share
         return "D", reasons, mc, vol1, tx1, vol24, buy_share
-    if prog >= 9000 and (vol1 > 0 or tx1 > 0):
+    if prog >= TH["curveReadyPct"] and (vol1 > 0 or tx1 > 0):
         return "B", reasons, mc, vol1, tx1, vol24, buy_share
-    if vol1 >= 500 and tx1 >= 3 and (buy_share is None or buy_share >= 0.5):
+    if vol1 >= TH["curveMinVol1"] and tx1 >= TH["curveMinTx"] and (buy_share is None or buy_share >= TH["buyShareFloor"]):
         return "C", reasons, mc, vol1, tx1, vol24, buy_share
     if tx1 >= 1 or vol1 > 0:
         return "D", reasons, mc, vol1, tx1, vol24, buy_share
@@ -210,10 +239,10 @@ def main():
             continue
         r["dex"] = {k: (round(d2[k], 2) if isinstance(d2[k], float) else d2[k])
                     for k in ("liq", "vol1", "vol24", "px", "m5", "h1")}
-        if d2["vol24"] >= 25000 and d2["liq"] >= 100000:
+        if d2["vol24"] >= TH["tierA_minVol24"] and d2["liq"] >= TH["tierA_minLiq"]:
             r["tier"] = "A"
             r["why"].append("DEX24=$%.0f liq=$%.0f" % (d2["vol24"], d2["liq"]))
-        elif d2["vol24"] >= 5000 and d2["liq"] >= 40000:
+        elif d2["vol24"] >= TH["tierA2_minVol24"] and d2["liq"] >= TH["tierA2_minLiq"]:
             r["tier"] = "A2"
             r["why"].append("DEX24=$%.0f liq=$%.0f" % (d2["vol24"], d2["liq"]))
         elif r["tier"] == "WATCH" and d2["vol24"] > 0:
