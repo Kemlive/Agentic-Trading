@@ -95,6 +95,10 @@ def collect():
                   "liquidityVsDelta": [{"liqUsd": r.get("liqUsd"), "deltaSec": r.get("deltaSec"),
                                         "chain": r.get("chain"), "mint": (r.get("mint") or "")[:10]}
                                        for r in with_d[-12:]]}
+    ai = read(os.path.join(FD, "alpha-intel.json"), {})
+    d["intel"] = {"counts": ai.get("counts", {}),
+                  "topRH": (ai.get("top") or {}).get("robinhood", [])[:5],
+                  "topSOL": (ai.get("top") or {}).get("solana", [])[:5]}
 
     alpha = read(os.path.join(FD, "rh_alpha.json"), {})
     clusters = alpha.get("clusters", {}) if alpha else {}
@@ -184,6 +188,19 @@ def render(d):
     h.append("<div class='card'><div class='k'>Earliness benchmark</div>")
     h.append("<div>with delta <b>%s</b> · avg <b>%ss</b></div>" % (bm.get("withDelta"), bm.get("avgDeltaSec")))
     h.append("<div class='sub'>%s</div>" % (bm.get("note") or ""))
+    h.append("</div>")
+    # alpha intel
+    it = d.get("intel", {})
+    rows_rh = " · ".join("%s:%s %s/%s/%.0f" % (r.get("topTier", "?")[:1].upper(), (r.get("sym") or r.get("key", "")[:6]),
+                                             r.get("t60"), r.get("accel"), r.get("score")) for r in it.get("topRH", []))
+    rows_sol = " · ".join("%s:%s %s/%s/%.0f" % (r.get("topTier", "?")[:1].upper(), r.get("key", "")[:6],
+                                               r.get("t60"), r.get("accel"), r.get("score")) for r in it.get("topSOL", []))
+    h.append("<div class='card'><div class='k'>Alpha intel (terminal funnel)</div>")
+    h.append("<div>RH %s · SOL %s · migrated %s</div>" % ((it.get("counts") or {}).get("robinhood"),
+                                                          (it.get("counts") or {}).get("solana"),
+                                                          (it.get("counts") or {}).get("migrated")))
+    h.append("<div class='sub'>RH top: %s</div>" % (rows_rh or "—"))
+    h.append("<div class='sub'>SOL top: %s</div>" % (rows_sol or "—"))
     h.append("</div>")
     # rh classification
     al = d.get("alpha", {})
