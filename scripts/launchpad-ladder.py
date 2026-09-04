@@ -41,7 +41,7 @@ def load_config():
                           ["TRENDING", "NOT_GRADUATED"], ["NEW", "GRADUATED"],
                           ["MARKET_CAP", "GRADUATED"], ["TRENDING", "GRADUATED"]]},
             "longyourlongs": {"status": "research",
-                              "note": "Solana curve launchpad (we trade the TOKEN only, USDC/SOL on Solana); indexer API pending JS recon"}},
+                              "note": "Solana curve launchpad (we trade the TOKEN only, USDC/SOL on Solana); indexer API pending JS recon"},
             "ansem": {"status": "research", "note": "ansem.io bot-walled (403); recon needed"},
             "pons": {"status": "research", "note": "pons.money bot-walled (403); recon needed"}},
         "ladder": {"tierA_minVol24": 25000, "tierA_minLiq": 100000,
