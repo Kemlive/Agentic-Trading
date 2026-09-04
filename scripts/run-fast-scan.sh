@@ -9,4 +9,5 @@ OUT="$D/logs/fast-scan.out"
   echo "=== fast-scan $(date -u +%FT%TZ) ==="
   python3 scripts/fast-watch.py
   python3 scripts/fastlane.py
+  python3 scripts/capital-guard.py
 } >> "$OUT" 2>&1

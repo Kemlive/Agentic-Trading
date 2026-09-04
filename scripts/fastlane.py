@@ -315,23 +315,13 @@ def main():
     if os.path.exists(OFF):
         print("fastlane paused (fastlane.off)")
         return
-    px_map = {}
-    try:
-        d = F.get(F.DEX_BATCH.format(",".join(F.refresh_watchlist())))
-        for addr, pairs in F.group((d or {}).get("pairs") or []):
-            pr = F.best_pair(pairs)
-            if pr:
-                try:
-                    px_map[addr] = float(pr.get("priceUsd"))
-                except Exception:
-                    pass
-    except Exception:
-        pass
-    open_n = manage_positions(px_map)
     cands = collect_candidates()
+    open_n = lane_open_count()
     if open_n < MAX_OPEN and cands:
         try_entry(cands)
-    print("fastlane @ %s | open=%d | candidates=%d" % (NOW[:19], open_n, len(cands)))
+        open_n = lane_open_count()
+    print("fastlane @ %s | open=%d | candidates=%d | (exit mgmt delegated to capital-guard)"
+          % (NOW[:19], open_n, len(cands)))
 
 
 if __name__ == "__main__":
