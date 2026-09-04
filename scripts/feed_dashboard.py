@@ -95,8 +95,9 @@ def collect():
                   "liquidityVsDelta": [{"liqUsd": r.get("liqUsd"), "deltaSec": r.get("deltaSec"),
                                         "chain": r.get("chain"), "mint": (r.get("mint") or "")[:10]}
                                        for r in with_d[-12:]]}
-    ai = read(os.path.join(FD, "alpha-intel.json"), {})
+    ai = read(os.path.join(FD, "coins.json"), {})
     d["intel"] = {"counts": ai.get("counts", {}),
+                  "chainRefTime": ai.get("chainRefTime", {}),
                   "topRH": (ai.get("top") or {}).get("robinhood", [])[:5],
                   "topSOL": (ai.get("top") or {}).get("solana", [])[:5]}
 

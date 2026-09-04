@@ -66,41 +66,63 @@ async function main() {
 
   while (Date.now() - start < secs) {
     const latest = await getLatest();
-    const from = Math.min(st.lastBlock + 1, latest);
-    if (latest >= from) {
-      const range = [from, latest];
-      const created = await fetchLogs(from, latest, UNI3_FACTORY, POOL_CREATED);
+    const effFrom = st.lastBlock + 1;
+    // NO-SKIP: process oldest-first, bounded chunk so block-time fetch stays accurate
+    const from = effFrom;
+    const to = Math.min(latest, effFrom + 399);
+    if (latest >= from && to >= from) {
+      let logs = []; // raw log wrappers -> stamped with REAL chain time below
+      const created = await fetchLogs(from, to, UNI3_FACTORY, POOL_CREATED);
       for (const l of created) {
         try {
           const t = ethers.AbiCoder.defaultAbiCoder().decode(["address", "address", "uint24", "int24", "address"], l.data);
           const pool = t[4].toLowerCase();
           st.pools.push(pool);
-          log({ venue: "univ3_pool_created", chain: "robinhood", block: l.blockNumber, tx: l.transactionHash,
-                logIndex: l.index, token0: t[0], token1: t[1], fee: Number(t[2]), pool, ts: new Date().toISOString() });
-          events++;
+          logs.push({ kind: "pool", pool, tok0: t[0], tok1: t[1], fee: Number(t[2]), l });
         } catch {}
       }
-      // pool swaps (bounded to discovered pools)
       if (st.pools.length) {
-        const swaps = await fetchLogs(from, latest, st.pools.slice(-200), SWAP);
-        for (const l of swaps) {
-          log({ venue: "univ3_swap", chain: "robinhood", block: l.blockNumber, tx: l.transactionHash,
-                logIndex: l.index, pool: l.address, topic0: SWAP, ts: new Date().toISOString() });
-          events++;
+        for (const l of await fetchLogs(from, to, st.pools.slice(-200), SWAP)) {
+          logs.push({ kind: "swap", pool: l.address, l });
         }
       }
-      // asset-layer transfers (stock tokens / RWAs) for the recon'd active tokens
       let trCap = 0;
-      const transfers = await fetchLogs(from, latest, ASSET_TOKENS, TRANSFER);
-      for (const l of transfers) {
+      for (const l of await fetchLogs(from, to, ASSET_TOKENS, TRANSFER)) {
         if (++trCap > 120) break;
-        const fromAddr = "0x" + l.topics[1].slice(26);
-        const toAddr = "0x" + l.topics[2].slice(26);
-        log({ venue: "asset_transfer", chain: "robinhood", block: l.blockNumber, tx: l.transactionHash,
-              logIndex: l.index, token: l.address, from: fromAddr, to: toAddr, ts: new Date().toISOString() });
+        logs.push({ kind: "transfer", from: "0x" + l.topics[1].slice(26), to: "0x" + l.topics[2].slice(26), l });
+      }
+      // real chain timestamps for every event in this chunk (no local-clock guessing)
+      const blocks = [...new Set(logs.map((x) => x.l.blockNumber))].sort((a, b) => a - b);
+      if (blocks.length > 250) { // defer tail to a later pass instead of skipping it
+        const cut = blocks[249];
+        logs = logs.filter((x) => x.l.blockNumber <= cut);
+        st.lastBlock = cut;
+      } else {
+        st.lastBlock = to;
+      }
+      const times = {};
+      const chunk = blocks.slice(0, 250);
+      await Promise.all(chunk.map(async (b) => {
+        try { const bl = await provider.getBlock(b); times[b] = bl.timestamp; } catch {}
+      }));
+      for (const x of logs) {
+        const blockTime = times[x.l.blockNumber];
+        if (blockTime === undefined) continue; // block-time fetch failed; retried next pass
+        if (x.kind === "pool") {
+          log({ venue: "univ3_pool_created", chain: "robinhood", block: x.l.blockNumber, blockTime,
+                tx: x.l.transactionHash, logIndex: x.l.index, token0: x.tok0, token1: x.tok1,
+                fee: x.fee, pool: x.pool, ts: new Date().toISOString() });
+        } else if (x.kind === "swap") {
+          log({ venue: "univ3_swap", chain: "robinhood", block: x.l.blockNumber, blockTime,
+                tx: x.l.transactionHash, logIndex: x.l.index, pool: x.pool, topic0: SWAP,
+                ts: new Date().toISOString() });
+        } else {
+          log({ venue: "asset_transfer", chain: "robinhood", block: x.l.blockNumber, blockTime,
+                tx: x.l.transactionHash, logIndex: x.l.index, token: x.l.address,
+                from: x.from, to: x.to, ts: new Date().toISOString() });
+        }
         events++;
       }
-      st.lastBlock = latest;
     }
     passes++;
     if (passes % 3 === 0) console.log(`   pass ${passes} | block ${st.lastBlock} | pools ${st.pools.length} | events ${events}`);
