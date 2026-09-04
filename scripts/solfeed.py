@@ -128,14 +128,16 @@ def collect_venue(name, cfg, st):
 
 def main():
     args = sys.argv[1:]
-    secs = 30
     if "--secs" in args:
         secs = int(args[args.index("--secs") + 1])
+    else:
+        secs = float("inf")  # daemon mode: run until stopped
     cfgd = load_venues()
     st = load_state()
     os.makedirs(FEED_DIR, exist_ok=True)
-    print("🟢 SOLANA FEED ONLINE @ %s | venues: %s"
-          % (datetime.datetime.now(datetime.timezone.utc).isoformat()[:19],
+    mode = "DAEMON" if secs == float("inf") else ("%ds" % secs)
+    print("🟢 SOLANA FEED %s @ %s | venues: %s"
+          % (mode, datetime.datetime.now(datetime.timezone.utc).isoformat()[:19],
              ",".join(cfgd["venues"].keys())))
     t0 = time.time()
     passes = 0

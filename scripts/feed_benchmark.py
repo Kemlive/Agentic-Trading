@@ -120,6 +120,14 @@ def replay():
 def watch(secs):
     print("🛰️ BENCHMARK (live watch) @ %s | following unified.jsonl for %ds" % (now_iso()[:19], secs))
     done = set()
+    if os.path.exists(BENCH):  # never re-benchmark a mint we already measured
+        for l in open(BENCH):
+            try:
+                m = json.loads(l).get("mint")
+                if m:
+                    done.add(m)
+            except Exception:
+                pass
     end = time.time() + secs
     with open(UNI, "r") as fh:
         fh.seek(0, 2)
@@ -136,7 +144,7 @@ def watch(secs):
                 if m in done:
                     continue
                 done.add(m)
-                benchmark(m, row)
+                benchmark(m, row, poll=3, attempts=8)  # live: tight poll, bounded wait
     matrix()
 
 
