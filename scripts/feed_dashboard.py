@@ -517,8 +517,27 @@ def _render_live_positions(positions):
         if p.get("spark"):
             spk = ("<div class='spark-label'>LIVE MARK · own-tick trail</div>"
                    "<div class='spark pos-spark' data-v='%s' data-h='26'></div>" % p["spark"])
-        cards.append("<div class='pos-card clickable' data-chain='solana' data-address='%s' title='View on-chain'>%s%s%s</div>"
-                     % (p.get("mint") or "", head, grid, spk))
+        # stop-distance ruler (guard exit line)
+        ruler = ""
+        if px is not None and entry:
+            banked = bool(p.get("banked"))
+            stop = entry if banked else entry * 0.85      # banked -> stop to entry, else HARD -15%
+            stop_kind = "ENTRY FLOOR (BANKED)" if banked else "HARD -15% STOP"
+            cushion = (px / stop - 1) * 100
+            top = max(peak, px, entry)
+            if top <= stop:
+                top = stop * 1.1
+            norm = max(0.0, min(100.0, (px - stop) / (top - stop) * 100))
+            col = "#4ade80" if cushion > 8 else ("#fbbf24" if cushion > 3 else "#f87171")
+            cush_s = ("%+.1f%%" % cushion) if cushion >= 0 else ("%.1f%% below stop" % -cushion)
+            ruler = ("<div class='stop-ruler' title='guard exit: %s · cushion %s'>"
+                     "<div class='ruler-top'><span class='ruler-kind'>%s</span>"
+                     "<span class='ruler-cush' style='color:%s'>%s to stop</span></div>"
+                     "<div class='ruler-track'><div class='ruler-marker' style='left:%d%%'></div></div>"
+                     "<div class='ruler-scale'><span>$%.4g STOP</span><span>NOW $%.4g</span><span>PEAK $%.4g</span></div>"
+                     "</div>" % (stop_kind, cush_s, stop_kind, col, cush_s, round(norm), stop, px, top))
+        cards.append("<div class='pos-card clickable' data-chain='solana' data-address='%s' title='View on-chain'>%s%s%s%s</div>"
+                     % (p.get("mint") or "", head, grid, spk, ruler))
     return "".join(cards)
 
 
@@ -567,6 +586,12 @@ def render(d):
     h.append(".sp-dot{animation:sppulse 1.8s infinite}</style>")
     h.append("<style>.spark-label{font-size:.62rem;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin:8px 0 2px}")
     h.append(".pos-spark{margin:2px 0 0;background:#0f172a;border:1px solid #1f2a44;border-radius:8px;padding:4px 8px}</style>")
+    h.append("<style>.stop-ruler{margin:8px 2px 0;padding:7px 9px;background:#0b1220;border:1px solid #1f2a44;border-radius:9px}")
+    h.append(".ruler-top{display:flex;justify-content:space-between;align-items:center;font-size:.7rem;margin-bottom:6px;gap:8px;flex-wrap:wrap}")
+    h.append(".ruler-kind{color:#8b98b8;letter-spacing:.05em}.ruler-cush{font-weight:700}")
+    h.append(".ruler-track{position:relative;height:6px;border-radius:99px;background:linear-gradient(90deg,#f87171,#fbbf24 55%,#4ade80)}")
+    h.append(".ruler-marker{position:absolute;top:50%;transform:translate(-50%,-50%);width:11px;height:11px;border-radius:50%;background:#f8fafc;border:2px solid #0b1220;box-shadow:0 0 0 1px #64748b}")
+    h.append(".ruler-scale{display:flex;justify-content:space-between;margin-top:4px;font-size:.62rem;color:#64748b}</style>")
     h.append("<style>body{font-family:ui-monospace,Menlo,monospace;background:#0b1020;color:#e6edf3;margin:0;padding:16px}")
     h.append("h1{font-size:16px;color:#7ee787}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:12px}")
     h.append(".card{background:#111a2e;border:1px solid #26324a;border-radius:10px;padding:12px}")
