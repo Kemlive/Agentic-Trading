@@ -250,11 +250,29 @@ def collect():
     d["feedCounts"] = counts
     fp = read(os.path.join(LIVE, "fastlane-positions.json"), {"positions": []})
     openp = [p for p in fp.get("positions", []) if p.get("status") == "open"]
-    d["lane"] = {"open": len(openp),
-                 "symbols": [p.get("symbol") for p in openp[:4]]}
+    d["lane"] = {"open": len(openp), "positions": []}
     fst_lane = read(os.path.join(LIVE, "fastlane-state.json"), {})
     d["lane"]["spentToday"] = fst_lane.get("spentToday")
     d["lane"]["realizedToday"] = fst_lane.get("realizedToday")
+    try:
+        px_map = _dex_for([p.get("mint") for p in openp if p.get("mint")])
+        for p in openp:
+            mint = p.get("mint")
+            entry = float(p.get("entryUsd") or 0)
+            cost = float(p.get("costUsdc") or 0)
+            qty = float(p.get("qty") or 0)
+            px = (px_map.get(mint) or {}).get("price")
+            pct = round((px / entry - 1) * 100, 2) if entry and px else None
+            val = px * qty if px is not None else None
+            pnl = round(val - cost, 2) if val is not None else None
+            d["lane"]["positions"].append({
+                "symbol": p.get("symbol"), "mint": mint, "signal": p.get("signal"),
+                "openedAt": str(p.get("openedAt") or ""), "openedAtEpoch": p.get("openedAtEpoch"),
+                "entryUsd": entry, "qty": qty, "costUsdc": cost,
+                "peakUsd": float(p.get("peakUsd") or entry), "banked": bool(p.get("banked")),
+                "tx": str(p.get("txSignature") or "")[:18], "price": px, "pct": pct, "value": val, "pnl": pnl})
+    except Exception:
+        pass
     d["paused"] = os.path.exists(os.path.join(LIVE, "autopilot.off"))
     try:  # live balances
         sys.path.insert(0, os.path.join(ROOT, "scripts"))
@@ -422,6 +440,46 @@ def _render_alpha_intel(rh_data, sol_data):
     return html
 
 
+def _render_live_positions(positions):
+    if not positions:
+        return "<div class='empty-badge'>No open positions — lane flat</div>"
+    cards = []
+    for p in positions:
+        opened = (str(p.get("openedAt") or "")[:19]).replace("T", " ") + "Z"
+        px = p.get("price"); pct = p.get("pct"); pnl = p.get("pnl"); val = p.get("value")
+        qty = p.get("qty"); entry = p.get("entryUsd") or 0; cost = p.get("costUsdc") or 0
+        peak = p.get("peakUsd") or entry
+        sig = str(p.get("signal") or "OPEN")
+        pct_s = ("%+.2f%%" % pct) if pct is not None else "—"
+        pnl_s = ("%+.2f" % pnl) if pnl is not None else "—"
+        val_s = ("$%.4f" % val) if val is not None else "—"
+        px_s = ("$%.8g" % px) if px is not None else "—"
+        qty_s = ("%.6g" % qty) if qty is not None else "—"
+        pct_cls = "trend-up" if (pct or 0) >= 0 else "trend-down"
+        pnl_cls = "trend-up" if (pnl or 0) >= 0 else "trend-down"
+        sig_cls = "tag-green" if sig.startswith("FEED") else "tag-gold"
+        head = ("<div class='pos-head'><span class='ticker-badge font-mono'>%s</span>"
+                "<span class='trend-pct %s'>%s</span>"
+                "<span class='meta-tag %s'>%s</span>"
+                "<span class='vol-indicator'>%s</span></div>"
+                % (str(p.get("symbol") or "?"), pct_cls, pct_s, sig_cls, sig,
+                   "🔒 BANKED" if p.get("banked") else "⚙️ GUARD-MANAGED"))
+        grid = ("<div class='pos-grid'>"
+                "<div><span>Opened (UTC)</span><b>%s</b></div>"
+                "<div><span>Size</span><b>$%.2f</b></div>"
+                "<div><span>Entry</span><b>%s</b></div>"
+                "<div><span>Qty</span><b>%s</b></div>"
+                "<div><span>Live mark</span><b>%s</b></div>"
+                "<div><span>Value</span><b>%s</b></div>"
+                "<div><span>PnL</span><b class='%s'>%s</b></div>"
+                "<div><span>Peak</span><b>$%.6g</b></div>"
+                "<div><span>Tx</span><b class='font-mono'>%s…</b></div></div>"
+                % (opened, cost, ("$%.8g" % entry), qty_s, px_s, val_s, pnl_cls, pnl_s, peak, str(p.get("tx") or "")))
+        cards.append("<div class='pos-card clickable' data-chain='solana' data-address='%s' title='View on-chain'>%s%s</div>"
+                     % (p.get("mint") or "", head, grid))
+    return "".join(cards)
+
+
 def render(d):
     on = lambda b: ("🟢" if b else "🔴")
     h = []
@@ -449,6 +507,12 @@ def render(d):
     h.append(".modal .holder{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 10px;margin:5px 0;background:#111a2e;border:1px solid #26324a;border-radius:8px;font-size:.85rem}")
     h.append(".risk{color:#f87171;border-color:#7f1d1d!important}.tag-red{background:#7f1d1d;color:#fecaca}.tag-grey{background:#334155;color:#e2e8f0}.tag-gold{background:#78350f;color:#fde68a}")
     h.append(".modal .close{float:right;cursor:pointer;color:#94a3b8;font-size:20px;line-height:1}</style>")
+    h.append("<style>.pos-card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:12px 14px;margin:8px 0}")
+    h.append(".pos-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}")
+    h.append(".pos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}")
+    h.append(".pos-grid>div{background:#111a2e;border:1px solid #26324a;border-radius:8px;padding:6px 9px}")
+    h.append(".pos-grid span{display:block;font-size:.62rem;color:#8b98b8;text-transform:uppercase;letter-spacing:.04em}")
+    h.append(".pos-grid b{font-size:.95rem;color:#e6edf3;word-break:break-all}</style>")
     h.append("<style>body{font-family:ui-monospace,Menlo,monospace;background:#0b1020;color:#e6edf3;margin:0;padding:16px}")
     h.append("h1{font-size:16px;color:#7ee787}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:12px}")
     h.append(".card{background:#111a2e;border:1px solid #26324a;border-radius:10px;padding:12px}")
@@ -486,7 +550,6 @@ def render(d):
     h.append("<div class='card'><div class='k'>Real-coin lane</div>")
     h.append("<div>open positions <b class='v %s'>%d</b></div>" % ("ok" if ln["open"] == 0 else "bad", ln["open"]))
     h.append("<div class='sub'>today spent $%s · realized $%s</div>" % (ln.get("spentToday"), ln.get("realizedToday")))
-    h.append("<div class='sub'>%s</div>" % ", ".join(ln.get("symbols", [])))
     h.append("</div>")
     # recency
     rec = d["recency"]
@@ -509,6 +572,12 @@ def render(d):
         h.append("<div>%s <b>%s</b></div>" % (k, al.get(k, 0)))
     h.append("</div>")
     h.append("</div>")  # end grid
+
+    # live positions (standard component cards, full width)
+    ln = d.get("lane", {})
+    h.append("<div class='card' style='margin-top:12px'><div class='k'>Real-coin lane — LIVE POSITIONS (%d open)</div>" % (ln.get("open") or 0))
+    h.append(_render_live_positions(ln.get("positions") or []))
+    h.append("</div>")
 
     # alpha intel section (full-width visual clusters)
     it = d.get("intel", {})
