@@ -198,6 +198,35 @@ def _feed_context(address, chain):
                          "score": r.get("score")} for r in hist[-12:]]}
 
 
+TOKEN_PROGRAM = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+USDC_MINT = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+
+
+def _wallet_holdings():
+    """All non-zero SPL token balances in the trading hot wallet (our own RPC read)."""
+    try:
+        import importlib.util as _iu
+        s = _iu.spec_from_file_location("autow", os.path.join(ROOT, "scripts", "autopilot.py"))
+        au = _iu.module_from_spec(s)
+        s.loader.exec_module(au)
+        hot = au.WALLET
+        r = _post_json(_sol_rpc_url(),
+                       {"jsonrpc": "2.0", "id": 1, "method": "getTokenAccountsByOwner",
+                        "params": [hot, {"programId": TOKEN_PROGRAM}, {"encoding": "jsonParsed"}]}, timeout=15)
+        out = []
+        for acc in ((r or {}).get("result") or {}).get("value", []):
+            info = ((((acc.get("account") or {}).get("data") or {}).get("parsed") or {}).get("info") or {})
+            mint = info.get("mint")
+            amt = info.get("tokenAmount") or {}
+            ui = float(amt.get("uiAmount") or 0)
+            if not mint or ui <= 0:
+                continue
+            out.append({"mint": mint, "ui": ui, "decimals": int(amt.get("decimals") or 0)})
+        return out
+    except Exception:
+        return []
+
+
 def collect():
     d = {}
     d["asOf"] = now_iso()
@@ -279,6 +308,30 @@ def collect():
         trail = _mark_trail(p.get("mint"))
         d["lane"]["positions"][i]["spark"] = ",".join("%.6f" % v for v in trail) if len(trail) >= 2 else None
         d["lane"]["positions"][i]["monitor"] = _monitor_for(p.get("mint"))
+    d["portfolio"] = {"coins": [], "usdcHot": None, "estNonUsdc": 0.0}
+    try:
+        hld = _wallet_holdings()
+        lane_mints = {p.get("mint") for p in openp}
+        dex = _dex_for([h["mint"] for h in hld if h["mint"] != USDC_MINT][:40])
+        coins, est = [], 0.0
+        for h in hld:
+            m = h["mint"]
+            if m == USDC_MINT:
+                d["portfolio"]["usdcHot"] = h["ui"]
+                continue
+            di = dex.get(m) or {}
+            price = di.get("price")
+            value = round(h["ui"] * price, 2) if price else None
+            if value:
+                est += value
+            coins.append({"mint": m, "ui": h["ui"], "symbol": di.get("symbol") or m[:6],
+                          "name": di.get("name"), "price": price, "value": value,
+                          "lane": m in lane_mints})
+        coins.sort(key=lambda x: x.get("value") or 0, reverse=True)
+        d["portfolio"]["coins"] = coins
+        d["portfolio"]["estNonUsdc"] = round(est, 2)
+    except Exception:
+        pass
     d["paused"] = os.path.exists(os.path.join(LIVE, "autopilot.off"))
     try:  # live balances
         sys.path.insert(0, os.path.join(ROOT, "scripts"))
@@ -596,6 +649,36 @@ def _render_live_positions(positions):
     return "".join(cards)
 
 
+def _render_portfolio(pf):
+    coins = pf.get("coins") or []
+    usdc = pf.get("usdcHot")
+    rows = []
+    if usdc is not None and usdc > 0:
+        rows.append("<div class='pf-row'><span class='ticker-badge font-mono'>USDC</span>"
+                    "<span class='pf-bal'>%.6g</span><span class='pf-val'>$%.2f</span>"
+                    "<span class='meta-tag tag-gold'>BASE ASSET</span>"
+                    "<button class='act act-sweep' data-url='/api/sweep-usdc' data-label='SWEEP → VAULT'>SWEEP → VAULT</button></div>" % (usdc, usdc))
+    for c in coins:
+        val = c.get("value")
+        ui = c.get("ui")
+        val_s = "$%.2f" % val if val is not None else "—"
+        bal = "%.6g" % ui
+        name = c.get("name")
+        tick = "%s%s" % (c.get("symbol"), ("" if not name else "·" + str(name)[:12]))
+        if c.get("lane"):
+            act = "<span class='meta-tag tag-gold'>LANE OPEN — use ✕ CLOSE</span>"
+        elif val is None:
+            act = "<span class='meta-tag tag-grey'>NO PRICE</span>"
+        else:
+            act = "<button class='act act-sell' data-url='/api/sell-token?mint=%s' data-label='SELL %s → USDC'>SELL → USDC</button>" % (c.get("mint"), c.get("symbol"))
+        rows.append("<div class='pf-row clickable' data-chain='solana' data-address='%s' title='View on-chain'>"
+                    "<span class='ticker-badge font-mono'>%s</span><span class='pf-bal'>%s</span>"
+                    "<span class='pf-val'>%s</span>%s</div>" % (c.get("mint"), tick, bal, val_s, act))
+    if not rows:
+        return "<div class='empty-badge'>No token holdings in hot wallet</div>"
+    return "".join(rows)
+
+
 def render(d):
     on = lambda b: ("🟢" if b else "🔴")
     h = []
@@ -656,6 +739,11 @@ def render(d):
     h.append(".mon-venue{color:#7ee787;min-width:84px;text-transform:lowercase}.mon-tx{font-family:ui-monospace,Menlo,monospace;color:#e2e8f0}")
     h.append(".mon-age{color:#64748b;margin-left:auto}.mon-empty{color:#64748b;font-style:italic}")
     h.append(".mon-tiers{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}</style>")
+    h.append("<style>.pf-row{display:flex;align-items:center;gap:10px;background:#111a2e;border:1px solid #26324a;border-radius:8px;padding:8px 12px;margin:5px 0;font-size:.85rem;flex-wrap:wrap}")
+    h.append(".pf-bal{color:#94a3b8;font-size:.8rem}.pf-val{color:#e6edf3;font-weight:600}")
+    h.append(".act{background:transparent;border:1px solid #14532d;color:#7ee787;border-radius:6px;padding:3px 10px;font-size:.72rem;font-weight:700;cursor:pointer;margin-left:auto}")
+    h.append(".act.act-sell{border-color:#14532d}.act.act-sweep{border-color:#1d4ed8;color:#93c5fd}")
+    h.append(".act.armed{background:#14532d;color:#052e16}.act-sweep.armed{background:#1d4ed8;color:#dbeafe}</style>")
     h.append("<style>body{font-family:ui-monospace,Menlo,monospace;background:#0b1020;color:#e6edf3;margin:0;padding:16px}")
     h.append("h1{font-size:16px;color:#7ee787}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:12px}")
     h.append(".card{background:#111a2e;border:1px solid #26324a;border-radius:10px;padding:12px}")
@@ -727,6 +815,14 @@ def render(d):
         h.append("<div>%s <b>%s</b></div>" % (k, al.get(k, 0)))
     h.append("</div>")
     h.append("</div>")  # end grid
+
+    # PORTFOLIO MANAGER — every coin the wallet actually holds, managed here
+    pf = d.get("portfolio") or {}
+    h.append("<div class='card' style='margin-top:12px'><div class='k'>PORTFOLIO MANAGER — wallet holdings</div>")
+    h.append("<div class='sub'>hot USDC $%.4g · est. other $%.2f · lane positions must close via their card · actions use the lane swap path + vault sweep</div>"
+             % (pf.get("usdcHot") or 0, pf.get("estNonUsdc") or 0))
+    h.append(_render_portfolio(pf))
+    h.append("</div>")
 
     # alpha intel section (full-width visual clusters)
     it = d.get("intel", {})
@@ -868,6 +964,18 @@ document.addEventListener('click',function(e){
     setTimeout(function(){ b.textContent='✕ CLOSE'; b.removeAttribute('data-arm'); b.classList.remove('armed'); },5000); return; }
   closePos(b.getAttribute('data-mint'), b);
 });
+document.addEventListener('click',function(e){
+  var a=e.target.closest?e.target.closest('.act'):null; if(!a) return;
+  e.stopPropagation();
+  if(!a.getAttribute('data-arm')){ var orig=a.getAttribute('data-label')||'CONFIRM?';
+    a.textContent='CONFIRM?'; a.setAttribute('data-arm','1'); a.classList.add('armed');
+    setTimeout(function(){ a.textContent=orig; a.removeAttribute('data-arm'); a.classList.remove('armed'); },5000); return; }
+  var url=a.getAttribute('data-url');
+  fetch(url,{method:'POST'}).then(function(r){return r.json();}).then(function(res){
+    if(res.error){ a.textContent='ERR'; a.title=res.error; alert(res.error); }
+    else { a.textContent='DONE ✓'; alert((res.symbol?'Sold '+(res.symbol||'')+(res.realized!=null?' — $'+res.realized.toFixed(4):''):'USDC swept to vault')); setTimeout(function(){ location.reload(); },900); }
+  }).catch(function(){ a.textContent='ERR'; });
+});
 document.querySelectorAll('.spark[data-v]').forEach(function(el){ sparkMount(el); });
 </script>""")
     h.append("</body></html>")
@@ -903,6 +1011,68 @@ def _close_position(mint):
         return {"error": str(e)[:240]}
 
 
+def _sell_token(mint):
+    """Portfolio sell: non-lane wallet coin -> USDC (decimals-correct raw via lane swap path)."""
+    try:
+        import importlib.util as _iu
+        s = _iu.spec_from_file_location("fls", os.path.join(ROOT, "scripts", "autopilot.py"))
+        au = _iu.module_from_spec(s)
+        s.loader.exec_module(au)
+        lane = None
+        try:
+            f2 = _iu.spec_from_file_location("fll", os.path.join(ROOT, "scripts", "fastlane.py"))
+            fl = _iu.module_from_spec(f2)
+            f2.loader.exec_module(fl)
+            lane = next((x for x in fl.load_positions().get("positions", [])
+                         if x.get("status") == "open" and x.get("mint") == mint), None)
+        except Exception:
+            pass
+        if lane:
+            return {"error": "that is an open LANE position — use ✕ CLOSE on its card"}
+        if mint == USDC_MINT:
+            return {"error": "USDC is the base asset — use SWEEP to vault"}
+        held = next((h for h in _wallet_holdings() if h["mint"] == mint), None)
+        if not held:
+            return {"error": "no balance for that mint"}
+        raw = int(held["ui"] * (10 ** held["decimals"]))
+        if raw <= 0:
+            return {"error": "dust below one raw unit"}
+        before = au.token_balance_retry(au.USDC) or 0
+        sig, err = au.build_and_send(mint, au.USDC, raw, 500, "/tmp/portfolio_sell.b64")
+        if not sig:
+            return {"error": (err or "sell failed")[:240]}
+        time.sleep(3)
+        proceeds = (au.token_balance_retry(au.USDC) or 0) - before
+        if proceeds <= 0:
+            proceeds = 0.0
+        try:
+            au.hot_to_vault()
+        except Exception:
+            pass
+        try:
+            with open(os.path.join(ROOT, "logs", "trades.jsonl"), "a") as f:
+                f.write(json.dumps({"event": "portfolio_sell", "mint": mint,
+                                    "ui": held["ui"], "proceedsUsdc": round(proceeds, 6),
+                                    "tx": sig[:40], "ts": datetime.datetime.now(datetime.timezone.utc).isoformat()}) + "\n")
+        except Exception:
+            pass
+        return {"ok": True, "symbol": mint[:8], "realized": round(proceeds, 6), "tx": sig[:24]}
+    except Exception as e:
+        return {"error": str(e)[:240]}
+
+
+def _sweep_usdc():
+    try:
+        import importlib.util as _iu
+        s = _iu.spec_from_file_location("flw", os.path.join(ROOT, "scripts", "fastlane.py"))
+        fl = _iu.module_from_spec(s)
+        s.loader.exec_module(fl)
+        fl.A.hot_to_vault()
+        return {"ok": True}
+    except Exception as e:
+        return {"error": str(e)[:200]}
+
+
 class H(http.server.BaseHTTPRequestHandler):
     def do_POST(self):
         parsed = urlparse(self.path)
@@ -910,14 +1080,21 @@ class H(http.server.BaseHTTPRequestHandler):
             q = parse_qs(parsed.query)
             mint = (q.get("mint") or [""])[0]
             body = json.dumps(_close_position(mint)).encode()
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json; charset=utf-8")
-            self.send_header("Content-Length", str(len(body)))
+        elif parsed.path == "/api/sell-token":
+            q = parse_qs(parsed.query)
+            mint = (q.get("mint") or [""])[0]
+            body = json.dumps(_sell_token(mint)).encode()
+        elif parsed.path == "/api/sweep-usdc":
+            body = json.dumps(_sweep_usdc()).encode()
+        else:
+            self.send_response(404)
             self.end_headers()
-            self.wfile.write(body)
             return
-        self.send_response(404)
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
         self.end_headers()
+        self.wfile.write(body)
 
     def do_GET(self):
         parsed = urlparse(self.path)
