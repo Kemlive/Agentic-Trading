@@ -74,6 +74,31 @@ def proc_alive(name):
         return False
 
 
+def _dex_for(mints):
+    """Single DexScreener batch call -> per-mint {symbol, liq, h1} for display. Best-pair by liquidity."""
+    import urllib.request
+    out = {}
+    if not mints:
+        return out
+    try:
+        url = "https://api.dexscreener.com/latest/dex/tokens/" + ",".join(mints)
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        data = json.loads(urllib.request.urlopen(req, timeout=12).read())
+        groups = {}
+        for p in data.get("pairs") or []:
+            bt = (p.get("baseToken") or {}).get("address") or ""
+            groups.setdefault(bt, []).append(p)
+        for a, ps in groups.items():
+            best = max(ps, key=lambda x: float((x.get("liquidity") or {}).get("usd") or 0))
+            chg = best.get("priceChange") or {}
+            out[a] = {"symbol": (best.get("baseToken") or {}).get("symbol") or a[:6],
+                      "liq": float((best.get("liquidity") or {}).get("usd") or 0),
+                      "h1": float(chg.get("h1")) if chg.get("h1") is not None else None}
+    except Exception:
+        pass
+    return out
+
+
 def collect():
     d = {}
     d["asOf"] = now_iso()
@@ -96,10 +121,22 @@ def collect():
                                         "chain": r.get("chain"), "mint": (r.get("mint") or "")[:10]}
                                        for r in with_d[-12:]]}
     ai = read(os.path.join(FD, "coins.json"), {})
+    rh_top = (ai.get("top") or {}).get("robinhood", [])[:8]
+    sol_top = (ai.get("top") or {}).get("solana", [])[:8]
+    rh_tokens = [{"symbol": (t.get("sym") or t.get("key", "")[:8]),
+                  "transfers": t.get("t60") or 0, "chg_h1": None,
+                  "category": (t.get("topTier") or "OTHER").upper()} for t in rh_top]
+    dex = _dex_for([t["key"] for t in sol_top if t.get("key")])
+    sol_queue = [{"s": (dex.get(t["key"]) or {}).get("symbol") or t.get("key", "")[:6],
+                  "liq": (dex.get(t["key"]) or {}).get("liq", 0),
+                  "h1": (dex.get(t["key"]) or {}).get("h1"),
+                  "category": (t.get("topTier") or "WATCH").upper(),
+                  "t60": t.get("t60") or 0, "accel": t.get("accel") or 0} for t in sol_top]
     d["intel"] = {"counts": ai.get("counts", {}),
                   "chainRefTime": ai.get("chainRefTime", {}),
-                  "topRH": (ai.get("top") or {}).get("robinhood", [])[:5],
-                  "topSOL": (ai.get("top") or {}).get("solana", [])[:5]}
+                  "topRH": rh_top, "topSOL": sol_top,
+                  "rh_data": {"tokens": rh_tokens},
+                  "sol_data": {"queue": sol_queue}}
 
     alpha = read(os.path.join(FD, "rh_alpha.json"), {})
     clusters = alpha.get("clusters", {}) if alpha else {}
@@ -132,11 +169,77 @@ def collect():
         d["balances"] = {}
     return d
 
+def _trend_pct(v):
+    if v is None:
+        return ("—", "trend-flat")
+    cls = "trend-up" if v >= 0 else "trend-down"
+    sign = "+" if v >= 0 else ""
+    return ("%s%.1f%%" % (sign, v), cls)
+
+
+def _delta_badge(delta):
+    """Delta styling: green when comfortably ahead, ⚠️ flag when <15s, red when aggregator beat us."""
+    if delta is None:
+        return ("…", "trend-flat", "")
+    if delta < 0:
+        return ("%ss" % delta, "trend-down", "")
+    if delta < 15:
+        return ("⚠️ %ss" % delta, "trend-warn", "delta-mismatch")
+    return ("+%ss" % delta, "trend-up", "")
+
+
+def _render_alpha_intel(rh_data, sol_data):
+    """
+    Transforms intel rows into component-styled UI cards.
+    Caps visibility to the top 4 highest-velocity candidates per chain.
+    """
+    html = '<div class="alpha-intel-grid">'
+    # RH visual cluster (top 4 by 1h event velocity)
+    html += '<div class="chain-card rh-card"><h4>🟣 ROBINHOOD CANDIDATES</h4>'
+    rh_candidates = sorted(rh_data.get("tokens", []), key=lambda x: x.get("transfers", 0), reverse=True)[:4]
+    if not rh_candidates:
+        html += '<div class="empty-badge">No active assets in current feed window</div>'
+    for token in rh_candidates:
+        label, cls = _trend_pct(token.get("chg_h1"))
+        html += ("<div class='intel-badge'><span class='ticker-badge font-mono'>%s</span>"
+                 "<span class='trend-pct %s'>%s</span>"
+                 "<span class='meta-tag tag-purple'>%s</span>"
+                 "<span class='vol-indicator'>📊 1h tx: %s</span></div>"
+                 % (str(token.get("symbol", "UNKN"))[:6], cls, label,
+                    str(token.get("category", "OTHER"))[:10], format(token.get("transfers", 0), ",")))
+    html += '</div>'
+    # SOL visual cluster (top 4 by dex liquidity)
+    html += '<div class="chain-card sol-card"><h4>🟢 SOLANA CANDIDATES</h4>'
+    sol_candidates = sorted(sol_data.get("queue", []), key=lambda x: float(x.get("liq", 0) or 0), reverse=True)[:4]
+    if not sol_candidates:
+        html += '<div class="empty-badge">Searching meme pool layers...</div>'
+    for token in sol_candidates:
+        label, cls = _trend_pct(token.get("h1"))
+        html += ("<div class='intel-badge'><span class='ticker-badge font-mono'>%s</span>"
+                 "<span class='trend-pct %s'>%s</span>"
+                 "<span class='meta-tag tag-green'>%s</span>"
+                 "<span class='vol-indicator'>💧 Liq: $%s</span></div>"
+                 % (str(token.get("s", "UNKN"))[:6], cls, label,
+                    str(token.get("category", "WATCH"))[:10], format(float(token.get("liq", 0)), ",.0f")))
+    html += '</div></div>'
+    return html
+
+
 def render(d):
     on = lambda b: ("🟢" if b else "🔴")
     h = []
     h.append("<!doctype html><html><head><meta charset='utf-8'>")
     h.append("<meta http-equiv='refresh' content='20'><title>Multi-Chain Feed Dashboard</title>")
+    h.append("<style>.alpha-intel-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px}")
+    h.append(".chain-card h4{margin:0 0 8px;font-size:13px}.rh-card{border-top:3px solid #a855f7}.sol-card{border-top:3px solid #22c55e}")
+    h.append(".intel-badge{background:#1e293b;border:1px solid #334155;border-radius:6px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:6px}")
+    h.append(".ticker-badge{background:#0f172a;padding:2px 8px;border-radius:4px;font-weight:bold;color:#f8fafc}")
+    h.append(".trend-up{color:#4ade80;font-weight:600}.trend-down{color:#f87171;font-weight:600}.trend-flat{color:#94a3b8}.trend-warn{color:#fbbf24;font-weight:600}")
+    h.append(".meta-tag{font-size:.7rem;padding:2px 6px;border-radius:4px;text-transform:uppercase;letter-spacing:.03em}")
+    h.append(".tag-purple{background:#581c87;color:#e9d5ff}.tag-green{background:#064e3b;color:#a7f3d0}")
+    h.append(".vol-indicator{color:#94a3b8;font-size:.8rem}.empty-badge{background:#111a2e;border:1px dashed #334155;border-radius:6px;padding:8px;color:#64748b;font-size:.85rem;text-align:center}")
+    h.append(".font-mono{font-family:ui-monospace,Menlo,monospace}.delta-mismatch{animation:flashwarn 1.6s infinite}")
+    h.append("@keyframes flashwarn{0%,100%{opacity:1}50%{opacity:.35}}@media(max-width:720px){.alpha-intel-grid{grid-template-columns:1fr}}</style>")
     h.append("<style>body{font-family:ui-monospace,Menlo,monospace;background:#0b1020;color:#e6edf3;margin:0;padding:16px}")
     h.append("h1{font-size:16px;color:#7ee787}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:12px}")
     h.append(".card{background:#111a2e;border:1px solid #26324a;border-radius:10px;padding:12px}")
@@ -190,19 +293,6 @@ def render(d):
     h.append("<div>with delta <b>%s</b> · avg <b>%ss</b></div>" % (bm.get("withDelta"), bm.get("avgDeltaSec")))
     h.append("<div class='sub'>%s</div>" % (bm.get("note") or ""))
     h.append("</div>")
-    # alpha intel
-    it = d.get("intel", {})
-    rows_rh = " · ".join("%s:%s %s/%s/%.0f" % (r.get("topTier", "?")[:1].upper(), (r.get("sym") or r.get("key", "")[:6]),
-                                             r.get("t60"), r.get("accel"), r.get("score")) for r in it.get("topRH", []))
-    rows_sol = " · ".join("%s:%s %s/%s/%.0f" % (r.get("topTier", "?")[:1].upper(), r.get("key", "")[:6],
-                                               r.get("t60"), r.get("accel"), r.get("score")) for r in it.get("topSOL", []))
-    h.append("<div class='card'><div class='k'>Alpha intel (terminal funnel)</div>")
-    h.append("<div>RH %s · SOL %s · migrated %s</div>" % ((it.get("counts") or {}).get("robinhood"),
-                                                          (it.get("counts") or {}).get("solana"),
-                                                          (it.get("counts") or {}).get("migrated")))
-    h.append("<div class='sub'>RH top: %s</div>" % (rows_rh or "—"))
-    h.append("<div class='sub'>SOL top: %s</div>" % (rows_sol or "—"))
-    h.append("</div>")
     # rh classification
     al = d.get("alpha", {})
     h.append("<div class='card'><div class='k'>RH classification</div>")
@@ -211,11 +301,31 @@ def render(d):
     h.append("</div>")
     h.append("</div>")  # end grid
 
-    # benchmark sample table
-    h.append("<div class='card' style='margin-top:12px'><div class='k'>Benchmark sample (latest)</div><table><tr><th>chain</th><th>mint</th><th>delta</th><th>liq$</th></tr>")
-    for e in (bm.get("liquidityVsDelta") or [])[-10:]:
-        h.append("<tr><td>%s</td><td>%s…</td><td>%s</td><td>%.0f</td></tr>" % (e.get("chain"), e.get("mint", "")[:12], e.get("deltaSec"), e.get("liqUsd") or 0))
-    h.append("</table></div>")
+    # alpha intel section (full-width visual clusters)
+    it = d.get("intel", {})
+    c_ = it.get("counts") or {}
+    rt = it.get("chainRefTime") or {}
+    h.append("<div class='card' style='margin-top:12px'><div class='k'>Alpha intel — top candidates (terminal funnel)</div>")
+    h.append("<div class='sub'>RH %s · SOL %s · migrated %s · ref RH %s / SOL %s</div>" % (
+        c_.get("robinhood"), c_.get("solana"), c_.get("migrated"),
+        str(rt.get("robinhood", "…"))[11:19], str(rt.get("solana", "…"))[11:19]))
+    h.append(_render_alpha_intel(it.get("rh_data", {}), it.get("sol_data", {})))
+    h.append("</div>")
+
+    # benchmark sample (badge-styled, flags speed-delta mismatches < 15s)
+    rows = (bm.get("liquidityVsDelta") or [])[-10:]
+    h.append("<div class='card' style='margin-top:12px'><div class='k'>Benchmark sample (latest) — forward edge vs DexScreener</div>")
+    if not rows:
+        h.append("<div class='empty-badge'>No benchmark deltas yet — waiting for live forward captures</div>")
+    for e in rows:
+        label, cls, flag = _delta_badge(e.get("deltaSec"))
+        h.append("<div class='intel-badge'><span class='ticker-badge font-mono'>%s</span>"
+                 "<span class='trend-pct %s %s'>%s</span>"
+                 "<span class='meta-tag tag-purple'>%s</span>"
+                 "<span class='vol-indicator'>💧 $%s</span></div>"
+                 % (str(e.get("chain", "?"))[:2] + ":" + str(e.get("mint", ""))[:10], cls, flag, label,
+                    str(e.get("deltaSec", "")) if False else "EDGE", format(float(e.get("liqUsd") or 0), ",.0f")))
+    h.append("</div>")
     h.append("</body></html>")
     return "\n".join(h)
 
