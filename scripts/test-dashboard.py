@@ -29,8 +29,9 @@ snap = fd._pm_snapshot()
 plan = fd._rebalance_plan(snap)
 check("pm.snapshot", snap.get("equity") is not None and snap.get("coins") is not None,
       "equity=%s basePct=%s coins=%d" % (snap.get("equity"), snap.get("basePct"), len(snap.get("coins") or [])))
-check("pm.plan.keys", isinstance(plan, dict) and "plan" in plan,
-      "needUsd=%s totalSell=%s items=%d" % (plan.get("needUsd"), plan.get("totalSellUsd"), len(plan["plan"])))
+check("pm.plan.keys", isinstance(plan, dict) and "plan" in plan and plan.get("proceedsUsd") is not None,
+      "proceedsUsd=%s items=%d" % (plan.get("proceedsUsd"), len(plan["plan"])))
+check("pm.usdcUntouchable", bool(fd._pm_cfg().get("usdcUntouchable")), "policy: USDC untouched")
 for p in plan["plan"][:5]:
     check("pm.plan.item", p.get("mint") and p.get("value") and p.get("kind") in ("lane", "free"),
           "%s %s $%s" % (p.get("symbol"), p.get("kind"), p.get("value")))
