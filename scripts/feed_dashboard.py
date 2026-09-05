@@ -17,6 +17,7 @@ import datetime
 import http.server
 import socketserver
 import urllib.request
+import threading
 from urllib.parse import urlparse, parse_qs
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -107,6 +108,7 @@ def _dex_for(mints):
 
 
 BLOCKSCOUT = "https://robinhoodchain.blockscout.com/api/v2"
+MARKS = os.path.join(FD, "position-marks.jsonl")
 RH_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
 META_PROGRAM = "metaqbxxUerqRkFfnyLcQvZuWfvo4F1jQsm8Yk5cXU5qWmS8"
 
@@ -273,6 +275,9 @@ def collect():
                 "tx": str(p.get("txSignature") or "")[:18], "price": px, "pct": pct, "value": val, "pnl": pnl})
     except Exception:
         pass
+    for i, p in enumerate(d["lane"]["positions"]):
+        trail = _mark_trail(p.get("mint"))
+        d["lane"]["positions"][i]["spark"] = ",".join("%.6f" % v for v in trail) if len(trail) >= 2 else None
     d["paused"] = os.path.exists(os.path.join(LIVE, "autopilot.off"))
     try:  # live balances
         sys.path.insert(0, os.path.join(ROOT, "scripts"))
@@ -285,6 +290,39 @@ def collect():
     except Exception:
         d["balances"] = {}
     return d
+
+
+def _mark_trail(mint, n=90):
+    vals = []
+    try:
+        for l in _tail_lines(MARKS, 4000):
+            r = json.loads(l)
+            if r.get("mint") == mint and r.get("px") is not None:
+                vals.append(float(r["px"]))
+    except Exception:
+        pass
+    return vals[-n:]
+
+
+def _persist_marks(d):
+    pos = (d.get("lane") or {}).get("positions") or []
+    rows = []
+    for p in pos:
+        if p.get("price") is None:
+            continue
+        rows.append(json.dumps({"ts": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                                "mint": p.get("mint"), "symbol": p.get("symbol"), "px": p["price"]}))
+    if not rows:
+        return
+    try:
+        with open(MARKS, "a") as f:
+            f.write("\n".join(rows) + "\n")
+        lines = open(MARKS, errors="ignore").readlines()
+        if len(lines) > 3000:
+            open(MARKS, "w").writelines(lines[-3000:])
+    except Exception:
+        pass
+
 
 def _trend_pct(v):
     if v is None:
@@ -475,8 +513,12 @@ def _render_live_positions(positions):
                 "<div><span>Peak</span><b>$%.6g</b></div>"
                 "<div><span>Tx</span><b class='font-mono'>%s…</b></div></div>"
                 % (opened, cost, ("$%.8g" % entry), qty_s, px_s, val_s, pnl_cls, pnl_s, peak, str(p.get("tx") or "")))
-        cards.append("<div class='pos-card clickable' data-chain='solana' data-address='%s' title='View on-chain'>%s%s</div>"
-                     % (p.get("mint") or "", head, grid))
+        spk = ""
+        if p.get("spark"):
+            spk = ("<div class='spark-label'>LIVE MARK · own-tick trail</div>"
+                   "<div class='spark pos-spark' data-v='%s' data-h='26'></div>" % p["spark"])
+        cards.append("<div class='pos-card clickable' data-chain='solana' data-address='%s' title='View on-chain'>%s%s%s</div>"
+                     % (p.get("mint") or "", head, grid, spk))
     return "".join(cards)
 
 
@@ -523,6 +565,8 @@ def render(d):
     h.append(".sp-draw{stroke-dasharray:1;stroke-dashoffset:1;animation:spdraw .7s ease forwards}")
     h.append("@keyframes spdraw{to{stroke-dashoffset:0}}@keyframes sppulse{0%,100%{opacity:1}50%{opacity:.35}}")
     h.append(".sp-dot{animation:sppulse 1.8s infinite}</style>")
+    h.append("<style>.spark-label{font-size:.62rem;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin:8px 0 2px}")
+    h.append(".pos-spark{margin:2px 0 0;background:#0f172a;border:1px solid #1f2a44;border-radius:8px;padding:4px 8px}</style>")
     h.append("<style>body{font-family:ui-monospace,Menlo,monospace;background:#0b1020;color:#e6edf3;margin:0;padding:16px}")
     h.append("h1{font-size:16px;color:#7ee787}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:12px}")
     h.append(".card{background:#111a2e;border:1px solid #26324a;border-radius:10px;padding:12px}")
@@ -738,7 +782,7 @@ class H(http.server.BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(body)
             return
-        body = render(collect()).encode()
+        body = render(_cached_page_data()).encode()
         self.send_response(200)
         self.send_header("Content-Type", "text/html; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
@@ -754,10 +798,37 @@ class S(socketserver.ThreadingTCPServer):
     daemon_threads = True
 
 
+_PAGE_CACHE = {}
+_PAGE_LOCK = threading.Lock()
+
+
+def _refresher():
+    while True:
+        try:
+            d = collect()
+            _persist_marks(d)
+            with _PAGE_LOCK:
+                _PAGE_CACHE["d"] = d
+        except Exception:
+            pass
+        time.sleep(20)
+
+
+def _cached_page_data():
+    d = _PAGE_CACHE.get("d")
+    if d is None:
+        d = collect()
+        _persist_marks(d)
+        with _PAGE_LOCK:
+            _PAGE_CACHE["d"] = d
+    return d
+
+
 def main():
     port = 8127
     if "--port" in sys.argv:
         port = int(sys.argv[sys.argv.index("--port") + 1])
+    threading.Thread(target=_refresher, daemon=True).start()
     with S(("127.0.0.1", port), H) as srv:
         print("📊 Feed dashboard on http://127.0.0.1:%d  (ctrl-c to stop)" % port)
         srv.serve_forever()
