@@ -40,6 +40,52 @@ BANK_PCT = 30.0
 TRAIL_PCT = -12.0
 TIME_STOP_H = 12.0
 FEED_MISS_MAX = 6           # passes (~3 min) without a price before forced close
+BOT_CFG_FILE = os.path.join(ROOT, "data", "live", "bot-feed.json")
+FEED_COINS = os.path.join(ROOT, "data", "live", "feed", "coins.json")
+
+
+def bot_feed_cfg():
+    def_ = {"enabled": True, "maxCandidates": 8, "tiers": ["trending", "gainer", "migrated"],
+            "minT60": 20, "minAgeSec": 900, "staleMaxSec": 240,
+            "note": "fastlane also collects from own feed intel (coins.json); real-coin liq/trend gates still apply"}
+    try:
+        return {**def_, **json.load(open(BOT_CFG_FILE))}
+    except Exception:
+        return def_
+
+
+def _age_sec(iso):
+    try:
+        t = datetime.datetime.fromisoformat(str(iso).replace("Z", "+00:00"))
+        return (datetime.datetime.now(datetime.timezone.utc) - t).total_seconds()
+    except Exception:
+        return None
+
+
+def feed_intel_candidates(cfg):
+    """Own-feed entry shortlist: coins.json tiers -> mints (still gated later by
+    the same real-coin liquidity/trend checks as the static watchlist)."""
+    try:
+        coins = json.load(open(FEED_COINS))
+    except Exception:
+        return []
+    reg_age = _age_sec(coins.get("asOf"))
+    if reg_age is None or reg_age > cfg.get("staleMaxSec", 240):
+        return []
+    ref_age = _age_sec((coins.get("chainRefTime") or {}).get("solana"))
+    if ref_age is None or ref_age > cfg.get("staleMaxSec", 240):
+        return []
+    rows = []
+    cats = (coins.get("categories") or {}).get("solana") or {}
+    for tier in cfg.get("tiers", []):
+        for r in cats.get(tier) or []:
+            if int(r.get("ageSec") or 0) < cfg.get("minAgeSec", 900):
+                continue
+            if int(r.get("t60") or 0) < cfg.get("minT60", 20):
+                continue
+            rows.append(r)
+    rows.sort(key=lambda x: x.get("score") or 0, reverse=True)
+    return [r["key"] for r in rows[: cfg.get("maxCandidates", 8)]]
 
 NOW = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
@@ -308,20 +354,55 @@ def collect_candidates():
         out.append({"mint": addr, "symbol": bt.get("symbol") or addr[:6], "signal": sig,
                     "px": px, "liq": float((pr.get("liquidity") or {}).get("usd") or 0),
                     "pr": pr})
+    # FEED-BOT source: own-feed intel (coins.json tiers), same gates on top.
+    cfg = bot_feed_cfg()
+    if cfg.get("enabled"):
+        have = {c["mint"] for c in out}
+        fmints = [m for m in feed_intel_candidates(cfg) if m not in have and not held(m)]
+        if fmints:
+            try:
+                fd = F.get(F.DEX_BATCH.format(",".join(fmints)))
+            except Exception:
+                fd = None
+            for addr, pairs in F.group((fd or {}).get("pairs") or []):
+                pr = F.best_pair(pairs)
+                if not pr:
+                    continue
+                sig = buy_px_checks(pr)
+                if not sig:
+                    continue
+                bt = pr.get("baseToken") or {}
+                try:
+                    px = float(pr.get("priceUsd"))
+                except Exception:
+                    px = None
+                if px is None:
+                    continue
+                out.append({"mint": addr, "symbol": bt.get("symbol") or addr[:6], "signal": "FEED-" + sig,
+                            "px": px, "liq": float((pr.get("liquidity") or {}).get("usd") or 0),
+                            "pr": pr})
     return out
 
 
 def main():
+    DRY = "--dry" in sys.argv
     if os.path.exists(OFF):
         print("fastlane paused (fastlane.off)")
         return
     cands = collect_candidates()
     open_n = lane_open_count()
     if open_n < MAX_OPEN and cands:
-        try_entry(cands)
+        if DRY:
+            best = next((c for c in cands if not held(c["mint"])), None)
+            if best:
+                print("DRY would-enter: %s %s signal=%s px=%s liq=$%.0f"
+                      % (best.get("symbol"), best.get("mint")[:10], best.get("signal"),
+                         best.get("px"), best.get("liq") or 0))
+        else:
+            try_entry(cands)
         open_n = lane_open_count()
-    print("fastlane @ %s | open=%d | candidates=%d | (exit mgmt delegated to capital-guard)"
-          % (NOW[:19], open_n, len(cands)))
+    print("fastlane @ %s | open=%d | candidates=%d | (exit mgmt delegated to capital-guard)%s"
+          % (NOW[:19], open_n, len(cands), " | DRY" if DRY else ""))
 
 
 if __name__ == "__main__":
