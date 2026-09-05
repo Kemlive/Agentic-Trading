@@ -17,6 +17,7 @@ import datetime
 import http.server
 import socketserver
 import urllib.request
+from urllib.parse import urlparse, parse_qs
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FD = os.path.join(ROOT, "data", "live", "feed")
@@ -91,12 +92,72 @@ def _dex_for(mints):
         for a, ps in groups.items():
             best = max(ps, key=lambda x: float((x.get("liquidity") or {}).get("usd") or 0))
             chg = best.get("priceChange") or {}
+            vol = best.get("volume") or {}
             out[a] = {"symbol": (best.get("baseToken") or {}).get("symbol") or a[:6],
+                      "name": (best.get("baseToken") or {}).get("name"),
                       "liq": float((best.get("liquidity") or {}).get("usd") or 0),
-                      "h1": float(chg.get("h1")) if chg.get("h1") is not None else None}
+                      "h1": float(chg.get("h1")) if chg.get("h1") is not None else None,
+                      "price": float(best.get("priceUsd")) if best.get("priceUsd") is not None else None,
+                      "volH1": float(vol.get("h1")) if vol.get("h1") is not None else None,
+                      "image": ((best.get("info") or {}).get("imageUrl")) if best.get("info") else None,
+                      "pool": best.get("pairAddress"), "dex": best.get("dexId")}
     except Exception:
         pass
     return out
+
+
+BLOCKSCOUT = "https://robinhoodchain.blockscout.com/api/v2"
+RH_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
+META_PROGRAM = "metaqbxxUerqRkFfnyLcQvZuWfvo4F1jQsm8Yk5cXU5qWmS8"
+
+
+def _post_json(url, payload, timeout=12):
+    req = urllib.request.Request(url, data=json.dumps(payload).encode(),
+                                 headers={"Content-Type": "application/json", "User-Agent": RH_UA})
+    return json.loads(urllib.request.urlopen(req, timeout=timeout).read())
+
+
+def _get_json(url, timeout=12):
+    req = urllib.request.Request(url, headers={"User-Agent": RH_UA, "Accept": "application/json"})
+    return json.loads(urllib.request.urlopen(req, timeout=timeout).read())
+
+
+def _sol_rpc_url():
+    try:
+        k = open(os.path.expanduser("~/.config/agentic-trading/helius.key")).read().strip()
+        if k:
+            return "https://mainnet.helius-rpc.com/?api-key=" + k
+    except Exception:
+        pass
+    return "https://api.mainnet-beta.solana.com"
+
+
+def _sol_rpc(method, params):
+    return _post_json(_sol_rpc_url(), {"jsonrpc": "2.0", "id": 1, "method": method, "params": params})["result"]
+
+
+def _sol_das(mint):
+    """Official on-chain metadata (DAS on Helius/public RPC) — avatar/name/authorities."""
+    try:
+        r = _post_json(_sol_rpc_url(),
+                       {"jsonrpc": "2.0", "id": 1, "method": "getAsset", "params": {"id": mint}})
+        return r.get("result") or {}
+    except Exception:
+        return {}
+
+
+def _rh_explorer(path, tries=3):
+    last = None
+    for i in range(tries):
+        try:
+            raw = _get_json(BLOCKSCOUT + path, timeout=15)
+            if isinstance(raw, dict):
+                return raw
+            last = "non-json response"
+        except Exception as e:
+            last = e
+        time.sleep(2 * (i + 1))
+    return None
 
 
 def collect():
@@ -123,11 +184,13 @@ def collect():
     ai = read(os.path.join(FD, "coins.json"), {})
     rh_top = (ai.get("top") or {}).get("robinhood", [])[:8]
     sol_top = (ai.get("top") or {}).get("solana", [])[:8]
-    rh_tokens = [{"symbol": (t.get("sym") or t.get("key", "")[:8]),
+    rh_tokens = [{"address": t.get("key"),
+                  "symbol": (t.get("sym") or t.get("key", "")[:8]),
                   "transfers": t.get("t60") or 0, "chg_h1": None,
                   "category": (t.get("topTier") or "OTHER").upper()} for t in rh_top]
     dex = _dex_for([t["key"] for t in sol_top if t.get("key")])
-    sol_queue = [{"s": (dex.get(t["key"]) or {}).get("symbol") or t.get("key", "")[:6],
+    sol_queue = [{"address": t.get("key"),
+                  "s": (dex.get(t["key"]) or {}).get("symbol") or t.get("key", "")[:6],
                   "liq": (dex.get(t["key"]) or {}).get("liq", 0),
                   "h1": (dex.get(t["key"]) or {}).get("h1"),
                   "category": (t.get("topTier") or "WATCH").upper(),
@@ -188,6 +251,100 @@ def _delta_badge(delta):
     return ("+%ss" % delta, "trend-up", "")
 
 
+def _sol_account_owner(addr):
+    try:
+        r = _sol_rpc("getAccountInfo", [addr, {"encoding": "jsonParsed"}])
+        info = (r or {}).get("value") or {}
+        parsed = (info.get("data") or {}).get("parsed") or {}
+        return (parsed.get("info") or {}).get("owner")
+    except Exception:
+        return None
+
+
+def _token_details_sol(mint):
+    out = {"chain": "solana", "address": mint, "avatar": None, "name": None, "symbol": None,
+           "price": None, "liqUsd": None, "pool": None, "dex": None, "topHolders": [],
+           "totalSupply": None, "decimals": None, "devFlags": []}
+    meta = _sol_das(mint)
+    cm = ((meta.get("content") or {}).get("metadata") or {})
+    out["name"] = cm.get("name")
+    out["symbol"] = cm.get("symbol") or (meta.get("symbol") or "")
+    out["avatar"] = ((meta.get("content") or {}).get("links") or {}).get("image") or cm.get("image")
+    auth = meta.get("authorities") or {}
+    out["authorities"] = {k: v for k, v in auth.items() if v}
+    dev = {k: v for k, v in auth.items() if v}
+    try:
+        sp = (_sol_rpc("getTokenSupply", [mint]) or {}).get("value") or {}
+        out["decimals"] = int(sp.get("decimals") or 0)
+        out["totalSupply"] = float(sp.get("uiAmount") or 0)
+        raw_supply = int(sp.get("amount") or 0)
+    except Exception:
+        raw_supply = 0
+    dex = _dex_for([mint]).get(mint, {})
+    out["price"] = dex.get("price")
+    out["liqUsd"] = dex.get("liq")
+    out["pool"] = dex.get("pool")
+    out["dex"] = dex.get("dex")
+    if dex.get("image") and not out["avatar"]:
+        out["avatar"] = dex["image"]   # public CDN fallback only when no on-chain image
+    try:
+        for h in (_sol_rpc("getTokenLargestAccounts", [mint]) or {}).get("value", [])[:10]:
+            raw = int(h.get("amount") or 0)
+            ui = float(h.get("uiAmount") or 0)
+            owner = _sol_account_owner(h.get("address"))
+            tag = None
+            if dev and owner and (list(dev.values())[0] == owner or owner in dev.values()):
+                tag = "DEV-AUTH ⚠️"
+                out["devFlags"].append(h.get("address"))
+            out["topHolders"].append({"address": h.get("address"), "pct": round(raw / raw_supply * 100, 2) if raw_supply else None,
+                                      "amount": ui, "owner": owner, "tag": tag})
+    except Exception:
+        pass
+    return out
+
+
+def _token_details_rh(address):
+    if not (isinstance(address, str) and address.lower().startswith("0x") and len(address) == 42):
+        return {"chain": "robinhood", "error": "invalid RH address"}
+    t = _rh_explorer("/tokens/" + address)
+    if not t:
+        return {"chain": "robinhood", "address": address, "error": "explorer unreachable / token unknown"}
+    dec = int(t.get("decimals") or 0)
+    tot_raw = int(t.get("total_supply") or 0)
+    out = {"chain": "robinhood", "address": address, "symbol": t.get("symbol"), "name": t.get("name"),
+           "avatar": t.get("icon_url"), "decimals": dec,
+           "totalSupply": round(tot_raw / (10 ** dec), 6) if tot_raw else None,
+           "holdersCount": t.get("holders_count"),
+           "price": float(t.get("exchange_rate")) if t.get("exchange_rate") is not None else None,
+           "vol24h": float(t.get("volume_24h")) if t.get("volume_24h") is not None else None,
+           "topHolders": [], "devFlags": []}
+    hs = _rh_explorer("/tokens/" + address + "/holders") or {}
+    for it in (hs.get("items") or [])[:12]:
+        ah = it.get("address") or {}
+        addr = ah.get("hash")
+        raw = float(it.get("value") or 0)
+        pct = round(raw / tot_raw * 100, 2) if tot_raw else None
+        nm = (ah.get("name") or "").lower()
+        tag = "CONTRACT" if ah.get("is_contract") else "EOA"
+        if ah.get("is_contract") and any(k in nm for k in ("multisig", "vest", "timelock", "lock", "treasury", "gnosissafe")):
+            tag = "RISK " + tag
+            out["devFlags"].append(addr)
+        out["topHolders"].append({"address": addr, "pct": pct, "amount": raw / (10 ** dec) if dec else None,
+                                  "isContract": bool(ah.get("is_contract")), "tag": tag})
+    return out
+
+
+def token_details(chain, address):
+    try:
+        if chain == "solana":
+            return _token_details_sol(address)
+        if chain == "robinhood":
+            return _token_details_rh(address)
+        return {"error": "unknown chain " + str(chain)}
+    except Exception as e:
+        return {"chain": chain, "address": address, "error": str(e)[:200]}
+
+
 def _render_alpha_intel(rh_data, sol_data):
     """
     Transforms intel rows into component-styled UI cards.
@@ -201,11 +358,12 @@ def _render_alpha_intel(rh_data, sol_data):
         html += '<div class="empty-badge">No active assets in current feed window</div>'
     for token in rh_candidates:
         label, cls = _trend_pct(token.get("chg_h1"))
-        html += ("<div class='intel-badge'><span class='ticker-badge font-mono'>%s</span>"
+        html += ("<div class='intel-badge clickable' data-chain='robinhood' data-address='%s' title='View on-chain'>"
+                 "<span class='ticker-badge font-mono'>%s</span>"
                  "<span class='trend-pct %s'>%s</span>"
                  "<span class='meta-tag tag-purple'>%s</span>"
                  "<span class='vol-indicator'>📊 1h tx: %s</span></div>"
-                 % (str(token.get("symbol", "UNKN"))[:6], cls, label,
+                 % (str(token.get("address") or ""), str(token.get("symbol", "UNKN"))[:6], cls, label,
                     str(token.get("category", "OTHER"))[:10], format(token.get("transfers", 0), ",")))
     html += '</div>'
     # SOL visual cluster (top 4 by dex liquidity)
@@ -215,11 +373,12 @@ def _render_alpha_intel(rh_data, sol_data):
         html += '<div class="empty-badge">Searching meme pool layers...</div>'
     for token in sol_candidates:
         label, cls = _trend_pct(token.get("h1"))
-        html += ("<div class='intel-badge'><span class='ticker-badge font-mono'>%s</span>"
+        html += ("<div class='intel-badge clickable' data-chain='solana' data-address='%s' title='View on-chain'>"
+                 "<span class='ticker-badge font-mono'>%s</span>"
                  "<span class='trend-pct %s'>%s</span>"
                  "<span class='meta-tag tag-green'>%s</span>"
                  "<span class='vol-indicator'>💧 Liq: $%s</span></div>"
-                 % (str(token.get("s", "UNKN"))[:6], cls, label,
+                 % (str(token.get("address") or ""), str(token.get("s", "UNKN"))[:6], cls, label,
                     str(token.get("category", "WATCH"))[:10], format(float(token.get("liq", 0)), ",.0f")))
     html += '</div></div>'
     return html
@@ -240,6 +399,18 @@ def render(d):
     h.append(".vol-indicator{color:#94a3b8;font-size:.8rem}.empty-badge{background:#111a2e;border:1px dashed #334155;border-radius:6px;padding:8px;color:#64748b;font-size:.85rem;text-align:center}")
     h.append(".font-mono{font-family:ui-monospace,Menlo,monospace}.delta-mismatch{animation:flashwarn 1.6s infinite}")
     h.append("@keyframes flashwarn{0%,100%{opacity:1}50%{opacity:.35}}@media(max-width:720px){.alpha-intel-grid{grid-template-columns:1fr}}</style>")
+    h.append("<style>.clickable{cursor:pointer}.clickable:hover{border-color:#4ade80!important}")
+    h.append(".modal-overlay{position:fixed;inset:0;background:rgba(2,6,23,.78);display:flex;align-items:center;justify-content:center;z-index:50}")
+    h.append(".modal{background:#0f172a;border:1px solid #334155;border-radius:14px;width:min(680px,94vw);max-height:88vh;overflow:auto;padding:18px 20px;box-shadow:0 20px 60px #000a}")
+    h.append(".modal h2{display:flex;align-items:center;gap:10px;margin:0 0 12px;font-size:18px;color:#f8fafc}")
+    h.append(".modal img.avatar{width:44px;height:44px;border-radius:10px;border:1px solid #334155;background:#1e293b}")
+    h.append(".modal .ca{color:#64748b;font-size:.75rem;word-break:break-all}")
+    h.append(".modal .vit{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:12px 0}")
+    h.append(".modal .vit .cell{background:#111a2e;border:1px solid #26324a;border-radius:8px;padding:8px 10px}")
+    h.append(".modal .vit .cell b{display:block;font-size:1.02rem;color:#e6edf3}.modal .vit .cell span{font-size:.68rem;color:#8b98b8;text-transform:uppercase}")
+    h.append(".modal .holder{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 10px;margin:5px 0;background:#111a2e;border:1px solid #26324a;border-radius:8px;font-size:.85rem}")
+    h.append(".risk{color:#f87171;border-color:#7f1d1d!important}.tag-red{background:#7f1d1d;color:#fecaca}.tag-grey{background:#334155;color:#e2e8f0}.tag-gold{background:#78350f;color:#fde68a}")
+    h.append(".modal .close{float:right;cursor:pointer;color:#94a3b8;font-size:20px;line-height:1}</style>")
     h.append("<style>body{font-family:ui-monospace,Menlo,monospace;background:#0b1020;color:#e6edf3;margin:0;padding:16px}")
     h.append("h1{font-size:16px;color:#7ee787}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:12px}")
     h.append(".card{background:#111a2e;border:1px solid #26324a;border-radius:10px;padding:12px}")
@@ -319,19 +490,80 @@ def render(d):
         h.append("<div class='empty-badge'>No benchmark deltas yet — waiting for live forward captures</div>")
     for e in rows:
         label, cls, flag = _delta_badge(e.get("deltaSec"))
-        h.append("<div class='intel-badge'><span class='ticker-badge font-mono'>%s</span>"
+        h.append("<div class='intel-badge clickable' data-chain='%s' data-address='%s' title='View on-chain'>"
+                 "<span class='ticker-badge font-mono'>%s</span>"
                  "<span class='trend-pct %s %s'>%s</span>"
                  "<span class='meta-tag tag-purple'>%s</span>"
                  "<span class='vol-indicator'>💧 $%s</span></div>"
-                 % (str(e.get("chain", "?"))[:2] + ":" + str(e.get("mint", ""))[:10], cls, flag, label,
-                    str(e.get("deltaSec", "")) if False else "EDGE", format(float(e.get("liqUsd") or 0), ",.0f")))
+                 % (str(e.get("chain", "")), str(e.get("mint", "")),
+                    str(e.get("chain", "?"))[:2] + ":" + str(e.get("mint", ""))[:10], cls, flag, label,
+                    "EDGE", format(float(e.get("liqUsd") or 0), ",.0f")))
     h.append("</div>")
+    h.append("""<script>
+function mdFmt(x){ if(x===null||x===undefined) return '—'; return Number(x).toLocaleString(undefined,{maximumFractionDigits:4}); }
+function openTokenDetails(el){
+  var chain=el.getAttribute('data-chain'), addr=el.getAttribute('data-address');
+  if(!addr) return;
+  var ov=document.createElement('div'); ov.className='modal-overlay';
+  var m=document.createElement('div'); m.className='modal';
+  m.innerHTML="<div class='ca' id='md-load'>⏳ Loading on-chain vitals…</div>";
+  ov.appendChild(m); document.body.appendChild(ov);
+  function close(){ if(ov.parentNode) document.body.removeChild(ov); }
+  ov.addEventListener('click',function(e){ if(e.target===ov) close(); });
+  fetch('/api/token-details?chain='+encodeURIComponent(chain)+'&address='+encodeURIComponent(addr))
+   .then(function(r){return r.json();}).then(function(d){
+    var b=document.getElementById('md-load'); b.id='';
+    if(d.error){ b.textContent='⚠️ '+d.error; return; }
+    var h2=document.createElement('h2');
+    if(d.avatar){ var im=document.createElement('img'); im.className='avatar'; im.alt=''; im.src=d.avatar; im.onerror=function(){ this.parentNode.removeChild(this); }; h2.appendChild(im); }
+    var tt=document.createElement('span'); tt.textContent='🪙 '+((d.symbol||'?')+(d.name? ' — '+d.name:''));
+    var cx=document.createElement('span'); cx.className='close'; cx.textContent='×'; cx.onclick=close;
+    h2.appendChild(tt); h2.appendChild(cx); b.appendChild(h2);
+    var ca=document.createElement('div'); ca.className='ca'; ca.textContent='CA: '+d.address; b.appendChild(ca);
+    var vit=document.createElement('div'); vit.className='vit';
+    var cells=[['Current Price', d.price!=null? '$'+Number(d.price).toPrecision(6):'—'],
+               ['Total Supply', d.totalSupply!=null? mdFmt(d.totalSupply):'—'],
+               ['Holders', d.holdersCount!=null? mdFmt(d.holdersCount):(d.topHolders? d.topHolders.length+' top':'—')],
+               ['Liquidity', d.liqUsd? '$'+mdFmt(d.liqUsd):(d.vol24h!=null? '24h vol $'+mdFmt(d.vol24h):'—')],
+               ['Pool', d.pool? String(d.pool).slice(0,10)+'…':(d.dex||'—')],
+               ['Decimals', d.decimals!=null? d.decimals:'—']];
+    cells.forEach(function(c){ var cell=document.createElement('div'); cell.className='cell';
+      var b1=document.createElement('b'); b1.textContent=c[1]; var s=document.createElement('span'); s.textContent=c[0];
+      cell.appendChild(b1); cell.appendChild(s); vit.appendChild(cell); });
+    b.appendChild(vit);
+    var hh=document.createElement('div'); hh.style.marginTop='12px'; hh.style.fontSize='13px'; hh.textContent='👥 TOP HOLDER CONCENTRATION'; b.appendChild(hh);
+    if(d.topHolders && d.topHolders.length){
+      d.topHolders.forEach(function(h){ var row=document.createElement('div'); row.className='holder';
+        if(h.tag && (h.tag.indexOf('RISK')>=0||h.tag.indexOf('DEV')>=0)) row.className+=' risk';
+        var l=document.createElement('span'); l.textContent=(h.pct!=null? h.pct+'% · ':'')+String(h.address||'').slice(0,14)+'…';
+        var tg=document.createElement('span'); tg.className='meta-tag '+(h.tag?(h.tag.indexOf('RISK')>=0||h.tag.indexOf('DEV')>=0?'tag-red':'tag-gold'):'tag-grey');
+        tg.textContent=h.tag||(h.isContract?'CONTRACT':'EOA'); row.appendChild(l); row.appendChild(tg); b.appendChild(row); });
+    } else b.appendChild(document.createTextNode('  no holder data returned'));
+    if(d.devFlags && d.devFlags.length){ var w=document.createElement('div'); w.className='meta-tag tag-red'; w.style.marginTop='8px';
+      w.textContent='⚠️ developer / vesting-linked wallet present in top holders'; b.appendChild(w); }
+   }).catch(function(e){ var b=document.getElementById('md-load'); if(b){ b.textContent='fetch error'; } });
+}
+document.addEventListener('click',function(e){ var el=e.target.closest?e.target.closest('.clickable[data-address]'):null; if(el) openTokenDetails(el); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ var o=document.querySelector('.modal-overlay'); if(o&&o.parentNode) document.body.removeChild(o); } });
+</script>""")
     h.append("</body></html>")
     return "\n".join(h)
 
 
 class H(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
+        parsed = urlparse(self.path)
+        if parsed.path == "/api/token-details":
+            q = parse_qs(parsed.query)
+            chain = (q.get("chain") or [""])[0]
+            address = (q.get("address") or [""])[0]
+            body = json.dumps(token_details(chain, address)).encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
         body = render(collect()).encode()
         self.send_response(200)
         self.send_header("Content-Type", "text/html; charset=utf-8")
