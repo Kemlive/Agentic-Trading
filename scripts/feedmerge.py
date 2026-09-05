@@ -45,7 +45,7 @@ def uni_rh(r):
             "tx": r.get("tx"), "idx": r.get("logIndex"),
             "tokens": [r.get("token")] if r.get("token") else None,
             "contract": r.get("token"), "from": r.get("from"), "to": r.get("to"),
-            "src": "rhfeed", "ts": r.get("ts")}
+            "symbol": r.get("symbol"), "src": "rhfeed", "ts": r.get("ts")}
 
 
 # ---------- COIN REGISTRY (intel lives INSIDE the feed, real chain time) ----------
@@ -115,6 +115,8 @@ def registry(s, h):
             continue
         d = coin.setdefault(tok, {"ts": [], "fr": []})
         d["ts"].append(t)
+        if r.get("symbol"):
+            d["sym"] = r.get("symbol")
         fr = (r.get("from") or "").lower()
         if fr and fr != "0x0000000000000000000000000000000000000000":
             d["fr"].append((t, fr))
@@ -122,7 +124,7 @@ def registry(s, h):
     if coin:
         refRh = min(now, max(max(v["ts"]) for v in coin.values()) + 5)
     for tok, d in coin.items():
-        sym = (meta.get(tok) or {}).get("symbol")
+        sym = d.get("sym") or (meta.get(tok) or {}).get("symbol")
         if sym and sym.upper() in quotes_sym:
             continue
         ts = sorted(d["ts"]); fr = sorted(d["fr"])
