@@ -513,14 +513,35 @@ def render(d):
     h.append(".pos-grid>div{background:#111a2e;border:1px solid #26324a;border-radius:8px;padding:6px 9px}")
     h.append(".pos-grid span{display:block;font-size:.62rem;color:#8b98b8;text-transform:uppercase;letter-spacing:.04em}")
     h.append(".pos-grid b{font-size:.95rem;color:#e6edf3;word-break:break-all}</style>")
+    h.append("<style>.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-bottom:10px;border-bottom:1px solid #1f2a44}")
+    h.append("h1{font-size:20px;letter-spacing:.02em;margin:0;background:linear-gradient(90deg,#7ee787,#38bdf8);-webkit-background-clip:text;background-clip:text;color:transparent}")
+    h.append(".pill{border:1px solid #334155;border-radius:999px;padding:3px 10px;font-size:.72rem;background:#111a2e;color:#94a3b8;font-weight:600;letter-spacing:.04em}")
+    h.append(".pill.green{color:#7ee787;border-color:#14532d}.pill.bad{color:#ff7b72;border-color:#7f1d1d}.pill.grey{color:#94a3b8}")
+    h.append(".pos-section{border:1px solid #14532d;background:linear-gradient(180deg,rgba(20,83,45,.14),#111a2e);margin-top:12px}")
+    h.append("::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-thumb{background:#26324a;border-radius:6px}::-webkit-scrollbar-track{background:transparent}</style>")
     h.append("<style>body{font-family:ui-monospace,Menlo,monospace;background:#0b1020;color:#e6edf3;margin:0;padding:16px}")
     h.append("h1{font-size:16px;color:#7ee787}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:12px}")
     h.append(".card{background:#111a2e;border:1px solid #26324a;border-radius:10px;padding:12px}")
     h.append(".k{color:#8b98b8;font-size:11px;text-transform:uppercase;letter-spacing:.05em}.v{font-size:22px;font-weight:700}")
     h.append(".ok{color:#7ee787}.bad{color:#ff7b72}.sub{color:#8b98b8;font-size:11px}")
     h.append("table{width:100%;border-collapse:collapse;font-size:12px}td,th{padding:4px 6px;border-bottom:1px solid #1f2a44;text-align:left}</style></head><body>")
-    h.append("<h1>📡 MULTI-CHAIN FEED WATCHER — PERFORMANCE SUMMARY</h1>")
-    h.append("<div class='sub'>as of %s · auto-refresh 20s · our own chain data, no subscriptions</div>" % d["asOf"][:19])
+    da0 = d.get("daemons") or {}
+    ln0 = d.get("lane") or {}
+    pill_good = bool(da0) and all(da0.values())
+    h.append("<div class='topbar'><h1>📡 MULTI-CHAIN FEED DASHBOARD</h1>"
+             "<div style='display:flex;gap:8px;flex-wrap:wrap'><span class='pill %s'>● FEEDS %s</span>"
+             "<span class='pill %s'>LANE OPEN %d</span></div></div>"
+             % ("green" if pill_good else "bad", "LIVE" if pill_good else "DOWN",
+                "green" if (ln0.get("open") or 0) > 0 else "grey", ln0.get("open") or 0))
+    h.append("<div class='sub'>as of %s UTC · auto-refresh 20s · our own chain data, no subscriptions · "
+             "today spent $%s · realized $%s</div>"
+             % (d["asOf"][:19], ln0.get("spentToday") if ln0.get("spentToday") is not None else "0.0",
+                ln0.get("realizedToday") if ln0.get("realizedToday") is not None else "0.0"))
+
+    # LIVE POSITIONS — its own hero column (open positions live here)
+    h.append("<div class='card pos-section'><div class='k'>Real-coin lane — LIVE POSITIONS (%d open)</div>" % (ln0.get("open") or 0))
+    h.append(_render_live_positions(ln0.get("positions") or []))
+    h.append("</div>")
 
     h.append("<div class='grid'>")
     # daemon health
@@ -545,12 +566,6 @@ def render(d):
         h.append("<div>Base safe <b>$%.2f</b></div>" % b.get("safe", 0))
     h.append("<div class='sub'>micro snatcher %s</div>" % ("paused" if d.get("paused") else "RUNNING"))
     h.append("</div>")
-    # lane
-    ln = d["lane"]
-    h.append("<div class='card'><div class='k'>Real-coin lane</div>")
-    h.append("<div>open positions <b class='v %s'>%d</b></div>" % ("ok" if ln["open"] == 0 else "bad", ln["open"]))
-    h.append("<div class='sub'>today spent $%s · realized $%s</div>" % (ln.get("spentToday"), ln.get("realizedToday")))
-    h.append("</div>")
     # recency
     rec = d["recency"]
     h.append("<div class='card'><div class='k'>Feed recency</div>")
@@ -572,12 +587,6 @@ def render(d):
         h.append("<div>%s <b>%s</b></div>" % (k, al.get(k, 0)))
     h.append("</div>")
     h.append("</div>")  # end grid
-
-    # live positions (standard component cards, full width)
-    ln = d.get("lane", {})
-    h.append("<div class='card' style='margin-top:12px'><div class='k'>Real-coin lane — LIVE POSITIONS (%d open)</div>" % (ln.get("open") or 0))
-    h.append(_render_live_positions(ln.get("positions") or []))
-    h.append("</div>")
 
     # alpha intel section (full-width visual clusters)
     it = d.get("intel", {})
