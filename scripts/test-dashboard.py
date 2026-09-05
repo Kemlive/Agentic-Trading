@@ -31,7 +31,8 @@ check("pm.snapshot", snap.get("equity") is not None and snap.get("coins") is not
       "equity=%s basePct=%s coins=%d" % (snap.get("equity"), snap.get("basePct"), len(snap.get("coins") or [])))
 check("pm.plan.keys", isinstance(plan, dict) and "plan" in plan and plan.get("proceedsUsd") is not None,
       "proceedsUsd=%s items=%d" % (plan.get("proceedsUsd"), len(plan["plan"])))
-check("pm.usdcUntouchable", bool(fd._pm_cfg().get("usdcUntouchable")), "policy: USDC untouched")
+check("pm.usdcUntouchable", fd._pm_cfg().get("untouchable", {}).get("scope") == "safe-vault-only"
+      and plan.get("policyScope"), "policy: SAFE/VAULT read-only · trading managed")
 for p in plan["plan"][:5]:
     check("pm.plan.item", p.get("mint") and p.get("value") and p.get("kind") in ("lane", "free"),
           "%s %s $%s" % (p.get("symbol"), p.get("kind"), p.get("value")))

@@ -334,9 +334,12 @@ PM_CFG_FILE = os.path.join(LIVE, "pm.json")
 
 
 def _pm_cfg():
-    def_ = {"usdcUntouchable": True, "maxCoinWeightPct": 25, "minSellUsd": 0.5,
-            "slippageBps": 500,
-            "note": "PM policy: USDC reserve is NEVER managed/moved by the PM. Only non-USDC assets are managed (overweight / lane cleanup). Rebalance is boss-triggered: preview -> confirm -> execute. Tune here."}
+    def_ = {"untouchable": {"scope": "safe-vault-only", "safeVaultNoTouch": True,
+                            "tradingWallet": "managed-for-results"},
+            "maxCoinWeightPct": 25, "minSellUsd": 0.5, "slippageBps": 500,
+            "note": "PM policy: SAFE/VAULT addresses are READ-ONLY (nothing moved there — USDC or non-USDC). "
+                    "Bot positions + assets in the TRADING wallet are PM-managed for results (sell/rebalance/sweep trading USDC to vault). "
+                    "Rebalance is boss-triggered: preview -> confirm -> execute."}
     try:
         return {**def_, **json.load(open(PM_CFG_FILE))}
     except Exception:
@@ -394,7 +397,7 @@ def _rebalance_plan(snap):
                      "reason": "over max weight (%.1f%% > %.0f%%)" % (c["weightPct"], snap["maxWeightPct"])})
     return {"plan": plan, "proceedsUsd": round(sum(p["value"] for p in plan), 2),
             "equity": snap["equity"], "maxWeightPct": snap["maxWeightPct"],
-            "usdcUntouchable": cfg["usdcUntouchable"]}
+            "policyScope": "safe/vault READ-ONLY · trading wallet managed"}
 
 
 def _pm_rebalance_execute(plan):
@@ -850,7 +853,8 @@ def _render_portfolio(pf):
     if usdc is not None and usdc > 0:
         rows.append("<div class='pf-row'><span class='ticker-badge font-mono'>USDC</span>"
                     "<span class='pf-bal'>%.6g</span><span class='pf-val'>$%.2f</span>"
-                    "<span class='meta-tag tag-gold'>RESERVE — PM NEVER TOUCHES</span></div>" % (usdc, usdc))
+                    "<span class='meta-tag tag-gold'>TRADING USDC — managed</span>"
+                    "<button class='act act-sweep' type='button' data-url='/api/sweep-usdc' data-label='SWEEP → VAULT'>SWEEP → VAULT</button></div>" % (usdc, usdc))
     for c in coins:
         val = c.get("value")
         ui = c.get("ui")
@@ -950,8 +954,8 @@ def render(d):
     h.append("<style>.pf-row{display:flex;align-items:center;gap:10px;background:#111a2e;border:1px solid #26324a;border-radius:8px;padding:8px 12px;margin:5px 0;font-size:.85rem;flex-wrap:wrap}")
     h.append(".pf-bal{color:#94a3b8;font-size:.8rem}.pf-val{color:#e6edf3;font-weight:600}")
     h.append(".act{background:transparent;border:1px solid #14532d;color:#7ee787;border-radius:6px;padding:3px 10px;font-size:.72rem;font-weight:700;cursor:pointer;margin-left:auto}")
-    h.append(".act.act-sell{border-color:#14532d}")
-    h.append(".act.armed{background:#14532d;color:#052e16}</style>")
+    h.append(".act.act-sell{border-color:#14532d}.act.act-sweep{border-color:#1d4ed8;color:#93c5fd}")
+    h.append(".act.armed{background:#14532d;color:#052e16}.act-sweep.armed{background:#1d4ed8;color:#dbeafe}</style>")
     h.append("<style>.pf-tools{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px;padding:8px 10px;background:#0b1220;border:1px solid #1f2a44;border-radius:9px}")
     h.append(".pf-tools .stat{color:#94a3b8;font-size:.78rem}.act-reb{border-color:#7c3aed;color:#d8b4fe;margin-left:0}.act-reb:disabled{opacity:.5}")
     h.append(".act-go{border-color:#7f1d1d;color:#f87171}.act-cancel{border-color:#334155;color:#94a3b8}</style>")
@@ -1027,23 +1031,23 @@ def render(d):
     h.append("</div>")
     h.append("</div>")  # end grid
 
-    # PORTFOLIO MANAGER — managed assets = NON-USDC only
+    # PORTFOLIO MANAGER — trading wallet (managed for results)
     pf = d.get("portfolio") or {}
-    h.append("<div class='card' style='margin-top:12px'><div class='k'>PORTFOLIO MANAGER — managed assets (USDC untouched)</div>")
-    h.append("<div class='sub'>PM manages NON-USDC assets only (overweight cleanup / lane closes). USDC reserve is NEVER moved by the PM — shown below as read-only.</div>")
+    h.append("<div class='card' style='margin-top:12px'><div class='k'>PORTFOLIO MANAGER — trading wallet (bot positions + assets)</div>")
+    h.append("<div class='sub'>Bot/trading holdings are PM-managed for RESULTS (sell, rebalance, sweep trading USDC to vault). SAFE/VAULT wallets below are strictly READ-ONLY — nothing there is ever moved by the PM.</div>")
     _b_usd = pf.get("usdcHot") or 0
     _o_usd = pf.get("estNonUsdc") or 0
     _pmc = _pm_cfg()
-    h.append("<div class='pf-tools'><span class='stat'>USDC reserve $%.2f (untouched) · non-USDC est. $%.2f · coin cap ≤ %.0f%%</span>"
+    h.append("<div class='pf-tools'><span class='stat'>trading USDC $%.2f · non-USDC est. $%.2f · coin cap ≤ %.0f%%</span>"
              "<button class='act act-reb' type='button'>🔄 REBALANCE</button></div>"
              % (_b_usd, _o_usd, _pmc["maxCoinWeightPct"]))
     h.append(_render_portfolio(pf))
     h.append("</div>")
 
-    # VAULT / SAFE — capital owners (read-only)
+    # VAULT / SAFE — STRICTLY READ-ONLY (never touched by the PM)
     vts = d.get("vaults") or []
-    h.append("<div class='card' style='margin-top:12px'><div class='k'>VAULT / SAFE — capital owners (read-only)</div>")
-    h.append("<div class='sub'>these wallets own the reserve; delegate approvals + Safe module move funds — the PM only reads them here</div>")
+    h.append("<div class='card' style='margin-top:12px'><div class='k'>VAULT / SAFE — READ-ONLY (never touched by PM)</div>")
+    h.append("<div class='sub'>SAFE/VAULT addresses hold the reserve. NOTHING here is moved by the PM — not USDC, not non-USDC. Delegate approvals + Safe module control these.</div>")
     h.append(_render_vaults(vts))
     h.append("</div>")
 
@@ -1203,12 +1207,12 @@ function openConfirm(o){
 document.addEventListener('click',function(e){
   var b=e.target.closest?e.target.closest('.close-pos'):null; if(!b) return;
   e.stopPropagation();
-  openConfirm({title:'Close open position?', sub:'Guard-managed FULL exit of this lane position. Proceeds settle to USDC — the PM never moves the USDC reserve.', okLabel:'CLOSE POSITION', url:'/api/close-position?mint='+encodeURIComponent(b.getAttribute('data-mint'))});
+  openConfirm({title:'Close open position?', sub:'Guard-managed FULL exit of this bot position. Proceeds settle to trading USDC (ours to manage). SAFE/VAULT untouched.', okLabel:'CLOSE POSITION', url:'/api/close-position?mint='+encodeURIComponent(b.getAttribute('data-mint'))});
 });
 document.addEventListener('click',function(e){
-  var a=e.target.closest?e.target.closest('.act.act-sell'):null; if(!a) return;
+  var a=e.target.closest?e.target.closest('.act.act-sell, .act.act-sweep'):null; if(!a) return;
   e.stopPropagation();
-  openConfirm({title:a.getAttribute('data-label')||'Execute action', sub:'PM sells NON-USDC only. USDC reserve is never touched.', okLabel:'CONFIRM EXECUTE', url:a.getAttribute('data-url')});
+  openConfirm({title:a.getAttribute('data-label')||'Execute action', sub:'Acts on TRADING-wallet assets only. SAFE/VAULT addresses are never touched.', okLabel:'CONFIRM EXECUTE', url:a.getAttribute('data-url')});
 });
 document.addEventListener('click',function(e){
   var r=e.target.closest?e.target.closest('.act-reb'):null; if(!r) return; e.stopPropagation();
@@ -1276,7 +1280,7 @@ def _sell_token(mint):
         if lane:
             return {"error": "that is an open LANE position — use ✕ CLOSE on its card"}
         if mint == USDC_MINT:
-            return {"error": "USDC reserve is UNTOUCHABLE by the PM"}
+            return {"error": "USDC in trading wallet is handled via SWEEP (never sold); SAFE/VAULT USDC is untouchable"}
         held = next((h for h in _wallet_holdings() if h["mint"] == mint), None)
         if not held:
             return {"error": "no balance for that mint"}
@@ -1330,13 +1334,15 @@ class H(http.server.BaseHTTPRequestHandler):
             q = parse_qs(parsed.query)
             mint = (q.get("mint") or [""])[0]
             body = json.dumps(_sell_token(mint)).encode()
+        elif parsed.path == "/api/sweep-usdc":
+            body = json.dumps(_sweep_usdc()).encode()
         elif parsed.path == "/api/rebalance-preview":
             snap = _pm_snapshot()
             plan = _rebalance_plan(snap)
             body = json.dumps({"equity": snap["equity"],
                                "maxWeightPct": snap["maxWeightPct"],
                                "proceedsUsd": plan["proceedsUsd"],
-                               "usdcUntouchable": plan["usdcUntouchable"],
+                               "policyScope": plan["policyScope"],
                                "plan": plan["plan"]}).encode()
         elif parsed.path == "/api/rebalance-execute":
             snap = _pm_snapshot()
