@@ -278,6 +278,7 @@ def collect():
     for i, p in enumerate(d["lane"]["positions"]):
         trail = _mark_trail(p.get("mint"))
         d["lane"]["positions"][i]["spark"] = ",".join("%.6f" % v for v in trail) if len(trail) >= 2 else None
+        d["lane"]["positions"][i]["monitor"] = _monitor_for(p.get("mint"))
     d["paused"] = os.path.exists(os.path.join(LIVE, "autopilot.off"))
     try:  # live balances
         sys.path.insert(0, os.path.join(ROOT, "scripts"))
@@ -322,6 +323,41 @@ def _persist_marks(d):
             open(MARKS, "w").writelines(lines[-3000:])
     except Exception:
         pass
+
+
+def _monitor_for(mint, chain="solana"):
+    """Own-feed watch around a held coin: recent event count + latest events + tier trail."""
+    src = os.path.join(FD, "solana.jsonl") if chain == "solana" else os.path.join(FD, "robinhood.jsonl")
+    now = datetime.datetime.now(datetime.timezone.utc).timestamp()
+    rows_all, hits = [], []
+    try:
+        rows_all = [json.loads(l) for l in _tail_lines(src, 9000)]
+    except Exception:
+        return {"n30": 0, "latest": [], "tiers": []}
+    for r in rows_all:
+        toks = r.get("mints") if chain == "solana" else [r.get("token")]
+        if not toks or str(mint) not in toks:
+            continue
+        bt = r.get("blockTime")
+        try:
+            t = float(bt) if bt is not None else datetime.datetime.fromisoformat(str(r.get("ts")).replace("Z", "+00:00")).timestamp()
+        except Exception:
+            continue
+        hits.append((t, r.get("venue"), r.get("tx") or ""))
+    n30 = sum(1 for t, _, _ in hits if now - t <= 1800)
+    latest = []
+    for t, v, tx in sorted(hits, reverse=True)[:4]:
+        age = max(0, int(now - t))
+        latest.append({"venue": v, "tx": str(tx)[:14], "ageSec": age})
+    tiers = []
+    try:
+        for l in _tail_lines(os.path.join(FD, "tier-history.jsonl"), 8000):
+            r = json.loads(l)
+            if str(r.get("key") or "").lower() == str(mint).lower():
+                tiers.append({"tier": r.get("tier"), "ts": str(r.get("ts") or "")[11:19]})
+    except Exception:
+        pass
+    return {"n30": n30, "latest": latest, "tiers": tiers[-5:]}
 
 
 def _trend_pct(v):
@@ -496,12 +532,14 @@ def _render_live_positions(positions):
         pct_cls = "trend-up" if (pct or 0) >= 0 else "trend-down"
         pnl_cls = "trend-up" if (pnl or 0) >= 0 else "trend-down"
         sig_cls = "tag-green" if sig.startswith("FEED") else "tag-gold"
+        mint_s = p.get("mint") or ""
+        btn = "<button class='close-pos' type='button' data-mint='%s' title='Guard-managed manual close'>✕ CLOSE</button>" % mint_s
         head = ("<div class='pos-head'><span class='ticker-badge font-mono'>%s</span>"
                 "<span class='trend-pct %s'>%s</span>"
                 "<span class='meta-tag %s'>%s</span>"
-                "<span class='vol-indicator'>%s</span></div>"
+                "<span class='vol-indicator'>%s</span>%s</div>"
                 % (str(p.get("symbol") or "?"), pct_cls, pct_s, sig_cls, sig,
-                   "🔒 BANKED" if p.get("banked") else "⚙️ GUARD-MANAGED"))
+                   "🔒 BANKED" if p.get("banked") else "⚙️ GUARD-MANAGED", btn))
         grid = ("<div class='pos-grid'>"
                 "<div><span>Opened (UTC)</span><b>%s</b></div>"
                 "<div><span>Size</span><b>$%.2f</b></div>"
@@ -536,8 +574,25 @@ def _render_live_positions(positions):
                      "<div class='ruler-track'><div class='ruler-marker' style='left:%d%%'></div></div>"
                      "<div class='ruler-scale'><span>$%.4g STOP</span><span>NOW $%.4g</span><span>PEAK $%.4g</span></div>"
                      "</div>" % (stop_kind, cush_s, stop_kind, col, cush_s, round(norm), stop, px, top))
-        cards.append("<div class='pos-card clickable' data-chain='solana' data-address='%s' title='View on-chain'>%s%s%s%s</div>"
-                     % (p.get("mint") or "", head, grid, spk, ruler))
+        # on-chain watch (our own feed activity around the held coin)
+        mon_html = ""
+        m = p.get("monitor") or {}
+        tcol = {"TRENDING": "tag-green", "GAINER": "tag-gold", "MIGRATED": "tag-purple",
+                "NEW": "tag-grey", "WATCH": "tag-gold"}
+        chips = "".join("<span class='meta-tag %s'>%s@%s</span>" % (tcol.get(t.get("tier"), "tag-grey"),
+                                                                    t.get("tier"), t.get("ts"))
+                        for t in (m.get("tiers") or []))
+        rows_l = "".join("<li><span class='mon-venue'>%s</span><span class='mon-tx'>%s</span>"
+                         "<span class='mon-age'>%ss ago</span></li>"
+                         % (e.get("venue"), e.get("tx"), e.get("ageSec"))
+                         for e in (m.get("latest") or []))
+        if not rows_l:
+            rows_l = "<li class='mon-empty'>no feed events in last window</li>"
+        mon_html = ("<details class='pos-mon'><summary>🔍 ON-CHAIN WATCH · %s events/30m%s</summary>"
+                    "<ul>%s</ul><div class='mon-tiers'>%s</div></details>"
+                    % (m.get("n30", 0), " · feed-tier trail below" if chips else "", rows_l, chips))
+        cards.append("<div class='pos-card clickable' data-chain='solana' data-address='%s' title='View on-chain'>%s%s%s%s%s</div>"
+                     % (mint_s, head, grid, spk, ruler, mon_html))
     return "".join(cards)
 
 
@@ -592,6 +647,15 @@ def render(d):
     h.append(".ruler-track{position:relative;height:6px;border-radius:99px;background:linear-gradient(90deg,#f87171,#fbbf24 55%,#4ade80)}")
     h.append(".ruler-marker{position:absolute;top:50%;transform:translate(-50%,-50%);width:11px;height:11px;border-radius:50%;background:#f8fafc;border:2px solid #0b1220;box-shadow:0 0 0 1px #64748b}")
     h.append(".ruler-scale{display:flex;justify-content:space-between;margin-top:4px;font-size:.62rem;color:#64748b}</style>")
+    h.append("<style>.close-pos{margin-left:auto;background:transparent;border:1px solid #7f1d1d;color:#f87171;border-radius:6px;padding:2px 9px;font-size:.7rem;cursor:pointer;font-weight:700;line-height:1.5}")
+    h.append(".close-pos:hover,.close-pos.armed{background:#7f1d1d;color:#fecaca}")
+    h.append(".pos-mon{margin-top:8px;border-top:1px dashed #1f2a44;padding-top:6px;font-size:.78rem;color:#94a3b8}")
+    h.append(".pos-mon summary{cursor:pointer;color:#8b98b8;font-size:.75rem;user-select:none}")
+    h.append(".pos-mon ul{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:4px}")
+    h.append(".pos-mon li{display:flex;gap:10px;align-items:center;font-size:.72rem}")
+    h.append(".mon-venue{color:#7ee787;min-width:84px;text-transform:lowercase}.mon-tx{font-family:ui-monospace,Menlo,monospace;color:#e2e8f0}")
+    h.append(".mon-age{color:#64748b;margin-left:auto}.mon-empty{color:#64748b;font-style:italic}")
+    h.append(".mon-tiers{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}</style>")
     h.append("<style>body{font-family:ui-monospace,Menlo,monospace;background:#0b1020;color:#e6edf3;margin:0;padding:16px}")
     h.append("h1{font-size:16px;color:#7ee787}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:12px}")
     h.append(".card{background:#111a2e;border:1px solid #26324a;border-radius:10px;padding:12px}")
@@ -758,7 +822,10 @@ function openTokenDetails(el){
       w.textContent='⚠️ developer / vesting-linked wallet present in top holders'; b.appendChild(w); }
    }).catch(function(e){ var b=document.getElementById('md-load'); if(b){ b.textContent='fetch error'; } });
 }
-document.addEventListener('click',function(e){ var el=e.target.closest?e.target.closest('.clickable[data-address]'):null; if(el) openTokenDetails(el); });
+document.addEventListener('click',function(e){ var t=e.target;
+  var ignore=t.closest?t.closest('.close-pos,.pos-mon,details,summary,button,a,input'):null;
+  var el=t.closest?t.closest('.clickable[data-address]'):null;
+  if(el && !ignore) openTokenDetails(el); });
 document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ var o=document.querySelector('.modal-overlay'); if(o&&o.parentNode) document.body.removeChild(o); } });
 window.__sparkSeq=0;
 function sparkMount(el){
@@ -787,13 +854,71 @@ function sparkMount(el){
   svg+='</svg>';
   el.innerHTML=svg; el.style.height=H+'px';
 }
+function closePos(mint, btn){
+  fetch('/api/close-position?mint='+encodeURIComponent(mint),{method:'POST'})
+   .then(function(r){return r.json();}).then(function(res){
+    if(res.error){ btn.textContent='ERR'; btn.title=res.error; alert(res.error); }
+    else { btn.textContent='CLOSED ✓'; alert('Closed '+res.symbol+' — realized $'+(res.realized||0).toFixed(2)+' (guard-managed)'); setTimeout(function(){ location.reload(); },1200); }
+   }).catch(function(e){ btn.textContent='ERR'; });
+}
+document.addEventListener('click',function(e){
+  var b=e.target.closest?e.target.closest('.close-pos'):null; if(!b) return;
+  e.stopPropagation();
+  if(!b.getAttribute('data-arm')){ b.textContent='CONFIRM CLOSE?'; b.setAttribute('data-arm','1'); b.classList.add('armed');
+    setTimeout(function(){ b.textContent='✕ CLOSE'; b.removeAttribute('data-arm'); b.classList.remove('armed'); },5000); return; }
+  closePos(b.getAttribute('data-mint'), b);
+});
 document.querySelectorAll('.spark[data-v]').forEach(function(el){ sparkMount(el); });
 </script>""")
     h.append("</body></html>")
     return "\n".join(h)
 
 
+def _close_position(mint):
+    """Guard-managed manual close: full exit via the lane's own do_sell path."""
+    if not (isinstance(mint, str) and len(mint) >= 32):
+        return {"error": "bad mint"}
+    try:
+        import importlib.util as _iu
+        s = _iu.spec_from_file_location("flc", os.path.join(ROOT, "scripts", "fastlane.py"))
+        fl = _iu.module_from_spec(s)
+        s.loader.exec_module(fl)
+        obj = fl.load_positions()
+        pos = next((x for x in obj.get("positions", []) if x.get("status") == "open" and x.get("mint") == mint), None)
+        if not pos:
+            return {"error": "no open position for mint"}
+        px = _dex_for([mint]).get(mint, {}).get("price")
+        if not px:
+            return {"error": "no live price — cannot mark-to-market close"}
+        r = fl.do_sell(pos, px, "BOSS MANUAL CLOSE", 1.0)
+        if r is None:
+            return {"error": "sell failed — see logs/trades.jsonl"}
+        st = fl.reset_day(fl.F.load(fl.STATE_FILE, {}))
+        st["realizedToday"] = round(float(st.get("realizedToday") or 0) + r, 2)
+        fl.F.save(fl.STATE_FILE, st)
+        fl.save_positions(obj)
+        return {"ok": True, "symbol": pos.get("symbol"), "realized": round(r, 2),
+                "tx": (pos.get("lastExit") or {}).get("tx", "")}
+    except Exception as e:
+        return {"error": str(e)[:240]}
+
+
 class H(http.server.BaseHTTPRequestHandler):
+    def do_POST(self):
+        parsed = urlparse(self.path)
+        if parsed.path == "/api/close-position":
+            q = parse_qs(parsed.query)
+            mint = (q.get("mint") or [""])[0]
+            body = json.dumps(_close_position(mint)).encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
+        self.send_response(404)
+        self.end_headers()
+
     def do_GET(self):
         parsed = urlparse(self.path)
         if parsed.path == "/api/token-details":
