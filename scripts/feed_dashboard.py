@@ -519,6 +519,10 @@ def render(d):
     h.append(".pill.green{color:#7ee787;border-color:#14532d}.pill.bad{color:#ff7b72;border-color:#7f1d1d}.pill.grey{color:#94a3b8}")
     h.append(".pos-section{border:1px solid #14532d;background:linear-gradient(180deg,rgba(20,83,45,.14),#111a2e);margin-top:12px}")
     h.append("::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-thumb{background:#26324a;border-radius:6px}::-webkit-scrollbar-track{background:transparent}</style>")
+    h.append("<style>.spark{margin:6px 0 2px}.spark svg{display:block;width:100%;height:100%;overflow:visible}")
+    h.append(".sp-draw{stroke-dasharray:1;stroke-dashoffset:1;animation:spdraw .7s ease forwards}")
+    h.append("@keyframes spdraw{to{stroke-dashoffset:0}}@keyframes sppulse{0%,100%{opacity:1}50%{opacity:.35}}")
+    h.append(".sp-dot{animation:sppulse 1.8s infinite}</style>")
     h.append("<style>body{font-family:ui-monospace,Menlo,monospace;background:#0b1020;color:#e6edf3;margin:0;padding:16px}")
     h.append("h1{font-size:16px;color:#7ee787}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:12px}")
     h.append(".card{background:#111a2e;border:1px solid #26324a;border-radius:10px;padding:12px}")
@@ -578,6 +582,9 @@ def render(d):
     bm = d.get("bench", {})
     h.append("<div class='card'><div class='k'>Earliness benchmark</div>")
     h.append("<div>with delta <b>%s</b> · avg <b>%ss</b></div>" % (bm.get("withDelta"), bm.get("avgDeltaSec")))
+    deltas = [e.get("deltaSec") for e in (bm.get("liquidityVsDelta") or []) if e.get("deltaSec") is not None][-30:]
+    if len(deltas) >= 2:
+        h.append("<div class='spark' data-v='%s' data-h='34' title='forward-edge trend'></div>" % ",".join("%.1f" % v for v in deltas))
     h.append("<div class='sub'>%s</div>" % (bm.get("note") or ""))
     h.append("</div>")
     # rh classification
@@ -664,6 +671,9 @@ function openTokenDetails(el){
         var hm=String(hh.ts||'').slice(11,16); sp.textContent=hh.tier+'@'+hm+' 1h:'+hh.t60; wrap.appendChild(sp);
       });
       b.appendChild(wrap);
+      var hs2=document.createElement('div'); hs2.className='spark';
+      hs2.setAttribute('data-v', d.history.map(function(h){ return h.t60; }).join(','));
+      b.appendChild(hs2); sparkMount(hs2);
     }
     if(d.benchmark){
       var bd=d.benchmark.lastDeltaSec, brow=document.createElement('div'); brow.className='holder';
@@ -681,6 +691,34 @@ function openTokenDetails(el){
 }
 document.addEventListener('click',function(e){ var el=e.target.closest?e.target.closest('.clickable[data-address]'):null; if(el) openTokenDetails(el); });
 document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ var o=document.querySelector('.modal-overlay'); if(o&&o.parentNode) document.body.removeChild(o); } });
+window.__sparkSeq=0;
+function sparkMount(el){
+  if(!el) return;
+  var raw=el.getAttribute('data-v')||'';
+  var vals=raw.split(',').map(Number).filter(function(v){ return !isNaN(v); });
+  if(vals.length<2){ el.innerHTML=''; return; }
+  var W=280, H=parseInt(el.getAttribute('data-h')||'40',10)||40, pad=8;
+  var mn=Math.min.apply(null,vals), mx=Math.max.apply(null,vals), rng=(mx-mn)||1;
+  function X(i){ return pad+(i/(vals.length-1))*(W-2*pad); }
+  function Y(v){ return pad+(1-(v-mn)/rng)*(H-2*pad); }
+  var pts=vals.map(function(v,i){ return [X(i).toFixed(1),Y(v).toFixed(1)]; });
+  var line=pts.map(function(p,i){ return (i?'L':'M')+p[0]+' '+p[1]; }).join(' ');
+  var area=line+' L'+X(vals.length-1).toFixed(1)+' '+(H-1)+' L'+X(0).toFixed(1)+' '+(H-1)+' Z';
+  var col=(vals[vals.length-1]>=vals[0])?'#4ade80':'#f87171';
+  var hi=vals.indexOf(mx), lo=vals.indexOf(mn);
+  var id='spk'+(++window.__sparkSeq);
+  var svg='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" role="img">';
+  svg+='<defs><linearGradient id="'+id+'" x1="0" y1="0" x2="0" y2="1">';
+  svg+='<stop offset="0" stop-color="'+col+'" stop-opacity="0.22"/><stop offset="1" stop-color="'+col+'" stop-opacity="0"/></linearGradient></defs>';
+  svg+='<path d="'+area+'" fill="url(#'+id+')"/>';
+  svg+='<path d="'+line+'" fill="none" stroke="'+col+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" pathLength="1" class="sp-draw"/>';
+  svg+='<circle cx="'+pts[lo][0]+'" cy="'+pts[lo][1]+'" r="2.2" fill="#fbbf24"/>';
+  if(hi!==lo){ svg+='<circle cx="'+pts[hi][0]+'" cy="'+pts[hi][1]+'" r="2.2" fill="#e2e8f0"/>'; }
+  svg+='<circle cx="'+pts[pts.length-1][0]+'" cy="'+pts[pts.length-1][1]+'" r="3" fill="'+col+'" class="sp-dot"/>';
+  svg+='</svg>';
+  el.innerHTML=svg; el.style.height=H+'px';
+}
+document.querySelectorAll('.spark[data-v]').forEach(function(el){ sparkMount(el); });
 </script>""")
     h.append("</body></html>")
     return "\n".join(h)
