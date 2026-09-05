@@ -202,17 +202,12 @@ TOKEN_PROGRAM = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
 USDC_MINT = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
 
 
-def _wallet_holdings():
-    """All non-zero SPL token balances in the trading hot wallet (our own RPC read)."""
+def _token_holdings(owner):
+    """All non-zero SPL token balances for an owner wallet (our own RPC read)."""
     try:
-        import importlib.util as _iu
-        s = _iu.spec_from_file_location("autow", os.path.join(ROOT, "scripts", "autopilot.py"))
-        au = _iu.module_from_spec(s)
-        s.loader.exec_module(au)
-        hot = au.WALLET
         r = _post_json(_sol_rpc_url(),
                        {"jsonrpc": "2.0", "id": 1, "method": "getTokenAccountsByOwner",
-                        "params": [hot, {"programId": TOKEN_PROGRAM}, {"encoding": "jsonParsed"}]}, timeout=15)
+                        "params": [owner, {"programId": TOKEN_PROGRAM}, {"encoding": "jsonParsed"}]}, timeout=15)
         out = []
         for acc in ((r or {}).get("result") or {}).get("value", []):
             info = ((((acc.get("account") or {}).get("data") or {}).get("parsed") or {}).get("info") or {})
@@ -225,6 +220,114 @@ def _wallet_holdings():
         return out
     except Exception:
         return []
+
+
+def _wallet_holdings():
+    """Trading hot-wallet SPL balances (executor wallet, spends under delegate cap)."""
+    try:
+        import importlib.util as _iu
+        s = _iu.spec_from_file_location("autow", os.path.join(ROOT, "scripts", "autopilot.py"))
+        au = _iu.module_from_spec(s)
+        s.loader.exec_module(au)
+        return _token_holdings(au.WALLET)
+    except Exception:
+        return []
+
+
+def _vault_cfg():
+    def_ = {"solVault": "8ZGuiQZzb6BMDeWjzPzowr6B839ftaJS15ihoscfqEk4",
+            "solVaultUsdcAcc": "GRiCEHnTyfNHKvCXpkcxqHwHmkFFxhHz5Yjhq4MxGJK8",
+            "evm": {"base": {"rpc": ["https://base-rpc.publicnode.com"],
+                             "safe": "0x203FD7cefb443672ef5700A1E27521c22A6E7B3A",
+                             "owner": "0xB1ACDaF72cA6648DdD54F5dB85B9Cf75d58f82b8",
+                             "usdc": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                             "aero": "0x940181a94A35A4569E4529A3CDfB74e38FD98631"}}}
+    try:
+        return {**def_, **json.load(open(os.path.join(LIVE, "vaults.json")))}
+    except Exception:
+        return def_
+
+
+def _sol_native_sol(owner):
+    try:
+        r = _post_json(_sol_rpc_url(), {"jsonrpc": "2.0", "id": 1, "method": "getBalance",
+                                        "params": [owner]}, timeout=12)
+        return (r.get("result") or {}).get("value", 0) / 1e9
+    except Exception:
+        return 0.0
+
+
+def _evm_call(rpcs, to, data):
+    for u in rpcs:
+        try:
+            r = _post_json(u, {"jsonrpc": "2.0", "id": 1, "method": "eth_call",
+                               "params": [{"to": to, "data": data}, "latest"]}, timeout=12)
+            return r.get("result")
+        except Exception:
+            continue
+    return None
+
+
+def _evm_native_eth(addr, rpcs):
+    try:
+        for u in rpcs:
+            try:
+                r = _post_json(u, {"jsonrpc": "2.0", "id": 1, "method": "eth_getBalance",
+                                   "params": [addr, "latest"]}, timeout=12)
+                if r:
+                    return int(r["result"], 16) / 1e18
+            except Exception:
+                continue
+    except Exception:
+        pass
+    return 0.0
+
+
+def _evm_erc20_ui(addr, who, decimals, rpcs):
+    data = "0x70a08231000000000000000000000000" + who.lower()[2:]
+    res = _evm_call(rpcs, addr, data)
+    if not res:
+        return None
+    try:
+        return int(res, 16) / (10 ** decimals)
+    except Exception:
+        return None
+
+
+def _vault_snapshot():
+    """Read-only view of the Vault / Safe capital-owner wallets (multi-chain)."""
+    v = _vault_cfg()
+    rows = []
+    # Solana vault
+    try:
+        sol = _sol_native_sol(v["solVault"])
+        lines = [{"k": "SOL", "v": "%.4f" % sol}]
+        hld = _token_holdings(v["solVault"])
+        usdc = next((h for h in hld if h["mint"] == USDC_MINT), None)
+        if usdc:
+            lines.append({"k": "USDC", "v": "$%.2f" % usdc["ui"], "usd": True})
+        for h in hld:
+            if h["mint"] != USDC_MINT:
+                lines.append({"k": h["mint"][:6], "v": "%.4g" % h["ui"]})
+        rows.append({"label": "SOL VAULT", "addr": v["solVault"], "lines": lines})
+    except Exception:
+        rows.append({"label": "SOL VAULT", "addr": v["solVault"], "lines": [{"k": "?", "v": "unreadable"}]})
+    # Base EVM safe + owner
+    b = (v.get("evm") or {}).get("base") or {}
+    if b:
+        rpcs = b.get("rpc") or []
+        for label, who in (("EVM OWNER", b.get("owner")), ("EVM SAFE", b.get("safe"))):
+            if not who:
+                continue
+            lines = [{"k": "ETH", "v": "%.6f" % _evm_native_eth(who, rpcs)}]
+            u = _evm_erc20_ui(b.get("usdc"), who, 6, rpcs)
+            if u is not None:
+                lines.append({"k": "USDC", "v": "$%.2f" % u, "usd": True})
+            a = _evm_erc20_ui(b.get("aero"), who, 18, rpcs)
+            if a is not None:
+                lines.append({"k": "AERO", "v": "%.4g" % a})
+            rows.append({"label": label, "addr": who, "lines": lines})
+    return rows
 
 
 PM_CFG_FILE = os.path.join(LIVE, "pm.json")
@@ -419,6 +522,10 @@ def collect():
         d["portfolio"]["estNonUsdc"] = round(est, 2)
     except Exception:
         pass
+    try:
+        d["vaults"] = _vault_snapshot()
+    except Exception:
+        d["vaults"] = []
     d["paused"] = os.path.exists(os.path.join(LIVE, "autopilot.off"))
     try:  # live balances
         sys.path.insert(0, os.path.join(ROOT, "scripts"))
@@ -774,6 +881,21 @@ def _render_portfolio(pf):
     return "".join(rows)
 
 
+def _render_vaults(rows):
+    if not rows:
+        return "<div class='empty-badge'>No vault/safe addresses configured</div>"
+    cards = []
+    for r in rows:
+        chips = "".join("<span class='meta-tag %s'>%s %s</span>"
+                        % ("tag-green" if l.get("usd") else "tag-grey", l.get("k"), l.get("v"))
+                        for l in (r.get("lines") or []))
+        cards.append("<div class='pf-row'><span class='ticker-badge font-mono'>%s</span>"
+                     "<span class='pf-bal'>%s</span>%s"
+                     "<span class='meta-tag tag-grey'>READ-ONLY</span></div>"
+                     % (r.get("label"), str(r.get("addr", ""))[:18] + "…", chips))
+    return "".join(cards)
+
+
 def render(d):
     on = lambda b: ("🟢" if b else "🔴")
     h = []
@@ -914,20 +1036,26 @@ def render(d):
     h.append("</div>")
     h.append("</div>")  # end grid
 
-    # PORTFOLIO MANAGER — every coin the wallet actually holds, managed here
+    # PORTFOLIO MANAGER — HOT / TRADING wallet (executor wallet actions)
     pf = d.get("portfolio") or {}
-    h.append("<div class='card' style='margin-top:12px'><div class='k'>PORTFOLIO MANAGER — wallet holdings</div>")
-    h.append("<div class='sub'>hot USDC $%.4g · est. other $%.2f · lane positions must close via their card · actions use the lane swap path + vault sweep</div>"
-             % (pf.get("usdcHot") or 0, pf.get("estNonUsdc") or 0))
+    h.append("<div class='card' style='margin-top:12px'><div class='k'>PORTFOLIO MANAGER — HOT / TRADING wallet</div>")
+    h.append("<div class='sub'>executor wallet holdings · vault/safe is read-only below · lane positions close via their card · actions use the lane swap path + vault sweep</div>")
     _b_usd = pf.get("usdcHot") or 0
     _o_usd = pf.get("estNonUsdc") or 0
     _tot = _b_usd + _o_usd
     _bpct = round(_b_usd / _tot * 100, 1) if _tot else 0.0
     _pmc = _pm_cfg()
-    h.append("<div class='pf-tools'><span class='stat'>allocation → USDC %.1f%% · target ≥ %.0f%% · single-coin cap ≤ %.0f%%</span>"
+    h.append("<div class='pf-tools'><span class='stat'>hot USDC $%.2f · est. other $%.2f · → USDC %.1f%% · target ≥ %.0f%% · coin cap ≤ %.0f%%</span>"
              "<button class='act act-reb' type='button'>🔄 REBALANCE</button></div>"
-             % (_bpct, _pmc["baseTargetPct"], _pmc["maxCoinWeightPct"]))
+             % (_b_usd, _o_usd, _bpct, _pmc["baseTargetPct"], _pmc["maxCoinWeightPct"]))
     h.append(_render_portfolio(pf))
+    h.append("</div>")
+
+    # VAULT / SAFE — capital owners (read-only)
+    vts = d.get("vaults") or []
+    h.append("<div class='card' style='margin-top:12px'><div class='k'>VAULT / SAFE — capital owners (read-only)</div>")
+    h.append("<div class='sub'>these wallets own the reserve; delegate approvals + Safe module move funds — the PM only reads them here</div>")
+    h.append(_render_vaults(vts))
     h.append("</div>")
 
     # alpha intel section (full-width visual clusters)

@@ -65,6 +65,13 @@ try:
 except Exception as e:
     check("render.ok", False, str(e)[:200])
 
+# 5) vault/safe read-only snapshot
+vts = fd._vault_snapshot()
+check("vault.snapshot", isinstance(vts, list) and len(vts) >= 2,
+      "rows=%d labels=%s" % (len(vts), [v.get("label") for v in vts][:4]))
+check("vault.safeAddr", any(str(v.get("addr", "")).lower() == "0xb1acdaf72ca6648ddd54f5db85b9cf75d58f82b8" for v in vts),
+      "EVM owner 0xB1AC… present")
+
 fails = sum(0 if ok else 1 for _, ok, _ in results)
 print("RESULT: %d/%d passed" % (len(results) - fails, len(results)))
 sys.exit(1 if fails else 0)
