@@ -227,6 +227,93 @@ def _wallet_holdings():
         return []
 
 
+PM_CFG_FILE = os.path.join(LIVE, "pm.json")
+
+
+def _pm_cfg():
+    def_ = {"baseAsset": "USDC", "baseTargetPct": 50, "maxCoinWeightPct": 25,
+            "minSellUsd": 0.5, "slippageBps": 500,
+            "note": "Bybit/Nexo-style target allocation. Rebalance is BOSS-TRIGGERED: preview -> confirm -> execute. Tune here."}
+    try:
+        return {**def_, **json.load(open(PM_CFG_FILE))}
+    except Exception:
+        with open(PM_CFG_FILE, "w") as f:
+            json.dump(def_, f, indent=2)
+        return def_
+
+
+def _pm_snapshot():
+    """Current wallet equity split: base asset vs every held coin (fresh read)."""
+    cfg = _pm_cfg()
+    hld = _wallet_holdings()
+    lane = set()
+    try:
+        import importlib.util as _iu
+        s = _iu.spec_from_file_location("flpm", os.path.join(ROOT, "scripts", "fastlane.py"))
+        fl = _iu.module_from_spec(s)
+        s.loader.exec_module(fl)
+        lane = {p.get("mint") for p in fl.load_positions().get("positions", []) if p.get("status") == "open"}
+    except Exception:
+        pass
+    dex = _dex_for([h["mint"] for h in hld if h["mint"] != USDC_MINT][:40])
+    usdc = 0.0
+    coins = []
+    for h in hld:
+        if h["mint"] == USDC_MINT:
+            usdc = h["ui"]
+            continue
+        d = dex.get(h["mint"]) or {}
+        price = d.get("price")
+        val = round(h["ui"] * price, 2) if price else None
+        coins.append({"mint": h["mint"], "ui": h["ui"], "symbol": d.get("symbol") or h["mint"][:6],
+                      "decimals": h["decimals"], "value": val, "lane": h["mint"] in lane})
+    total = usdc + sum(c["value"] for c in coins if c.get("value"))
+    base_pct = round(usdc / total * 100, 1) if total else 0.0
+    for c in coins:
+        c["weightPct"] = round((c["value"] or 0) / total * 100, 2) if total and c.get("value") else 0.0
+    return {"usdc": usdc, "equity": round(total, 2), "basePct": base_pct,
+            "targetPct": cfg["baseTargetPct"], "maxWeightPct": cfg["maxCoinWeightPct"],
+            "coins": coins}
+
+
+def _rebalance_plan(snap):
+    """Coins to sell to restore base target: overweight first, whole positions,
+    lane coins included (closed guard-managed). Sells only priced coins >= minSellUsd."""
+    cfg = _pm_cfg()
+    need = max(0.0, snap["equity"] * cfg["baseTargetPct"] / 100.0 - snap["usdc"]) if snap["equity"] > 0 else 0.0
+    plan = []
+    cands = sorted([c for c in snap["coins"] if c.get("value") is not None and c["value"] >= cfg["minSellUsd"]],
+                   key=lambda c: c["value"], reverse=True)
+    shortfall = need
+    for c in cands:
+        over = c["weightPct"] > snap["maxWeightPct"]
+        if not over and shortfall <= 0:
+            break
+        plan.append({"mint": c["mint"], "symbol": c["symbol"], "value": round(c["value"], 2),
+                     "kind": "lane" if c["lane"] else "free",
+                     "reason": "over max weight (%.1f%% > %.0f%%)" % (c["weightPct"], snap["maxWeightPct"]) if over
+                     else "base shortfall"})
+        shortfall = round(shortfall - c["value"], 2)
+    return {"plan": plan, "needUsd": round(need, 2), "totalSellUsd": round(sum(p["value"] for p in plan), 2),
+            "targetUsd": round(snap["equity"] * snap["targetPct"] / 100.0, 2)}
+
+
+def _pm_rebalance_execute(plan):
+    results = []
+    for p in plan:
+        if p["kind"] == "lane":
+            res = _close_position(p["mint"])
+        else:
+            res = _sell_token(p["mint"])
+        results.append({"symbol": p["symbol"], "ok": bool(res.get("ok")), "err": res.get("error"),
+                        "realized": res.get("realized")})
+    try:
+        _sweep_usdc()
+    except Exception:
+        pass
+    return results
+
+
 def collect():
     d = {}
     d["asOf"] = now_iso()
@@ -452,9 +539,17 @@ def _token_details_sol(mint):
     out["name"] = cm.get("name")
     out["symbol"] = cm.get("symbol") or (meta.get("symbol") or "")
     out["avatar"] = ((meta.get("content") or {}).get("links") or {}).get("image") or cm.get("image")
-    auth = meta.get("authorities") or {}
-    out["authorities"] = {k: v for k, v in auth.items() if v}
-    dev = {k: v for k, v in auth.items() if v}
+    raw_auth = meta.get("authorities")
+    auth = {}
+    if isinstance(raw_auth, list):
+        for it in raw_auth:
+            ad = (it or {}).get("address")
+            if ad:
+                auth[ad] = (it or {}).get("scopes") or "authority"
+    elif isinstance(raw_auth, dict):
+        auth = {k: v for k, v in raw_auth.items() if v}
+    out["authorities"] = auth
+    dev = set(auth.keys())
     try:
         sp = (_sol_rpc("getTokenSupply", [mint]) or {}).get("value") or {}
         out["decimals"] = int(sp.get("decimals") or 0)
@@ -475,7 +570,7 @@ def _token_details_sol(mint):
             ui = float(h.get("uiAmount") or 0)
             owner = _sol_account_owner(h.get("address"))
             tag = None
-            if dev and owner and (list(dev.values())[0] == owner or owner in dev.values()):
+            if dev and owner and owner in dev:
                 tag = "DEV-AUTH ⚠️"
                 out["devFlags"].append(h.get("address"))
             out["topHolders"].append({"address": h.get("address"), "pct": round(raw / raw_supply * 100, 2) if raw_supply else None,
@@ -744,6 +839,9 @@ def render(d):
     h.append(".act{background:transparent;border:1px solid #14532d;color:#7ee787;border-radius:6px;padding:3px 10px;font-size:.72rem;font-weight:700;cursor:pointer;margin-left:auto}")
     h.append(".act.act-sell{border-color:#14532d}.act.act-sweep{border-color:#1d4ed8;color:#93c5fd}")
     h.append(".act.armed{background:#14532d;color:#052e16}.act-sweep.armed{background:#1d4ed8;color:#dbeafe}</style>")
+    h.append("<style>.pf-tools{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px;padding:8px 10px;background:#0b1220;border:1px solid #1f2a44;border-radius:9px}")
+    h.append(".pf-tools .stat{color:#94a3b8;font-size:.78rem}.act-reb{border-color:#7c3aed;color:#d8b4fe;margin-left:0}.act-reb:disabled{opacity:.5}")
+    h.append(".act-go{border-color:#7f1d1d;color:#f87171}.act-cancel{border-color:#334155;color:#94a3b8}</style>")
     h.append("<style>body{font-family:ui-monospace,Menlo,monospace;background:#0b1020;color:#e6edf3;margin:0;padding:16px}")
     h.append("h1{font-size:16px;color:#7ee787}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:12px}")
     h.append(".card{background:#111a2e;border:1px solid #26324a;border-radius:10px;padding:12px}")
@@ -821,6 +919,14 @@ def render(d):
     h.append("<div class='card' style='margin-top:12px'><div class='k'>PORTFOLIO MANAGER — wallet holdings</div>")
     h.append("<div class='sub'>hot USDC $%.4g · est. other $%.2f · lane positions must close via their card · actions use the lane swap path + vault sweep</div>"
              % (pf.get("usdcHot") or 0, pf.get("estNonUsdc") or 0))
+    _b_usd = pf.get("usdcHot") or 0
+    _o_usd = pf.get("estNonUsdc") or 0
+    _tot = _b_usd + _o_usd
+    _bpct = round(_b_usd / _tot * 100, 1) if _tot else 0.0
+    _pmc = _pm_cfg()
+    h.append("<div class='pf-tools'><span class='stat'>allocation → USDC %.1f%% · target ≥ %.0f%% · single-coin cap ≤ %.0f%%</span>"
+             "<button class='act act-reb' type='button'>🔄 REBALANCE</button></div>"
+             % (_bpct, _pmc["baseTargetPct"], _pmc["maxCoinWeightPct"]))
     h.append(_render_portfolio(pf))
     h.append("</div>")
 
@@ -950,31 +1056,54 @@ function sparkMount(el){
   svg+='</svg>';
   el.innerHTML=svg; el.style.height=H+'px';
 }
-function closePos(mint, btn){
-  fetch('/api/close-position?mint='+encodeURIComponent(mint),{method:'POST'})
-   .then(function(r){return r.json();}).then(function(res){
-    if(res.error){ btn.textContent='ERR'; btn.title=res.error; alert(res.error); }
-    else { btn.textContent='CLOSED ✓'; alert('Closed '+res.symbol+' — realized $'+(res.realized||0).toFixed(2)+' (guard-managed)'); setTimeout(function(){ location.reload(); },1200); }
-   }).catch(function(e){ btn.textContent='ERR'; });
+function openConfirm(o){
+  var ov=document.createElement('div'); ov.className='modal-overlay';
+  var m=document.createElement('div'); m.className='modal';
+  m.innerHTML="<h2><span>⚠️ "+o.title+"</span><span class='close' id='mcc'>×</span></h2>"+
+    "<div class='ca' style='margin:4px 0 10px' id='msub'></div>"+
+    "<div id='mcl' style='max-height:200px;overflow:auto'></div>"+
+    "<div style='display:flex;gap:8px;margin-top:14px;justify-content:flex-end'>"+
+    "<button class='act act-cancel' id='mcan' type='button'>CANCEL</button>"+
+    "<button class='act act-go' id='mgo' type='button'>"+o.okLabel+"</button></div>";
+  ov.appendChild(m); document.body.appendChild(ov);
+  function close(){ if(ov.parentNode) document.body.removeChild(ov); }
+  document.getElementById('mcc').onclick=close;
+  document.getElementById('mcan').onclick=close;
+  document.getElementById('msub').textContent=o.sub||'';
+  var lst=document.getElementById('mcl');
+  if(o.lines && o.lines.length){ o.lines.forEach(function(l){ var d=document.createElement('div'); d.className='ca'; d.style.padding='3px 0'; d.textContent=l; lst.appendChild(d); }); }
+  ov.addEventListener('click',function(e){ if(e.target===ov) close(); });
+  document.getElementById('mgo').onclick=function(){
+    this.disabled=true; this.textContent='EXECUTING…';
+    fetch(o.url,{method:'POST'}).then(function(r){return r.json();}).then(function(res){
+      if(res.error){ alert(res.error); close(); return; }
+      if(res.results){ alert('Rebalance executed: '+(res.succeeded||0)+' sold · '+(res.failed||0)+' failed'); }
+      else alert(o.doneMsg||'Done');
+      setTimeout(function(){ location.reload(); },900);
+    }).catch(function(){ alert('request error'); close(); });
+  };
 }
 document.addEventListener('click',function(e){
   var b=e.target.closest?e.target.closest('.close-pos'):null; if(!b) return;
   e.stopPropagation();
-  if(!b.getAttribute('data-arm')){ b.textContent='CONFIRM CLOSE?'; b.setAttribute('data-arm','1'); b.classList.add('armed');
-    setTimeout(function(){ b.textContent='✕ CLOSE'; b.removeAttribute('data-arm'); b.classList.remove('armed'); },5000); return; }
-  closePos(b.getAttribute('data-mint'), b);
+  openConfirm({title:'Close open position?', sub:'Guard-managed FULL exit of this lane position. Proceeds settle to USDC, then sweep to vault.', okLabel:'CLOSE POSITION', url:'/api/close-position?mint='+encodeURIComponent(b.getAttribute('data-mint'))});
 });
 document.addEventListener('click',function(e){
-  var a=e.target.closest?e.target.closest('.act'):null; if(!a) return;
+  var a=e.target.closest?e.target.closest('.act.act-sell, .act.act-sweep'):null; if(!a) return;
   e.stopPropagation();
-  if(!a.getAttribute('data-arm')){ var orig=a.getAttribute('data-label')||'CONFIRM?';
-    a.textContent='CONFIRM?'; a.setAttribute('data-arm','1'); a.classList.add('armed');
-    setTimeout(function(){ a.textContent=orig; a.removeAttribute('data-arm'); a.classList.remove('armed'); },5000); return; }
-  var url=a.getAttribute('data-url');
-  fetch(url,{method:'POST'}).then(function(r){return r.json();}).then(function(res){
-    if(res.error){ a.textContent='ERR'; a.title=res.error; alert(res.error); }
-    else { a.textContent='DONE ✓'; alert((res.symbol?'Sold '+(res.symbol||'')+(res.realized!=null?' — $'+res.realized.toFixed(4):''):'USDC swept to vault')); setTimeout(function(){ location.reload(); },900); }
-  }).catch(function(){ a.textContent='ERR'; });
+  openConfirm({title:a.getAttribute('data-label')||'Execute action', sub:'Executes via the lane swap path, settles to USDC, then sweeps to the vault.', okLabel:'CONFIRM EXECUTE', url:a.getAttribute('data-url')});
+});
+document.addEventListener('click',function(e){
+  var r=e.target.closest?e.target.closest('.act-reb'):null; if(!r) return; e.stopPropagation();
+  r.disabled=true; r.textContent='…';
+  fetch('/api/rebalance-preview',{method:'POST'}).then(function(rr){return rr.json();}).then(function(res){
+    r.disabled=false; r.textContent='🔄 REBALANCE';
+    if(res.error){ alert(res.error); return; }
+    if(!res.plan || !res.plan.length){ alert('Already balanced — USDC at '+res.basePct+'% (target '+res.targetPct+'%)'); return; }
+    var lines=['Equity ~$'+res.equity+' · USDC '+res.basePct+'% (target ≥ '+res.targetPct+'%)','Proposed sells ≈ $'+res.totalSellUsd+' of '+res.plan.length+' coin(s):'];
+    res.plan.forEach(function(p){ lines.push((p.kind==='lane'?'🔒 LANE ':'🪙 ')+p.symbol+' — $'+p.value+' ('+p.reason+')'); });
+    openConfirm({title:'Rebalance proposal', sub:'Sell overweight / excess coins to restore the target USDC allocation. Lane coins close guard-managed.', okLabel:'EXECUTE REBALANCE', url:'/api/rebalance-execute', lines:lines});
+  }).catch(function(){ r.disabled=false; r.textContent='🔄 REBALANCE'; alert('preview error'); });
 });
 document.querySelectorAll('.spark[data-v]').forEach(function(el){ sparkMount(el); });
 </script>""")
@@ -1086,6 +1215,20 @@ class H(http.server.BaseHTTPRequestHandler):
             body = json.dumps(_sell_token(mint)).encode()
         elif parsed.path == "/api/sweep-usdc":
             body = json.dumps(_sweep_usdc()).encode()
+        elif parsed.path == "/api/rebalance-preview":
+            snap = _pm_snapshot()
+            plan = _rebalance_plan(snap)
+            body = json.dumps({"equity": snap["equity"], "basePct": snap["basePct"],
+                               "targetPct": snap["targetPct"], "usdc": round(snap["usdc"], 2),
+                               "needUsd": plan["needUsd"], "targetUsd": plan["targetUsd"],
+                               "totalSellUsd": plan["totalSellUsd"],
+                               "plan": plan["plan"]}).encode()
+        elif parsed.path == "/api/rebalance-execute":
+            snap = _pm_snapshot()
+            plan = _rebalance_plan(snap)["plan"]
+            results = _pm_rebalance_execute(plan)
+            ok = sum(1 for r in results if r.get("ok"))
+            body = json.dumps({"results": results, "succeeded": ok, "failed": len(results) - ok}).encode()
         else:
             self.send_response(404)
             self.end_headers()
