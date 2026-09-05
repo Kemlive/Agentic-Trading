@@ -22,6 +22,8 @@ RH = os.path.join(FD, "robinhood.jsonl")
 UNI = os.path.join(FD, "unified.jsonl")
 METRICS = os.path.join(FD, "metrics.json")
 COINS = os.path.join(FD, "coins.json")
+TIER_HIST = os.path.join(FD, "tier-history.jsonl")
+TIER_ST = os.path.join(FD, "tier-history-state.json")
 NOW = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
 
@@ -84,6 +86,38 @@ def load_intel_cfg():
         return {**def_, **json.load(open(p))}
     except Exception:
         return def_
+
+
+def persist_tier_history(reg):
+    """Append feed tier CHANGES (event-based, no spam) so the modal can show
+    each tracked coin's tier trajectory over time."""
+    try:
+        st = json.load(open(TIER_ST))
+    except Exception:
+        st = {}
+    ev = []
+    for chain in ("robinhood", "solana"):
+        for it in reg.get("top", {}).get(chain, []):
+            key = str(it.get("key") or "")
+            tier = it.get("topTier")
+            if not key or not tier:
+                continue
+            sig = "%s|%.0f|%s" % (tier, float(it.get("score") or 0), it.get("t60"))
+            if st.get(key) != sig:
+                st[key] = sig
+                ev.append({"ts": NOW, "chain": chain, "key": key, "sym": it.get("sym"),
+                           "tier": tier, "t60": it.get("t60"), "score": it.get("score")})
+    if ev:
+        with open(TIER_HIST, "a") as f:
+            for e in ev:
+                f.write(json.dumps(e) + "\n")
+    if len(st) > 4000:  # bounded memory of last-seen signatures
+        for k in list(st)[: len(st) - 4000]:
+            st.pop(k, None)
+    with open(TIER_ST + ".tmp", "w") as f:
+        json.dump(st, f)
+    os.replace(TIER_ST + ".tmp", TIER_ST)
+    return len(ev)
 
 
 def registry(s, h):
@@ -246,8 +280,9 @@ def main():
     reg = registry(s, h)
     with open(COINS, "w") as f:
         json.dump(reg, f, indent=2)
-    print("   COIN REGISTRY -> %s | rh=%d sol=%d migrated=%d" % (COINS,
-          reg["counts"]["robinhood"], reg["counts"]["solana"], reg["counts"]["migrated"]))
+    changed = persist_tier_history(reg)
+    print("   COIN REGISTRY -> %s | rh=%d sol=%d migrated=%d | tier-events=%d" % (COINS,
+          reg["counts"]["robinhood"], reg["counts"]["solana"], reg["counts"]["migrated"], changed))
     print("🛰️ UNIFIED FEED @ %s | rows: sol=%d rh=%d unified=%d" % (NOW[:19], len(s), len(h), len(uniq)))
     for k, v in cnt.items():
         print("   %s/%s -> %d" % (k[0], k[1], v))

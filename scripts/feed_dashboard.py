@@ -160,6 +160,42 @@ def _rh_explorer(path, tries=3):
     return None
 
 
+def _tail_lines(path, maxlines=6000):
+    try:
+        with open(path, "r", errors="ignore") as f:
+            lines = f.readlines()
+        return lines[-maxlines:]
+    except Exception:
+        return []
+
+
+def _feed_context(address, chain):
+    """Benchmark earliness deltas + feed tier history for one tracked token."""
+    a = str(address or "").lower()
+    bench, hist = [], []
+    try:
+        for l in _tail_lines(os.path.join(FD, "bench.jsonl"), 4000):
+            r = json.loads(l)
+            if str(r.get("mint") or "").lower() == a and r.get("chain") == chain:
+                bench.append(r)
+    except Exception:
+        pass
+    try:
+        for l in _tail_lines(os.path.join(FD, "tier-history.jsonl"), 8000):
+            r = json.loads(l)
+            if str(r.get("key") or "").lower() == a and r.get("chain") == chain:
+                hist.append(r)
+    except Exception:
+        pass
+    bl = bench[-6:]
+    return {"benchmark": {"samples": [{"ts": r.get("ts"), "deltaSec": r.get("deltaSec"),
+                                       "liqUsd": r.get("liqUsd")} for r in bl],
+                          "lastDeltaSec": (bl[-1].get("deltaSec") if bl else None),
+                          "liqUsd": (bl[-1].get("liqUsd") if bl else None)},
+            "history": [{"ts": r.get("ts"), "tier": r.get("tier"), "t60": r.get("t60"),
+                         "score": r.get("score")} for r in hist[-12:]]}
+
+
 def collect():
     d = {}
     d["asOf"] = now_iso()
@@ -264,7 +300,8 @@ def _sol_account_owner(addr):
 def _token_details_sol(mint):
     out = {"chain": "solana", "address": mint, "avatar": None, "name": None, "symbol": None,
            "price": None, "liqUsd": None, "pool": None, "dex": None, "topHolders": [],
-           "totalSupply": None, "decimals": None, "devFlags": []}
+           "totalSupply": None, "decimals": None, "devFlags": [], "benchmark": None, "history": []}
+    out.update(_feed_context(mint, "solana"))
     meta = _sol_das(mint)
     cm = ((meta.get("content") or {}).get("metadata") or {})
     out["name"] = cm.get("name")
@@ -317,7 +354,8 @@ def _token_details_rh(address):
            "holdersCount": t.get("holders_count"),
            "price": float(t.get("exchange_rate")) if t.get("exchange_rate") is not None else None,
            "vol24h": float(t.get("volume_24h")) if t.get("volume_24h") is not None else None,
-           "topHolders": [], "devFlags": []}
+           "topHolders": [], "devFlags": [], "benchmark": None, "history": []}
+    out.update(_feed_context(address, "robinhood"))
     hs = _rh_explorer("/tokens/" + address + "/holders") or {}
     for it in (hs.get("items") or [])[:12]:
         ah = it.get("address") or {}
@@ -539,6 +577,26 @@ function openTokenDetails(el){
         var tg=document.createElement('span'); tg.className='meta-tag '+(h.tag?(h.tag.indexOf('RISK')>=0||h.tag.indexOf('DEV')>=0?'tag-red':'tag-gold'):'tag-grey');
         tg.textContent=h.tag||(h.isContract?'CONTRACT':'EOA'); row.appendChild(l); row.appendChild(tg); b.appendChild(row); });
     } else b.appendChild(document.createTextNode('  no holder data returned'));
+    if(d.history && d.history.length){
+      var hb=document.createElement('div'); hb.style.marginTop='12px'; hb.style.fontSize='13px'; hb.textContent='📈 FEED TIER HISTORY'; b.appendChild(hb);
+      var wrap=document.createElement('div'); wrap.style.display='flex'; wrap.style.flexWrap='wrap'; wrap.style.gap='6px'; wrap.style.marginTop='4px';
+      var tierCol={'TRENDING':'tag-green','GAINER':'tag-gold','MIGRATED':'tag-purple','NEW':'tag-grey','WATCH':'tag-gold'};
+      d.history.slice(-6).forEach(function(hh){
+        var sp=document.createElement('span'); sp.className='meta-tag '+(tierCol[hh.tier]||'tag-grey');
+        var hm=String(hh.ts||'').slice(11,16); sp.textContent=hh.tier+'@'+hm+' 1h:'+hh.t60; wrap.appendChild(sp);
+      });
+      b.appendChild(wrap);
+    }
+    if(d.benchmark){
+      var bd=d.benchmark.lastDeltaSec, brow=document.createElement('div'); brow.className='holder';
+      var bl=document.createElement('span'); bl.textContent='⚡ Earliness vs DexScreener';
+      var bt=document.createElement('span'); bt.className='meta-tag ';
+      if(bd===null||bd===undefined){ bt.textContent='no benchmark yet'; bt.className+=' tag-grey'; }
+      else if(bd<0){ bt.textContent=Number(bd).toFixed(1)+'s — aggregator beat us'; bt.className+=' trend-down'; }
+      else if(bd<15){ bt.textContent='⚠️ +'+Number(bd).toFixed(1)+'s lead (<15s)'; bt.className+=' tag-red delta-mismatch'; }
+      else { bt.textContent='+'+Number(bd).toFixed(1)+'s forward'; bt.className+=' tag-green'; }
+      brow.appendChild(bl); brow.appendChild(bt); b.appendChild(brow);
+    }
     if(d.devFlags && d.devFlags.length){ var w=document.createElement('div'); w.className='meta-tag tag-red'; w.style.marginTop='8px';
       w.textContent='⚠️ developer / vesting-linked wallet present in top holders'; b.appendChild(w); }
    }).catch(function(e){ var b=document.getElementById('md-load'); if(b){ b.textContent='fetch error'; } });
