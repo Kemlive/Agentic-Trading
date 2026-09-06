@@ -26,6 +26,7 @@ loop rhpot 90 python3 scripts/rh_potential.py
 loop ponsfresh 420 node scripts/pons_size_scan.cjs
 loop ponsauto 300 node scripts/pons_autopilot.mjs
 loop subrep 3600 python3 scripts/subagent-report.py
+loop funnel 300 python3 scripts/token_funnel.py
 loop merge 300 python3 scripts/feedmerge.py
 loop bench 30 python3 scripts/feed_benchmark.py --watch 600
 
