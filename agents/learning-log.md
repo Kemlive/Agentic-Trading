@@ -825,6 +825,10 @@ Append a dated entry under the right section. Never delete old lessons. Format:
 
 
 
+
+## 2026-09-06 — Data-feed -> scan -> funnel pipeline focus
+- New `scripts/token_funnel.py` + supervisor `loop funnel 300`: ingests feed tiers, rh-alpha, pons-live-fresh(+stale), pump-scan, rh-potential into ONE normalized pool staged DISCOVERED / QUALIFIED / ACTIONABLE → `data/live/feed/funnel.json`. First run: total 58 (16 ACTIONABLE pons-fresh, 42 DISCOVERED). Pushed 0328f01.
+
 ## 2026-09-06 — ALL CHAIN LANES LIVE (final): no dry gates remain
 - data/live/config.json evmLane.venues {pons, ethereum, bnb} mode=live; liveEnabled=true; evm-autopilot enabled=true; pons-autopilot mode=live; SOL autopilot live (gate PASS). Zero `"mode":"dry"`/enabled:false remain in live configs. Engines ready anytime; funds are boss-side decisions only.
 

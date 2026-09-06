@@ -1187,6 +1187,19 @@ def render(d):
                      % (str(r.get("key") or "")[:8], str(r.get("curve") or "")[:8], r.get("tokensOut5")))
         h.append("</table></div>")
 
+    # TOKEN FUNNEL panel (feed → scan → actionable)
+    fz = read(os.path.join(FD, "funnel.json"), {})
+    if fz:
+        fc = fz.get("counts") or {}
+        bch = fz.get("byChain") or {}
+        act = [r for r in (fz.get("rows") or []) if r.get("stage") == "ACTIONABLE"][:12]
+        h.append("<div class='card' style='margin-top:12px;border:1px solid #7c3aed'><div class='k'>🔀 TOKEN FUNNEL — feed → scan → actionable</div>")
+        h.append("<div class='sub'>total %d · ACTIONABLE %d · QUALIFIED %d · DISCOVERED %d · chains %s</div>"
+                 % (fz.get("total", 0), fc.get("ACTIONABLE", 0), fc.get("QUALIFIED", 0), fc.get("DISCOVERED", 0), bch))
+        h.append("<div style='margin-top:6px'>" + "".join(
+            "<span class='meta-tag tag-purple'>%s·%s</span>" % (r.get("chain", "?"), str(r.get("id"))[:8]) for r in act) + "</div>")
+        h.append("</div>")
+
     # PORTFOLIO MANAGER — trading wallet (managed for results)
     # PORTFOLIO MANAGER — trading wallet (managed for results)
     pf = d.get("portfolio") or {}
