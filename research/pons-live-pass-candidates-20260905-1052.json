@@ -1,0 +1,2018 @@
+{
+ "asOf": "2026-09-05T10:43:50.829Z",
+ "source": "/Users/earn/Agentic-Trading/research/pons-live-fillability-20260905-1043.json",
+ "basis": "Pons v2 live discovery scan (native-ETH curves, phase=0). PASS = real non-revert eth_call buy of $5 (ETH), tokensOut>0. Sim-only, zero funds.",
+ "caveats": "USDG-pair launches NOT included: uniform revert 0x13be252b, sim-artifact suspected (USDG balance slot=1 confirmed; allowance layout unresolved). Decimals/symbols not fetched; tokensOut is raw.",
+ "nPass": 183,
+ "passCandidates": [
+  {
+   "token": "0x41f292fa26775c859cbd09b8c887a8b0eebe311e",
+   "curve": "0x291fe34163641cdc17140481a8aedc1b5343fcb6",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1138304257974814688115956",
+   "reason": null
+  },
+  {
+   "token": "0xc57d107e15bc5f02621978c951bf6dff790b7e1d",
+   "curve": "0x453384a157952dce50653a8cd52c268c617f0392",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "228815123593372209888975",
+   "reason": null
+  },
+  {
+   "token": "0xacd1ab4259837440abe266a1d3d7295a7660b84f",
+   "curve": "0x367abe74c8776511753d7faf0a8d02b3552ff7ee",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0x267fd1e382cbc48bbcfab8ea6bd3ab0a32f48b1e",
+   "curve": "0x08b68d5e218b7c6557ae50341039bc0972367337",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "824920344762018309391358",
+   "reason": null
+  },
+  {
+   "token": "0x68c6606102709578c398160fa58d67c0c532528b",
+   "curve": "0xbf77151b58ffd1626bc74f1d80b3fda409321259",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1157934989021242172215614",
+   "reason": null
+  },
+  {
+   "token": "0x08485766eb4446c853e7edd7e0ab09deb1203f34",
+   "curve": "0xd334b393d6bdbf28068d56dc6e7cc9220afaeb9b",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1179999927154731586747809",
+   "reason": null
+  },
+  {
+   "token": "0x180262e36ee04ff576e418741983fa0eeae95844",
+   "curve": "0x8b5359385cb1fa3bcfd446ef18332839c1929847",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1154243721568694754882437",
+   "reason": null
+  },
+  {
+   "token": "0x6fbb0b94f19474f3dca8f8ef4c7ef26288786165",
+   "curve": "0x2392237a3cfe5e14ab7b1893e869961d6250ccd7",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1134302272780729874733532",
+   "reason": null
+  },
+  {
+   "token": "0xcb606639ab9465f0e1f4316a2f93f382fc0f1b18",
+   "curve": "0x555575b8f997659fce04cbbcdf9b24cebc712238",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "403762925289598836965130",
+   "reason": null
+  },
+  {
+   "token": "0xd18a9d8c14507da4bea03d85b09d88cbabbc8aed",
+   "curve": "0x1c283d8a72bda84dff33113333eb15ba7e8c46d0",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1149165160854228522265492",
+   "reason": null
+  },
+  {
+   "token": "0xbe68dcb8abccc21eb306105fdc4253d0fe2e7ef6",
+   "curve": "0x3018a4b6fb9e9a2de9c9a3ed74886e3d74fed7c8",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094772688307",
+   "reason": null
+  },
+  {
+   "token": "0xc28f0565d33f96bb8c692846d156a8b3ef23b6b0",
+   "curve": "0x514e21ad3830d67b941e63969a70126e965b96d3",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1158161963139786328348874",
+   "reason": null
+  },
+  {
+   "token": "0x33ebdfdd2350769105e6cd6f599b052ad21e9e34",
+   "curve": "0x8c3035137e04a456b80bf2a807cd3c68e28d17b2",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0xb47b028c36217e9d1b48d57121fa49735331c9c0",
+   "curve": "0x7876e87aec21bc119add1a7a6c535b0ab876b70f",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1175605089173769340008382",
+   "reason": null
+  },
+  {
+   "token": "0x61bd8999b61566027eff83d4f5c5f723a6ce834f",
+   "curve": "0x2911010864ddb4fcbc1003d5beb9a8678fa3d321",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1156751333049994721698873",
+   "reason": null
+  },
+  {
+   "token": "0xcafe429bdeb8370865eb9c733207af61a5d18e6f",
+   "curve": "0xb577a468ff824526b3f0169c83dd8954be8111fd",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "297722054738968050673906",
+   "reason": null
+  },
+  {
+   "token": "0x637e99bbe1b77b808c2a9295a490e2737d6279a0",
+   "curve": "0x39be25d632c9725697bfd29499ecfbc5142fe357",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1185665104036443195163511",
+   "reason": null
+  },
+  {
+   "token": "0xd7675bfe3e8ace695beb56fa5ff08eb6d6a1fcb0",
+   "curve": "0xfbe456852a17329398315599ce4aa86d6bc3817b",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1156416613443752869787796",
+   "reason": null
+  },
+  {
+   "token": "0x15cf3da75d33e2c3f47e1e78529db8dc49063b07",
+   "curve": "0x510970962d21073294a9864185ee65c99f8b062f",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "820533188984304182943770",
+   "reason": null
+  },
+  {
+   "token": "0x69cddd43497107fbaf4d964bd800017e001fa66c",
+   "curve": "0xbe7b4e09ee88a6ed77edd4a453a3e3a4b954f7be",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1187405272636523783629525",
+   "reason": null
+  },
+  {
+   "token": "0x2a5982426b30d38cde1ff06e3b34bfaac5a22777",
+   "curve": "0x3d2922cb462c6ca0863dd43f573d2161576e4b7b",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1084809500830138257825253",
+   "reason": null
+  },
+  {
+   "token": "0x646293221a8deb87119e7b2bf5cb81ca34f342a8",
+   "curve": "0x867879bc2b51f047bf7b7f18213a56727c5fe055",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094773401011",
+   "reason": null
+  },
+  {
+   "token": "0x6fdeee008575d8a0e816a42075a2ea2486411927",
+   "curve": "0x5b4b83a924ff4123a06b641b2166f79619c82d91",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0xb2e6d5281f692e574b1c1c388b4f11ed699ab5d7",
+   "curve": "0x740330e10f05a83052de761dbdaacbd8b5e66b68",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1167841788155728723325423",
+   "reason": null
+  },
+  {
+   "token": "0xd9ed87463c2f3275ded0ae5bf5f3958498735918",
+   "curve": "0xcac6cb6525335ddd0641c503f9c850abf40a4e54",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1184922275838457903335460",
+   "reason": null
+  },
+  {
+   "token": "0x3a6e78c1c7edab2f531ccac55094bbfbc476b18d",
+   "curve": "0xdffa7d280774a580cf15b2399b6e9bca18a186cc",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1118961343974872465486976",
+   "reason": null
+  },
+  {
+   "token": "0xdb76fb5fc2343bdf3050e82d58cf6e91c299443c",
+   "curve": "0xffcb97e084e225c4286c4f2aaffd0751bb6f257c",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "357671848345477717956104",
+   "reason": null
+  },
+  {
+   "token": "0x36acda6e90a6f8de34330b5ce87186fab712ccfd",
+   "curve": "0x0110cb750cab2818eb9e0be42567c75571e0ce92",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1176558652975666341744347",
+   "reason": null
+  },
+  {
+   "token": "0xcb5b2916b4ded220fcb8943a975de579e5ec39d5",
+   "curve": "0x1f36251da3f80b4e26310e9c317b5da5d5acc348",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445740848033204619",
+   "reason": null
+  },
+  {
+   "token": "0x43d1d26f7f844107af611f5eb63baa01ea3154a5",
+   "curve": "0xb1c9dd3a03d6f1a23b7c3fc3c5a1adca23f8ca0a",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1054134327148231594162118",
+   "reason": null
+  },
+  {
+   "token": "0x0488ce48af504e7cb4fbaaa18daaf449d5d16c64",
+   "curve": "0x36dcc28e89de99d169f8c84c57038377a18fd963",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445721680709627883",
+   "reason": null
+  },
+  {
+   "token": "0x1493b299668e9f4e23aed36a4412f2299a44a13d",
+   "curve": "0x17f78f47eeef7b6dadccd68f9b699aba1f9fb29e",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772954958298875288",
+   "reason": null
+  },
+  {
+   "token": "0x3e208dc63cc0ef2a61e401587737e4df2dc74aef",
+   "curve": "0xc12c8f3541c7cd2817a59bc19de3308414e0beee",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "303748885082222068901271",
+   "reason": null
+  },
+  {
+   "token": "0x51ccc8bfbf4adbe77b9c5434f8249a0534593189",
+   "curve": "0x3d33e8935a68575a65eeb11e1f2387711d0d11c5",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1189468478776172103425360",
+   "reason": null
+  },
+  {
+   "token": "0x0e939393fd9c105d815c596841ab2fa6a56082fe",
+   "curve": "0xd1c1e9e1cde0bab15371ed02e94c8ccf86da41b1",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1056275520249104646860274",
+   "reason": null
+  },
+  {
+   "token": "0x3e07bde3e3a7e1f4d061f2ab3fec27f8329f046d",
+   "curve": "0xcf30d03e76341196e20b4fce410b3153ada9a733",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1166199689268305765811195",
+   "reason": null
+  },
+  {
+   "token": "0xffd4a03317ddfad3232332fd2a62b67d7d4418a8",
+   "curve": "0x421fe36896becce9e467b56324acedddd16ecda4",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0xb2a7cf785351c6f642b1bbad80ec20553227bcd3",
+   "curve": "0xd44e8ee48e89f36d00dbf0257400ffebe6e0c1ff",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "822213540746547542019402",
+   "reason": null
+  },
+  {
+   "token": "0x6a38b8a259e01946bb4cde0278ea17558fbd8fd5",
+   "curve": "0xc9fbe40390e37fe0eb9c4233820f6f5312a034be",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094771262899",
+   "reason": null
+  },
+  {
+   "token": "0x47b4f45fdb17e41304c00ac6d882ac7c94ae3321",
+   "curve": "0x7ee8d2b2c71be4925b5b02134103678977e48c6f",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1098344369393301059584813",
+   "reason": null
+  },
+  {
+   "token": "0x14f573cbe30bb67388eca78d2538dfb411f15dd3",
+   "curve": "0xd809701d7fea2dfa327cf18390766858efdb367b",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1171592969913786638812218",
+   "reason": null
+  },
+  {
+   "token": "0x6e5aae66f21f9b5a5c4ed2d80474f8fb3cf45072",
+   "curve": "0x0b51a9a0e98c02cb323c098300a42b8534bbe53b",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1183922798840852209621003",
+   "reason": null
+  },
+  {
+   "token": "0x78581635799dc77c31f01afeb5d0601c78111ab7",
+   "curve": "0x776a8b66ffcc61dc4bd02274df7b9bdd0a3bfa97",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1148827523848857984673395",
+   "reason": null
+  },
+  {
+   "token": "0x250e3905c5aa051ea7d4189a2a282df5ebde0cf8",
+   "curve": "0xe88884c7a81aa8ef33a0de5217d8650796fd3b43",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1180796695292902305321124",
+   "reason": null
+  },
+  {
+   "token": "0x132cb8b5773aef068fc8336d5a6abb11ce421947",
+   "curve": "0x45b619e1a46f2bf584e07405d2e4d00b38b0fb30",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198109071781560235029086",
+   "reason": null
+  },
+  {
+   "token": "0xcb5b3bde3e3bc4bbd07094f47f77f75f7a183a28",
+   "curve": "0x123c128dedaa61338e4f3c8e9cf750d72f521502",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445740848032506279",
+   "reason": null
+  },
+  {
+   "token": "0xa794bef7c87f3c2333f66c99c3851a9bc70ba1ac",
+   "curve": "0x04d32afbfd9cd851aac5a4dc4ef0474d2bde4203",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1159786581877024112635525",
+   "reason": null
+  },
+  {
+   "token": "0xc208997333b26735991e1b0f5fb256cfa762978a",
+   "curve": "0x8041d5e71608bc37653687dd2f4bb90366f0dbc8",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094772688307",
+   "reason": null
+  },
+  {
+   "token": "0x5d00de7a3b7f58b4bcc18ffe46888f45b0a0951b",
+   "curve": "0x89dab439e0e033e690e7b3d4376ea130f496f331",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094773401011",
+   "reason": null
+  },
+  {
+   "token": "0x7f9c9f23a54f1c374379a94fd455a9ce398b0724",
+   "curve": "0xdab6a9a13324f33ffaa041a9c3906f1b2cceb562",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445733336513610778",
+   "reason": null
+  },
+  {
+   "token": "0x7d29e42d6c8f11f502b0d715036a7a8ca7874a3c",
+   "curve": "0x4b08a855b3b1c04b8f7f3b433f0e4b619a06b22e",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198040618662217952463249",
+   "reason": null
+  },
+  {
+   "token": "0xc3cf62c359cbe417cc7553d353d0603c20775022",
+   "curve": "0x9570646c8984dac7dfbc30480b8f07e9137494af",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654910738566",
+   "reason": null
+  },
+  {
+   "token": "0xb326f29d25cbcdab3f76e060f2b7aafe20c98a74",
+   "curve": "0x2a15a895d45cd5be12ca678d5b5d59b5d5676e86",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1155254151641538957064120",
+   "reason": null
+  },
+  {
+   "token": "0x8d64b0d124aceef112bec456a8744d0e2c3119c2",
+   "curve": "0xa9f3390a182487a4ccc79671c1657d195727f76d",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1184519342263672006824463",
+   "reason": null
+  },
+  {
+   "token": "0x27e68d50ecaf4d0bd645c5f0f167e5f957079c05",
+   "curve": "0xd7a6be1b93794570ba597eb7c4acc60d2d31080f",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186539199434825584694403",
+   "reason": null
+  },
+  {
+   "token": "0xc477b9cd9340a98f26d564e2a0375abcc4fb3c66",
+   "curve": "0x2316418671b33a3bf0d54c4bf522c34acfea9701",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445721680708929544",
+   "reason": null
+  },
+  {
+   "token": "0x08749de2b7fd8fc72e4a7bc07ff7aff392aa325d",
+   "curve": "0x5764d3856ae888af52ff13f471ba408b6f47729a",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0xbbd512a924e845ca5895db6d7cda32299e90633d",
+   "curve": "0xb7e7a59185cd469066f5318012a0a1c4a78d5105",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654889192970",
+   "reason": null
+  },
+  {
+   "token": "0x8fb957e4f18cb510924d9e3b30f44278066ba701",
+   "curve": "0x00e1f80030a0fb531ff0bb454587e98b5fd366f0",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1191700212370556732234795",
+   "reason": null
+  },
+  {
+   "token": "0xc0d393a0f29797930e76dcaddcd47a2df2d389dc",
+   "curve": "0x16caf54315a042e0369a27540baf7d45159e47d6",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0xe2a74c4583361fb426e35a609e994d403ec2acec",
+   "curve": "0x2ebfebe86e788db4fd7f917122da24efada838bf",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1169532776468056092959923",
+   "reason": null
+  },
+  {
+   "token": "0x6115b02996ee65d658d7f11f48798990d2365ce5",
+   "curve": "0xc9aa3d579bd32e547eed2fc9e4f3184f2960d7bd",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "908422348620183463207573",
+   "reason": null
+  },
+  {
+   "token": "0x8f46ac3ffb126fb5e5c7b7df31a76b2f338beb7e",
+   "curve": "0xb583b16bc1641a3562a60240438e068e6856d6f0",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "451345793162960400329017",
+   "reason": null
+  },
+  {
+   "token": "0x3287f2caa4f39f8d8df853f8bb975834ed6be67b",
+   "curve": "0xe27b3f529245103df1940040cf482414e7c3c230",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "345043345392775424451446",
+   "reason": null
+  },
+  {
+   "token": "0x086c6dceec12f553370de78492fa106e2e624813",
+   "curve": "0x3ccea5556345b7e7716c1b16d6d25a523f37e21a",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1158208094884329271780906",
+   "reason": null
+  },
+  {
+   "token": "0x7b1d1aba2f3cc81a6bf450e04b8174be38e714b0",
+   "curve": "0xe3427a22810af174e1e6a3ec248c3389f3535cec",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1159843026865639030120621",
+   "reason": null
+  },
+  {
+   "token": "0x85bab4712c0bf62538c50df1a8e92514e9af4482",
+   "curve": "0xf29c7149ff96167f486a67a4aea81fb71e57a5ce",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1149100749106206388063529",
+   "reason": null
+  },
+  {
+   "token": "0x66539bf981f93598b1de64dc943364c0af3df489",
+   "curve": "0x295c9ba0307dce7fe60cc46e056763ad7be9a9a1",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1187638251061645547275744",
+   "reason": null
+  },
+  {
+   "token": "0x5946eff9ca396d8f46949e628a56426f22dad995",
+   "curve": "0xc0994505a0b36fb1793d6c8c8985c509c5e1af56",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1012831935767188027061000",
+   "reason": null
+  },
+  {
+   "token": "0x2cfed4f0be1e873fc5f8a6d2f4739e85bfad813f",
+   "curve": "0x89bde3c0570940fdd9af74500f66e914ea2e90ac",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094764848563",
+   "reason": null
+  },
+  {
+   "token": "0xf4bb7c5f0dc49464134a8f6e1b080e4376985511",
+   "curve": "0x59519d1128eb8c54d520bdfe5d91fcd3ae4af94b",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094773401011",
+   "reason": null
+  },
+  {
+   "token": "0x15a9e141c94657f74a7f5b2a2f61495cda2db815",
+   "curve": "0x025216a8f43e004c04ed6f648a64ac9be39282dd",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1146740990708820573925526",
+   "reason": null
+  },
+  {
+   "token": "0x59fa6276079ea465a5441ebc752203bc626ed90c",
+   "curve": "0xe714941f1bc80034f23b9553835c4ef6374c3abe",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0x380bc6f0f7f5edd1a16db13cc38e5d6029fb9226",
+   "curve": "0xd355894f53c5dfb66bac0ef28a41c6314d3fde3d",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0xaebf2ba52f797f33b3cabacd82cba9f3e2e7dcc0",
+   "curve": "0xdc98f9215bef6aebaedafe70d89f6046b67d5993",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0xd2496b97bd648ae007f251bfadf58da827695778",
+   "curve": "0x82da2c968c42d33b96ace32b64d0716c74f9a178",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1155188799189775550696915",
+   "reason": null
+  },
+  {
+   "token": "0xc7a88ae88e434b309fecc495245e85c042c0dccf",
+   "curve": "0x0f08cb69fdd906a837aaaa8a0af246487ea5e3d2",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1161554583910914822069233",
+   "reason": null
+  },
+  {
+   "token": "0x0b49e37062abc1e02f8f0345c7df92d2c5e27f06",
+   "curve": "0xa1962f6b6f71113e3735d8acfc975230635c252e",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1154928978845909102665017",
+   "reason": null
+  },
+  {
+   "token": "0x2a7cc9e61c708d5587e9424f1433947bc965f8c4",
+   "curve": "0x8bbde4a7400df6a54073b19336deb01baf2e3fd1",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198776624605835417919699",
+   "reason": null
+  },
+  {
+   "token": "0x3b7fc5653108b064840847743e1d4721922d5ef0",
+   "curve": "0x3b5571cf3e99b2320abcaca52a5ad64d6688efe9",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1149005725454232957566602",
+   "reason": null
+  },
+  {
+   "token": "0x307cb19750a66db59341d29359eadeb967ed7923",
+   "curve": "0x44b46355eb07a61f199e983b7685b3b482ef5229",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1155707594047249385640273",
+   "reason": null
+  },
+  {
+   "token": "0x1f02704f393614fa78ea88b3ab59761ad7239e36",
+   "curve": "0xe9e3c7a9913b722e6011373bccdf9b01272a5d8d",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654909327522",
+   "reason": null
+  },
+  {
+   "token": "0x6efeada154ff2f72cea8c1dfbf3272ce0bb5a778",
+   "curve": "0x6e8d41553f805d42048d62d938581dfa9eaa5a30",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1180637887386433954143833",
+   "reason": null
+  },
+  {
+   "token": "0x85b1e52f47734d71a94e8c8ff2c04b33286d09fb",
+   "curve": "0x7589d119f3a58517e99ad06462e6f78f181a6d16",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1185766528856481437942381",
+   "reason": null
+  },
+  {
+   "token": "0x03b759df7d44d4436c666c10441a644713ea4b04",
+   "curve": "0x39ab594a6a1b28e1633fc44d7934b5589b340556",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1118347620276096807927237",
+   "reason": null
+  },
+  {
+   "token": "0x6cabf375164ee0651f89fbea80ef9d5c77f84135",
+   "curve": "0x751bcae33a0c654082f977494d670d258afeab12",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1158761497660976102392668",
+   "reason": null
+  },
+  {
+   "token": "0xa71536725339de10d962df0918886a76d6c3fd1f",
+   "curve": "0x38770aa3ebbe72c4f0b59a2f19a17ac6c57acc7e",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1194460170621924212367905",
+   "reason": null
+  },
+  {
+   "token": "0xa756296b35a22ef91906027271738ce204566a18",
+   "curve": "0x20f1e2bed3cda5b254cdd281b5b529e81efa18ae",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654910033044",
+   "reason": null
+  },
+  {
+   "token": "0x1be41583d9be7e69acb3dc17ad1b1b1eb219d569",
+   "curve": "0xe7e2c6c8fc3aebcecd2b00ef681176e3e970ca1d",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1120708926766601043564170",
+   "reason": null
+  },
+  {
+   "token": "0xf30a90857b2be40beaa5af1c2a5f470be3ac6d46",
+   "curve": "0x98e4394f59a5addac01b08bd53a7522dce19352a",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1148827523848857984673395",
+   "reason": null
+  },
+  {
+   "token": "0xbbcc36767506b8c461f750f00712f14dd46672cf",
+   "curve": "0xcd7fe7f488db5701ddbe9ccc562b33ae0a46b044",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445739052862552422",
+   "reason": null
+  },
+  {
+   "token": "0x9ce5746e8404613820bbc68e86eeaad8cd4ac69f",
+   "curve": "0xb6547aed94884475bb629d12a05464c6da802259",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1192731155825849685327319",
+   "reason": null
+  },
+  {
+   "token": "0x6a3bf53aa1376b05a73c08209ad2976be88aca5e",
+   "curve": "0xae21018887b409b3663ac2562e113f96318a1e31",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1038723187584037492494163",
+   "reason": null
+  },
+  {
+   "token": "0xe708bc9416a2e85a71832ad2036466ba584691bf",
+   "curve": "0xc5704c59a2d3c6492829b57dfd21498b56487403",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1177071816455920229284459",
+   "reason": null
+  },
+  {
+   "token": "0x313d20f35666fce3e908bf7c1d695edc935ffc6c",
+   "curve": "0xe130074d99dc80b747e358e1a68f182aac32bc40",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445733874851578689",
+   "reason": null
+  },
+  {
+   "token": "0x4b28093dca956e753b3ef2a966a03b593aaf013a",
+   "curve": "0x64712dfa5afeeede5a19e7269b6085d62d2f100b",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1161151125963439360158992",
+   "reason": null
+  },
+  {
+   "token": "0x47a5e847916e89cb20f9112d927eaa1250db6dc8",
+   "curve": "0x3bb807187836dc5d0fe396b550e1e3120f3aacf0",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "642958203384700608754936",
+   "reason": null
+  },
+  {
+   "token": "0x0d013a65ce28e33d9d4c607c7e40035def2fac7f",
+   "curve": "0xef67684e48f877864d3bb37c64b47df302ef28af",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0x817fe2760cccafd30640510352dba03e14b3ed18",
+   "curve": "0xf6b203147755f581b68cf2c13af9d57f75fd26ec",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0x64154047e53f0782ef109e8c5ebd62cfc208db47",
+   "curve": "0x49b524990bc6d4bb7d3ed264911e2dbf4d38e6c7",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1149331802907448351105539",
+   "reason": null
+  },
+  {
+   "token": "0x164260cf33c14a745e83853714fc317678636531",
+   "curve": "0xafbdfc091f2250c6f04ec6e904bc2c6caf51c8e1",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198601329350231131606689",
+   "reason": null
+  },
+  {
+   "token": "0x8077bce64548b5ab230fbfd60aaf8e6a892e8ef1",
+   "curve": "0xe4cebd016d146e12c4688f3722d7d4152937cbd7",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1137408676100342646376933",
+   "reason": null
+  },
+  {
+   "token": "0x1e9b78e6f116fe2d4c34b2a618bb93aea4f763d3",
+   "curve": "0x655a21cfd6bd108d1233854e675934813410e6ba",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094771975603",
+   "reason": null
+  },
+  {
+   "token": "0x95b02240d6aca776e82776b8b09f6aabf6618562",
+   "curve": "0x18190b036deb16cb01771b7c16b4a4f8e69d8350",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1132432423255384006143306",
+   "reason": null
+  },
+  {
+   "token": "0x839a93de6372250d17e915253ec6dc01b1ba8b10",
+   "curve": "0xbbfea68d15896ce38aa543a36e2fd5f04bd69316",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1197843427285071620646096",
+   "reason": null
+  },
+  {
+   "token": "0xde0e4f0bfdd5510c0dc88fe52e996156e2105625",
+   "curve": "0xbe55240d5445c0ef5bf44c417fa0d6c45035cc00",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094761997747",
+   "reason": null
+  },
+  {
+   "token": "0x887786724266ccc7864a9d659dce96a9c0ddac49",
+   "curve": "0x01feea1553d1c76f94f1630f0959d8e3ed77fd4d",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094773401011",
+   "reason": null
+  },
+  {
+   "token": "0xfb097e2a068aca2b72e638f9d4c7a0f499378243",
+   "curve": "0x0b7ce5c519969d122e813964db964914c1a7e85a",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654910033044",
+   "reason": null
+  },
+  {
+   "token": "0x7bb57e65f7237457a811bb8866ebbe77fda6877a",
+   "curve": "0x0b49158c58b7d68c899d26e3094ee68bcf610431",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654905094390",
+   "reason": null
+  },
+  {
+   "token": "0x59cd69ec574ab599b06bfb71a17c40cdd48203c8",
+   "curve": "0x5d60126ec27d52751a3b9434bf18a5c4faeb2166",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186407207484159762132904",
+   "reason": null
+  },
+  {
+   "token": "0x16ead0a87f9060be818cf9c97e8be8d2f0591bfc",
+   "curve": "0x190b726049dadab021fae24843f9e00ac319472d",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094773401011",
+   "reason": null
+  },
+  {
+   "token": "0xd978e18bda2355e1d3a31d89ad5f071d377a8c23",
+   "curve": "0x5445c1031949ff18806045b1e8492ec58aa38537",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1154540757134530169769598",
+   "reason": null
+  },
+  {
+   "token": "0x9900fd4225933f5a8c9b75c26032a9a09b2806a4",
+   "curve": "0x516eeefd09e7e4ea43d5905e254171ede39af311",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1170336207496150184258501",
+   "reason": null
+  },
+  {
+   "token": "0xfefe4b0b15eeae4def4369da987dc79251978b1c",
+   "curve": "0xfd6b1882dd687d48d851ef136bfb1922352e5cef",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198777079561709984880808",
+   "reason": null
+  },
+  {
+   "token": "0x48efeef08367394c685a015d30c8e72686c8c352",
+   "curve": "0xee8fab54afd88c5f0ece1ee90346af609222ce2c",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1132077593821683416115652",
+   "reason": null
+  },
+  {
+   "token": "0x6318813d34102ec7a47443271f12d78c97a0631f",
+   "curve": "0xe2683aaee65ef6c3ebd91ca2d7874027563f79e0",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0x43fd47525bee989eb14c19383c7e3eab49eaee29",
+   "curve": "0x6067a4e316131b15fff82fbed52c6c31f3c9aadb",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1196177237941690857380850",
+   "reason": null
+  },
+  {
+   "token": "0x7fbfc7791b40a57ea0655af9ef685130924f1a8b",
+   "curve": "0xf0c49bdf7ce2e08d1495b3230c180d8b0eeeb6cc",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1077821419177685692807131",
+   "reason": null
+  },
+  {
+   "token": "0x5c59d48f210645cf8d202dad314cda4d5d8db063",
+   "curve": "0xd862715f914cc1cbb6296103c7fe65c063243b34",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1151460740085157527038796",
+   "reason": null
+  },
+  {
+   "token": "0x2caed28e328634a10d9763e178a6513e672b647b",
+   "curve": "0x7fce5077fb6a188f8ada680281b4ba22ebacff8f",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1197363448078004467830257",
+   "reason": null
+  },
+  {
+   "token": "0x2882299a00d92c43aadb11498292509c58505f21",
+   "curve": "0x9e7b02d4c2270e9d252cc392f2c97eabb4eed3be",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1102015433641378298358578",
+   "reason": null
+  },
+  {
+   "token": "0x5a1ef3c436d06b7a1527df6d012346c5d92a882a",
+   "curve": "0x829d16de447302be3900220f9d28c9194f1932a0",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094772688307",
+   "reason": null
+  },
+  {
+   "token": "0xdcde713b61e2471a217963b6b368c3e03dcc8d22",
+   "curve": "0x771248dff1fce2bf5d8579d48ae432ab5a7df11c",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174454899902358978509346",
+   "reason": null
+  },
+  {
+   "token": "0x7ccea94c34a22b2bb711aa380a215130e3d064a2",
+   "curve": "0xa5b9d2e1f3fd7ad1f4da3f2c9d9a1ee42fe9a021",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0x06d9ac9b6b9b6728aff49009cfaa8b709a5fd273",
+   "curve": "0x7eaa91d93490d5025f3eeff4d536eac48adaa80a",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1188743888722569909873926",
+   "reason": null
+  },
+  {
+   "token": "0xce614272d1578c8ffdfe1e03d61dcc008da39508",
+   "curve": "0x50921d80a253724f88f1aa939914cf46b3c84958",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1149317354295336359096762",
+   "reason": null
+  },
+  {
+   "token": "0x55058250c50d65bcd20dfc50d133c267dca4d8f4",
+   "curve": "0xa4f4180edfcf4e0a1ffe39242ab580cad32b0d9f",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1148948479638908792557050",
+   "reason": null
+  },
+  {
+   "token": "0x7334b2f633845c2dc9946c1279dc160ed2c48dab",
+   "curve": "0x55dccb66e99e2226c74a91f023720719b430ae1b",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0x8e6e3ef7f070e8991455de4fee4e4dd1608d2162",
+   "curve": "0xfb3b4808e337448b9cfc480ba654d5cbb576e7c9",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174135000757015216505510",
+   "reason": null
+  },
+  {
+   "token": "0x4f3081e412a6a44e33d0334a03f06284ab000220",
+   "curve": "0x7793bd2f97d60637e4379d006e52ba09693afb9d",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "657783256439162741130593",
+   "reason": null
+  },
+  {
+   "token": "0xfd58a5c4df7daf7f535cd5ad5e15666025dd26ce",
+   "curve": "0x1811b5411e2190aa7180d2c13de18d53263a6095",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1165896563117540336614387",
+   "reason": null
+  },
+  {
+   "token": "0xe3832176ff0280f39c03215ce9c42e05dd328346",
+   "curve": "0x124d25d3cba0e811f53c1663b10c9ce1fae70721",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1183922798840852209621003",
+   "reason": null
+  },
+  {
+   "token": "0x34191d25d90f4ab9a46b60a09733f8fa1788db5f",
+   "curve": "0xb45a9836f9455a66af35f8500654e13124b6038e",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445740848029014580",
+   "reason": null
+  },
+  {
+   "token": "0xcffb2e5f7b9f8bf8a05f895f94ae5a437812ed4a",
+   "curve": "0xcd30de55c0f781142688627af7c52989fadfd1e7",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1099269963767352407560829",
+   "reason": null
+  },
+  {
+   "token": "0x203ecec817f2725719d43d879a57021c61a9e373",
+   "curve": "0x56b1be0c211d624622e2825129b95c465d1d5604",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1159245470788269246216226",
+   "reason": null
+  },
+  {
+   "token": "0xb8ed626ec937f2a1f6e28e74d50345eef8428fd2",
+   "curve": "0xa9672035ffe4453cd4e1fbf10ba6a743f52c10a3",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186126478945956123049863",
+   "reason": null
+  },
+  {
+   "token": "0x131d3204a740ee9888e30eb152fe5745615086fd",
+   "curve": "0xb1c00448fe869b70bf7f390f78a4ba6a69be4a31",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1185611758659745374971419",
+   "reason": null
+  },
+  {
+   "token": "0xb2acb6b2d813d347601fff8fa84dcfb33a981adc",
+   "curve": "0xef32513f4ee0a894bf063cedd8111fc338b5495c",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0x20daec9a479da453e19ae8d091b736a78e7201f1",
+   "curve": "0xba79cefca685a0e793582db8cc093c4eeace8925",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0x699402a8782604ba0f2c3aa11a707687d56ea7ba",
+   "curve": "0xc142337576bf2528502f0fdcab673531d154c57f",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094705694132",
+   "reason": null
+  },
+  {
+   "token": "0x24d9bc4e284469da5710c062ee2eb59fcca16669",
+   "curve": "0x045d2696912c981a44011ee42f39ddda61976d26",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1177041885084812502193411",
+   "reason": null
+  },
+  {
+   "token": "0x0b5d26c8207b63ae7534df29d28f241ef6aa041c",
+   "curve": "0x434a3babd047e682306d20b7e45d1c97e0628b97",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1144275950077648058969537",
+   "reason": null
+  },
+  {
+   "token": "0xe6d9bd6b89c9bc9a9896618bba53c18301ccf3d6",
+   "curve": "0x939582ac9d9f62093aa81e33cfe6d06450e6a8df",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1196163038314646996202426",
+   "reason": null
+  },
+  {
+   "token": "0xf9ea6ab74a8acbe511a2e2adc97ff86719fafd10",
+   "curve": "0xd18a376740f3e52e98a6052778e96eac7176de66",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445740848032506279",
+   "reason": null
+  },
+  {
+   "token": "0x529cc204fbc87339212dca3b0d036b2a9c0e84dc",
+   "curve": "0xf4a796f91e17cf41c19b8e8cccec6ef9010860e5",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "177668429063625037801628",
+   "reason": null
+  },
+  {
+   "token": "0x412c0dbeb4582a58a3adf0beafa8124a0f784929",
+   "curve": "0x6b69fcbd4a4dcfc5fcc87e2fae04ac90549dd3b6",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1184121028537456022336433",
+   "reason": null
+  },
+  {
+   "token": "0x4ef272b2406470bed38fdeb40431fb5c9671dcd6",
+   "curve": "0xd3c958268217ca9c88ab8e3ff72ede92ff55d91e",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1197746173746427927296850",
+   "reason": null
+  },
+  {
+   "token": "0xc38cae44dbaa54b5f786a12282ffac4ffe20ee99",
+   "curve": "0x91738024dbbf09fa28c769906b8bdce72fd06888",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094761997747",
+   "reason": null
+  },
+  {
+   "token": "0x8af651e992abc4d5c809fd487a28fbc15abd830a",
+   "curve": "0xd0ed0ac7cbfe25151ce724b701d3d06a9a232f48",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1138304257958419707090537",
+   "reason": null
+  },
+  {
+   "token": "0x7cbc6682e4cb0ab48a3f27bfeeee7ad5be4beeee",
+   "curve": "0xb8311c671a1298297df292c4f0720127c89c3d1e",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445719419761838041",
+   "reason": null
+  },
+  {
+   "token": "0xa1db5d7f5024022510293ad65c92e566f3ada36e",
+   "curve": "0x61e25430d5d74f7aa240d69bd976a380703a1ff3",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1188259520436642887495340",
+   "reason": null
+  },
+  {
+   "token": "0x7c1796ee33a49fcf2e3ef75299618f414226e468",
+   "curve": "0xeb972325d484de03e95e22f4654dded26a389f83",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198719578301634155094814",
+   "reason": null
+  },
+  {
+   "token": "0x0f4b6c4af4e2a4ec2ac3cb035a0d2cba3a82b387",
+   "curve": "0x80655ab79fdd9d14ce1306ffad9acccd231a1f02",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174473175558315634292097",
+   "reason": null
+  },
+  {
+   "token": "0xd1864e547459cf94ac9d17c7b97ad981d34dd0df",
+   "curve": "0xeb994e59d76f0e8b27db01055342ba98d1fee36f",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1172669503045317793902367",
+   "reason": null
+  },
+  {
+   "token": "0x9e43e16f59431d459ef363dd85d04b22add64ecc",
+   "curve": "0x1d13bd70110e20521fccbf5b62388ff86627d2e7",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654909327522",
+   "reason": null
+  },
+  {
+   "token": "0x8a9e515722484da04f81d3a480dba7549a2c9af1",
+   "curve": "0xbcfef4bbcc903357c639f7ca8ff492e3a110790a",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174355677328789400737136",
+   "reason": null
+  },
+  {
+   "token": "0x41e152a6ba8496f75508a235b2ead7d8a9b87677",
+   "curve": "0x0eff4612da921343d9d1e594f8dd86111fa0c59f",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1163024350646741690178429",
+   "reason": null
+  },
+  {
+   "token": "0x5050d81d49fe436c86649452eb1b5b0fbf6ad5a6",
+   "curve": "0xed16f097f155cb0683010de09a9ab42fd0e17857",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1133471710609521278663149",
+   "reason": null
+  },
+  {
+   "token": "0xb6fc4995810ad6b542b37e3bf0fdb66ebdfd2f85",
+   "curve": "0x2c3983918f420aa43057d20d500575cd7652d9b6",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445740848032506279",
+   "reason": null
+  },
+  {
+   "token": "0x56998b302b66fdac94d628b1e3bb7c5b63e3ff8d",
+   "curve": "0x81ad0e55adf72a4cbd41d12709a03c9eb5b786be",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1158658808065869748051571",
+   "reason": null
+  },
+  {
+   "token": "0xa50b4d517bd1e154c433e490b6d1be42a51f20d1",
+   "curve": "0x8322e1cf810a6803eb3ca46a0c8304cc63766a0a",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1161583281947502414282574",
+   "reason": null
+  },
+  {
+   "token": "0xccc4aa4d0bfd4d029f890a1a13a13f8e433cd22b",
+   "curve": "0x837139f3b9144239453e6070eef978491306b953",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1095827247407662048320314",
+   "reason": null
+  },
+  {
+   "token": "0xfc26950464f1c123049822d5e160373b86e90f3a",
+   "curve": "0xc01cdf8af69db3f88c2ba3ab9b1763d438b0564a",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0x8de24da609ca1c8914de1c3217069628e87a0477",
+   "curve": "0x3c7e3f93e66451d460f043f51e93cc0b60f2dd43",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "998216650426893362997407",
+   "reason": null
+  },
+  {
+   "token": "0x06e8a9fcef7f85e0c0846e509f457b473dfaefe5",
+   "curve": "0x981abde8cfda5ee3fa29f3287fcd38f54d55b395",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1189119225072640981021887",
+   "reason": null
+  },
+  {
+   "token": "0xed2b3d04d03979a56dfbd52b7a332e6620f42261",
+   "curve": "0xbad4142df4b40daec3c98d8df4e4bae560daeb73",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445740848032506279",
+   "reason": null
+  },
+  {
+   "token": "0x29baa90a2dd7c2a5dd7eea4c1605c37cbe539359",
+   "curve": "0x82571fc36752ca268dfef3fabee737a86b567c4f",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0x0e69da1026f24f6d828b993d738efe1ab6ca5e20",
+   "curve": "0x5007095acfc6bc803dddbfdbce456a6472f71f47",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654910033044",
+   "reason": null
+  },
+  {
+   "token": "0x0b3a0412335b3421c8eb304208d851d634e49517",
+   "curve": "0xb711647668f6f726873fab514641a216134a3023",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1197652113562744231764306",
+   "reason": null
+  },
+  {
+   "token": "0xf471bbc0611ea131fb87ff19eeda2a401ab98353",
+   "curve": "0x62fc85c9e0778ddc0bf5b208a3ac9d666162f9e8",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445740848026919561",
+   "reason": null
+  },
+  {
+   "token": "0x79165533afebf896547099177500f9b06b0d5a76",
+   "curve": "0xa7c1be652868b6553c704fc7998fe92113876f96",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1149100749106206389429161",
+   "reason": null
+  },
+  {
+   "token": "0x5e517b8f7fac315fbe15f46851049089b7e5450d",
+   "curve": "0xf284fd80f1555ce3fe8bb1c87933b5180051bf63",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445740848031807939",
+   "reason": null
+  },
+  {
+   "token": "0x48a9a409aecbad17e7355971b8baa5d15afc79e4",
+   "curve": "0x242a42b6d36b5e29d93a7c865a5e44557addd4c2",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1131523168304855490417412",
+   "reason": null
+  },
+  {
+   "token": "0xcd47848e220fc1f803446e1bca9d4b77541a2376",
+   "curve": "0xc9b8b0fbca70a8d5077397e8f84eee98a301fa2b",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1187487775790975446033884",
+   "reason": null
+  },
+  {
+   "token": "0x01ba126f154e2dbc5d7b8230fbf4ff8ce04bfe63",
+   "curve": "0xc8d9bbbc8ef02a9fa497e5aa2a78881c4ff19274",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654909327522",
+   "reason": null
+  },
+  {
+   "token": "0xa31d092c86a2097bce1080d939c959885a44717f",
+   "curve": "0x082e05767d20ab978a1c027b892b85e4a6fd809d",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1020522291579177519178414",
+   "reason": null
+  },
+  {
+   "token": "0x5121d0c6066d523b09581ee026acbc5d75c2373c",
+   "curve": "0x1c9c977b9fa3d6c2fe23344122b53bb5693e2186",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654909327522",
+   "reason": null
+  },
+  {
+   "token": "0xcabacd468d0dbbc1f436338181d440da14fb5593",
+   "curve": "0xa73dc0789a57759efcec86db67b525d0f39a05aa",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654910033044",
+   "reason": null
+  },
+  {
+   "token": "0xe601779e102c68e24ceac6dd7691e77dff067060",
+   "curve": "0x949b068553d7755f18cdb162bce1e28e1e6ef8a0",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094759859635",
+   "reason": null
+  },
+  {
+   "token": "0xb765b3795fb2e8162d56618cb5e66647550f268c",
+   "curve": "0x52b91656e9eac0753432ca5a12fb357c39412954",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0x160457b9d06b6297ce9e97c717a12780980a2099",
+   "curve": "0x1280d0c04df69f14bec821d9b54d0c12b6b6e46c",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654909327522",
+   "reason": null
+  },
+  {
+   "token": "0x1af70406469b10d0d8f3e203c3d1e5d929908b65",
+   "curve": "0x53175722b69bbe32d5991e9fb9430e9f7183b88a",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1143376922763944755190207",
+   "reason": null
+  },
+  {
+   "token": "0xec931eb1a1f9ea89b5db54a2d6907be31bc51ee0",
+   "curve": "0x099c05ba109694795730cf6f7285dad01c61163d",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1195960753096125429651887",
+   "reason": null
+  }
+ ],
+ "topByRawTokensOut": [
+  {
+   "token": "0xacd1ab4259837440abe266a1d3d7295a7660b84f",
+   "curve": "0x367abe74c8776511753d7faf0a8d02b3552ff7ee",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0x33ebdfdd2350769105e6cd6f599b052ad21e9e34",
+   "curve": "0x8c3035137e04a456b80bf2a807cd3c68e28d17b2",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0xc0d393a0f29797930e76dcaddcd47a2df2d389dc",
+   "curve": "0x16caf54315a042e0369a27540baf7d45159e47d6",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0x59fa6276079ea465a5441ebc752203bc626ed90c",
+   "curve": "0xe714941f1bc80034f23b9553835c4ef6374c3abe",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0xaebf2ba52f797f33b3cabacd82cba9f3e2e7dcc0",
+   "curve": "0xdc98f9215bef6aebaedafe70d89f6046b67d5993",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0x6318813d34102ec7a47443271f12d78c97a0631f",
+   "curve": "0xe2683aaee65ef6c3ebd91ca2d7874027563f79e0",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0xfc26950464f1c123049822d5e160373b86e90f3a",
+   "curve": "0xc01cdf8af69db3f88c2ba3ab9b1763d438b0564a",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0x29baa90a2dd7c2a5dd7eea4c1605c37cbe539359",
+   "curve": "0x82571fc36752ca268dfef3fabee737a86b567c4f",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0xb765b3795fb2e8162d56618cb5e66647550f268c",
+   "curve": "0x52b91656e9eac0753432ca5a12fb357c39412954",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0x6fdeee008575d8a0e816a42075a2ea2486411927",
+   "curve": "0x5b4b83a924ff4123a06b641b2166f79619c82d91",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0xffd4a03317ddfad3232332fd2a62b67d7d4418a8",
+   "curve": "0x421fe36896becce9e467b56324acedddd16ecda4",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0x08749de2b7fd8fc72e4a7bc07ff7aff392aa325d",
+   "curve": "0x5764d3856ae888af52ff13f471ba408b6f47729a",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0x380bc6f0f7f5edd1a16db13cc38e5d6029fb9226",
+   "curve": "0xd355894f53c5dfb66bac0ef28a41c6314d3fde3d",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0x0d013a65ce28e33d9d4c607c7e40035def2fac7f",
+   "curve": "0xef67684e48f877864d3bb37c64b47df302ef28af",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0x817fe2760cccafd30640510352dba03e14b3ed18",
+   "curve": "0xf6b203147755f581b68cf2c13af9d57f75fd26ec",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0x7ccea94c34a22b2bb711aa380a215130e3d064a2",
+   "curve": "0xa5b9d2e1f3fd7ad1f4da3f2c9d9a1ee42fe9a021",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0x7334b2f633845c2dc9946c1279dc160ed2c48dab",
+   "curve": "0x55dccb66e99e2226c74a91f023720719b430ae1b",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0xb2acb6b2d813d347601fff8fa84dcfb33a981adc",
+   "curve": "0xef32513f4ee0a894bf063cedd8111fc338b5495c",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0x20daec9a479da453e19ae8d091b736a78e7201f1",
+   "curve": "0xba79cefca685a0e793582db8cc093c4eeace8925",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0x646293221a8deb87119e7b2bf5cb81ca34f342a8",
+   "curve": "0x867879bc2b51f047bf7b7f18213a56727c5fe055",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094773401011",
+   "reason": null
+  },
+  {
+   "token": "0x5d00de7a3b7f58b4bcc18ffe46888f45b0a0951b",
+   "curve": "0x89dab439e0e033e690e7b3d4376ea130f496f331",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094773401011",
+   "reason": null
+  },
+  {
+   "token": "0xf4bb7c5f0dc49464134a8f6e1b080e4376985511",
+   "curve": "0x59519d1128eb8c54d520bdfe5d91fcd3ae4af94b",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094773401011",
+   "reason": null
+  },
+  {
+   "token": "0x887786724266ccc7864a9d659dce96a9c0ddac49",
+   "curve": "0x01feea1553d1c76f94f1630f0959d8e3ed77fd4d",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094773401011",
+   "reason": null
+  },
+  {
+   "token": "0x16ead0a87f9060be818cf9c97e8be8d2f0591bfc",
+   "curve": "0x190b726049dadab021fae24843f9e00ac319472d",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094773401011",
+   "reason": null
+  },
+  {
+   "token": "0xbe68dcb8abccc21eb306105fdc4253d0fe2e7ef6",
+   "curve": "0x3018a4b6fb9e9a2de9c9a3ed74886e3d74fed7c8",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094772688307",
+   "reason": null
+  },
+  {
+   "token": "0xc208997333b26735991e1b0f5fb256cfa762978a",
+   "curve": "0x8041d5e71608bc37653687dd2f4bb90366f0dbc8",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094772688307",
+   "reason": null
+  },
+  {
+   "token": "0x5a1ef3c436d06b7a1527df6d012346c5d92a882a",
+   "curve": "0x829d16de447302be3900220f9d28c9194f1932a0",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094772688307",
+   "reason": null
+  },
+  {
+   "token": "0x1e9b78e6f116fe2d4c34b2a618bb93aea4f763d3",
+   "curve": "0x655a21cfd6bd108d1233854e675934813410e6ba",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094771975603",
+   "reason": null
+  },
+  {
+   "token": "0x6a38b8a259e01946bb4cde0278ea17558fbd8fd5",
+   "curve": "0xc9fbe40390e37fe0eb9c4233820f6f5312a034be",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094771262899",
+   "reason": null
+  },
+  {
+   "token": "0x2cfed4f0be1e873fc5f8a6d2f4739e85bfad813f",
+   "curve": "0x89bde3c0570940fdd9af74500f66e914ea2e90ac",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094764848563",
+   "reason": null
+  },
+  {
+   "token": "0xde0e4f0bfdd5510c0dc88fe52e996156e2105625",
+   "curve": "0xbe55240d5445c0ef5bf44c417fa0d6c45035cc00",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094761997747",
+   "reason": null
+  },
+  {
+   "token": "0xc38cae44dbaa54b5f786a12282ffac4ffe20ee99",
+   "curve": "0x91738024dbbf09fa28c769906b8bdce72fd06888",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094761997747",
+   "reason": null
+  },
+  {
+   "token": "0xe601779e102c68e24ceac6dd7691e77dff067060",
+   "curve": "0x949b068553d7755f18cdb162bce1e28e1e6ef8a0",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094759859635",
+   "reason": null
+  },
+  {
+   "token": "0x699402a8782604ba0f2c3aa11a707687d56ea7ba",
+   "curve": "0xc142337576bf2528502f0fdcab673531d154c57f",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094705694132",
+   "reason": null
+  },
+  {
+   "token": "0x1493b299668e9f4e23aed36a4412f2299a44a13d",
+   "curve": "0x17f78f47eeef7b6dadccd68f9b699aba1f9fb29e",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772954958298875288",
+   "reason": null
+  },
+  {
+   "token": "0xfefe4b0b15eeae4def4369da987dc79251978b1c",
+   "curve": "0xfd6b1882dd687d48d851ef136bfb1922352e5cef",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198777079561709984880808",
+   "reason": null
+  },
+  {
+   "token": "0x2a7cc9e61c708d5587e9424f1433947bc965f8c4",
+   "curve": "0x8bbde4a7400df6a54073b19336deb01baf2e3fd1",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198776624605835417919699",
+   "reason": null
+  },
+  {
+   "token": "0x7c1796ee33a49fcf2e3ef75299618f414226e468",
+   "curve": "0xeb972325d484de03e95e22f4654dded26a389f83",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198719578301634155094814",
+   "reason": null
+  },
+  {
+   "token": "0x164260cf33c14a745e83853714fc317678636531",
+   "curve": "0xafbdfc091f2250c6f04ec6e904bc2c6caf51c8e1",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198601329350231131606689",
+   "reason": null
+  },
+  {
+   "token": "0x132cb8b5773aef068fc8336d5a6abb11ce421947",
+   "curve": "0x45b619e1a46f2bf584e07405d2e4d00b38b0fb30",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198109071781560235029086",
+   "reason": null
+  }
+ ]
+}

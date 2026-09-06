@@ -1,0 +1,13 @@
+[Unit]
+Description=Agentic Desk — forward-earliness benchmark watcher
+After=network-online.target agentic-feed-sol.service agentic-feed-rh.service
+
+[Service]
+WorkingDirectory=/root/Agentic-Trading
+ExecStart=/bin/bash -c 'while true; do python3 scripts/feed_benchmark.py --watch 600; sleep 2; done'
+Restart=always
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

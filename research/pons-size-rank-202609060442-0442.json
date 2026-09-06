@@ -1,0 +1,415 @@
+{
+ "asOf": "2026-09-06T04:42:30.205Z",
+ "ethUsd": 2502.07,
+ "n": 43,
+ "rows": [
+  {
+   "token": "0xc33ce70f087dbb1ce9b49ef628ca8960bbffc34f",
+   "type": "pons-usdg",
+   "curve": "0xd24921a65df37d005f68e1ee5258d4ed12969ac7",
+   "phase": 0,
+   "status": "no-fill5",
+   "t5": null,
+   "t20": null,
+   "impactPct": null,
+   "note": null
+  },
+  {
+   "token": "0xd4b8f71e651a516f093e03e31798047591bb77c1",
+   "type": "pons-usdg",
+   "curve": "0xcd65f33672a80241f617ed876a50dabdcbc5d691",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527329948609309030617992",
+   "t20": "6081454631069811025818655",
+   "impactPct": 0.46,
+   "note": null
+  },
+  {
+   "token": "0xadb79cdf4e31d74f701a4138fe4b32060386cf9b",
+   "type": "pons-usdg",
+   "curve": "0x7767ae7257d562f1ef1ed2326315c8218b1e5d27",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527329948138049076840387",
+   "t20": null,
+   "impactPct": null,
+   "note": "fill20-revert"
+  },
+  {
+   "token": "0x1d5653e2d68d8cbf2c09a343ee8539a10b4a430a",
+   "type": "pons-usdg",
+   "curve": "0x58e62a3f9139e946d0134cfc015a31a5cc0728ae",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527329948138049076840387",
+   "t20": "6081454629201927671353958",
+   "impactPct": 0.46,
+   "note": null
+  },
+  {
+   "token": "0x3be470a014bed2470c84180e6c339096309c47ec",
+   "type": "pons-usdg",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  },
+  {
+   "token": "0x6ad46b1033a36b60515284c84861c01ee40c149b",
+   "type": "pons-usdg",
+   "curve": "0xafd2324e6eca5ecbcc73cc034a76f4033bdf559e",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527329947195529170157624",
+   "t20": "6081454625466160965866820",
+   "impactPct": 0.46,
+   "note": null
+  },
+  {
+   "token": "0x1594ae7668bbcf19cf3e151f4ef6528e3508c7e2",
+   "type": "pons-usdg",
+   "curve": "0x9c395064c0336d59836531ec29153640095ca722",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527329946724269217252467",
+   "t20": "6081454623598277614844380",
+   "impactPct": 0.46,
+   "note": null
+  },
+  {
+   "token": "0x0f9a2807fa6eb76522e9f2f8d9811c8d8a1a5e07",
+   "type": "pons-usdg",
+   "curve": "0x039c7dd205e07330222c7473e46ce74b54e604f8",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527329946724269217252467",
+   "t20": "6081454623598277614844380",
+   "impactPct": 0.46,
+   "note": null
+  },
+  {
+   "token": "0x55931e1c29a528cbaa8978723960df255b642fda",
+   "type": "pons-usdg",
+   "curve": "0x649320d350d48c8a32fa4995c783e36813bd4c0c",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527329946253009264638126",
+   "t20": "6081454621730394264969359",
+   "impactPct": 0.46,
+   "note": null
+  },
+  {
+   "token": "0x32ec7bb6ee37eae3a268b21041403d3a45e71c6a",
+   "type": "pons-usdg",
+   "curve": "0xd5fb7db29979e3aa83d4e006212815dc88e0211e",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527329946253009264638126",
+   "t20": "6081454621730394264969359",
+   "impactPct": 0.46,
+   "note": null
+  },
+  {
+   "token": "0xffbf019697bacafe63a25249ac7a63dbc01495d9",
+   "type": "pons-usdg",
+   "curve": "0x962d3ddfa66d21b3b553533ce1be69e482c0d1fa",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527329945781749312314600",
+   "t20": "6081454619862510916241757",
+   "impactPct": 0.46,
+   "note": null
+  },
+  {
+   "token": "0xe5ae5ac9c4944af604cc9b242db107a399534930",
+   "type": "pons-usdg",
+   "curve": "0x8a6eb595bc07b5b16685d4290e514525c38ccf25",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527329945310489360281891",
+   "t20": "6081454617994627568661573",
+   "impactPct": 0.46,
+   "note": null
+  },
+  {
+   "token": "0xfa6ea172f1770846d8a8e3dc58af3641faf60cfb",
+   "type": "pons-usdg",
+   "curve": "0x11dc8bb0992c16cb0a0d015f08449c91345f2935",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527329943896709505928658",
+   "t20": "6081454612390977532805537",
+   "impactPct": 0.46,
+   "note": null
+  },
+  {
+   "token": "0x7dca49d799760701b9fc6d23240f5fb34b2a3caa",
+   "type": "pons-usdg",
+   "curve": "0xfe19f1a73b749c07de7fd4de9242c21a33738a42",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527329943425449555059212",
+   "t20": "6081454610523094189815030",
+   "impactPct": 0.46,
+   "note": null
+  },
+  {
+   "token": "0x331a244cb77c87ab8e25b0403d265a97a05c595e",
+   "type": "pons-usdg",
+   "curve": "0xa9fc5138044292dc50fa408e6badbb89a8787125",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527329941898119611633763",
+   "t20": "6081454604441639579291936",
+   "impactPct": 0.46,
+   "note": null
+  },
+  {
+   "token": "0x5ca997c136f6e59cdd2cea6c6109e33f04d0a915",
+   "type": "pons-usdg",
+   "curve": "0x4c296637d7ccdd26c13b2510738bb903f815ae80",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527329939899529718572203",
+   "t20": "6081454596492301630661520",
+   "impactPct": 0.46,
+   "note": null
+  },
+  {
+   "token": "0x3bf8a84ff2137eda1c9c1772fbb6a1ba6a735e6c",
+   "type": "pons-usdg",
+   "curve": "0x574b43f1f7b12c37290c56c4af75255218e7a1d3",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527329937185520123646781",
+   "t20": "6081454585762806231173738",
+   "impactPct": 0.46,
+   "note": null
+  },
+  {
+   "token": "0xbbf9e749d6d4792e3d5ae4281880e97ccfa109c1",
+   "type": "pons-usdg",
+   "curve": "0x00beb11873ff51c9b52cbe6103f3f0e3c680634f",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527278360495267617272422",
+   "t20": "6081249688007411461293860",
+   "impactPct": 0.46,
+   "note": null
+  },
+  {
+   "token": "0xfa35b8fc0fd921c83fd4d5a5f614b702d970f237",
+   "type": "pons-usdg",
+   "curve": "0x6753b69481c5bb42696fc3569df4eeb668d5951e",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1511925692187105101979795",
+   "t20": "6020395596410391466222427",
+   "impactPct": 0.45,
+   "note": null
+  },
+  {
+   "token": "0xdc28cef20265694fccd4a36d16ea385ee3e70b7e",
+   "type": "pons-usdg",
+   "curve": "0xf6d11ce21f638b9a843c8e06399503014d122efb",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1505696143529265969080573",
+   "t20": "5995645702507497419477328",
+   "impactPct": 0.45,
+   "note": null
+  },
+  {
+   "token": "0xc0d393a0f29797930e76dcaddcd47a2df2d389dc",
+   "type": "pons-native",
+   "curve": "0x16caf54315a042e0369a27540baf7d45159e47d6",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1176211276629779702390411",
+   "t20": "4688301806161167813795894",
+   "impactPct": 0.35,
+   "note": null
+  },
+  {
+   "token": "0x59fa6276079ea465a5441ebc752203bc626ed90c",
+   "type": "pons-native",
+   "curve": "0xe714941f1bc80034f23b9553835c4ef6374c3abe",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1176211276629779702390411",
+   "t20": "4688301806161167813795894",
+   "impactPct": 0.35,
+   "note": null
+  },
+  {
+   "token": "0xaebf2ba52f797f33b3cabacd82cba9f3e2e7dcc0",
+   "type": "pons-native",
+   "curve": "0xdc98f9215bef6aebaedafe70d89f6046b67d5993",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1176211276629779702390411",
+   "t20": "4688301806161167813795894",
+   "impactPct": 0.35,
+   "note": null
+  },
+  {
+   "token": "0x29baa90a2dd7c2a5dd7eea4c1605c37cbe539359",
+   "type": "pons-native",
+   "curve": "0x82571fc36752ca268dfef3fabee737a86b567c4f",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1176211276629779702390411",
+   "t20": "4688301806161167813795894",
+   "impactPct": 0.35,
+   "note": null
+  },
+  {
+   "token": "0xb765b3795fb2e8162d56618cb5e66647550f268c",
+   "type": "pons-native",
+   "curve": "0x52b91656e9eac0753432ca5a12fb357c39412954",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1176211276629779702390411",
+   "t20": "4688301806161167813795894",
+   "impactPct": 0.35,
+   "note": null
+  },
+  {
+   "token": "0xacd1ab4259837440abe266a1d3d7295a7660b84f",
+   "type": "pons-native",
+   "curve": "0x367abe74c8776511753d7faf0a8d02b3552ff7ee",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1176211276629779702390411",
+   "t20": "4688301806161167813795894",
+   "impactPct": 0.35,
+   "note": null
+  },
+  {
+   "token": "0x817fe2760cccafd30640510352dba03e14b3ed18",
+   "type": "pons-native",
+   "curve": "0xf6b203147755f581b68cf2c13af9d57f75fd26ec",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1176211276629779701691109",
+   "t20": null,
+   "impactPct": null,
+   "note": "fill20-revert"
+  },
+  {
+   "token": "0x7ccea94c34a22b2bb711aa380a215130e3d064a2",
+   "type": "pons-native",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  },
+  {
+   "token": "0x7334b2f633845c2dc9946c1279dc160ed2c48dab",
+   "type": "pons-native",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  },
+  {
+   "token": "0xb2acb6b2d813d347601fff8fa84dcfb33a981adc",
+   "type": "pons-native",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  },
+  {
+   "token": "0x7d29e42d6c8f11f502b0d715036a7a8ca7874a3c",
+   "type": "pons-native",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  },
+  {
+   "token": "0x6fdeee008575d8a0e816a42075a2ea2486411927",
+   "type": "pons-native",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  },
+  {
+   "token": "0x5d00de7a3b7f58b4bcc18ffe46888f45b0a0951b",
+   "type": "pons-native",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  },
+  {
+   "token": "0xf4bb7c5f0dc49464134a8f6e1b080e4376985511",
+   "type": "pons-native",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  },
+  {
+   "token": "0x887786724266ccc7864a9d659dce96a9c0ddac49",
+   "type": "pons-native",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  },
+  {
+   "token": "0x16ead0a87f9060be818cf9c97e8be8d2f0591bfc",
+   "type": "pons-native",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  },
+  {
+   "token": "0x646293221a8deb87119e7b2bf5cb81ca34f342a8",
+   "type": "pons-native",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  },
+  {
+   "token": "0xc208997333b26735991e1b0f5fb256cfa762978a",
+   "type": "pons-native",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  },
+  {
+   "token": "0x2a7cc9e61c708d5587e9424f1433947bc965f8c4",
+   "type": "pons-native",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  },
+  {
+   "token": "0xfefe4b0b15eeae4def4369da987dc79251978b1c",
+   "type": "pons-native",
+   "curve": "0xfd6b1882dd687d48d851ef136bfb1922352e5cef",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1176211276629779693662434",
+   "t20": null,
+   "impactPct": null,
+   "note": "fill20-revert"
+  },
+  {
+   "token": "0xde0e4f0bfdd5510c0dc88fe52e996156e2105625",
+   "type": "pons-native",
+   "curve": "0xbe55240d5445c0ef5bf44c417fa0d6c45035cc00",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1176211276629779689802970",
+   "t20": "4688301806161167763799591",
+   "impactPct": 0.35,
+   "note": null
+  },
+  {
+   "token": "0x0b3a0412335b3421c8eb304208d851d634e49517",
+   "type": "pons-native",
+   "curve": "0xb711647668f6f726873fab514641a216134a3023",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1176211276629779689103668",
+   "t20": null,
+   "impactPct": null,
+   "note": "fill20-revert"
+  },
+  {
+   "token": "0x699402a8782604ba0f2c3aa11a707687d56ea7ba",
+   "type": "pons-native",
+   "curve": "0xc142337576bf2528502f0fdcab673531d154c57f",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1176211276629779634558091",
+   "t20": "4688301806161167544371371",
+   "impactPct": 0.35,
+   "note": null
+  }
+ ]
+}

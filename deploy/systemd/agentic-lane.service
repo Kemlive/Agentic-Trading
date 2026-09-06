@@ -1,0 +1,12 @@
+[Unit]
+Description=Agentic Desk — real-coin lane loop (fastlane + capital-guard, ~25s)
+After=network-online.target agentic-feed-merge.service
+
+[Service]
+WorkingDirectory=/root/Agentic-Trading
+ExecStart=/bin/bash -c 'while true; do bash scripts/run-fast-scan.sh; sleep 20; done'
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

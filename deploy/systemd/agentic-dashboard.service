@@ -1,0 +1,14 @@
+[Unit]
+Description=Agentic Desk — dashboard :8127
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+WorkingDirectory=/root/Agentic-Trading
+ExecStart=/usr/bin/python3 /root/Agentic-Trading/scripts/feed_dashboard.py --port 8127
+Restart=always
+RestartSec=3
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

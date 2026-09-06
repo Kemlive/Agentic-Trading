@@ -1,0 +1,13 @@
+[Unit]
+Description=Agentic Desk — housekeeping (hourly DRY paper + daily card)
+After=network-online.target
+
+[Service]
+WorkingDirectory=/root/Agentic-Trading
+ExecStart=/bin/bash -c 'while true; do python3 scripts/feedbot-paper.py; python3 scripts/run-daily-card.sh; sleep 3600; done'
+Restart=always
+RestartSec=30
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

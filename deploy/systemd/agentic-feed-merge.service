@@ -1,0 +1,13 @@
+[Unit]
+Description=Agentic Desk — feed merge + coin registry (30s)
+After=network-online.target agentic-feed-sol.service agentic-feed-rh.service
+
+[Service]
+WorkingDirectory=/root/Agentic-Trading
+ExecStart=/bin/bash -c 'while true; do python3 scripts/feedmerge.py; sleep 30; done'
+Restart=always
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

@@ -10,6 +10,38 @@ using two MCP tool suites that are available to this chat:
 
 Everything you read or write as an agent lives inside this folder. No keys are stored here.
 
+## ⛔ MANDATORY — READ FIRST, BEFORE ANY WORK, CHANGE, OR QUESTION
+
+**1. First action of EVERY session, before ANYTHING else:** read
+   `/Users/earn/Agentic-Trading/agents/learning-log.md` (the permanent memory).
+   If you have not read it this session, you have not started yet — reading it IS step one.
+
+**1b. Then run the two loop skills (if available in this client):**
+   - `project-memory` — loads memory + verifies live lane freshness (no cold starts).
+   - `subagent-review` — audits every subagent/monitor lane (pid alive? artifacts fresh?)
+     and appends a dated findings bullet to the learning log.
+   If the skills are unavailable, do their checks manually: read `logs/feed/*.pid`,
+   `data/live/feed/*.json` freshness, `data/live/*state.json`/`fastlane-positions.json`,
+   and the newest `research/*` files, and record it in the log.
+
+**2. Always refer back to it** before any new change, trade, infra action, or question.
+   Boss rules in the learning log **OVERRIDE every playbook and this file**.
+
+**3. Order of operations (never skip):**
+   `learning-log.md` → `AGENTS.md` → `EMPLOYMENT.md` → matching role playbook → THEN act or ask.
+
+**4. Update the learning log** after any closed trade, infra change, boss correction, or rule change,
+   so the next session inherits it. Never start "cold" — cold starts are what burned us before.
+
+**5. Do not re-ask or re-explain settled rules** (rail model, project separation, memory-first).
+   Read the log; follow it.
+
+**6. Foundation-first investigations (MANDATORY):** before any feature/upgrade/change to an existing
+   subsystem — especially the **Unified USDC wallet / EVM execution pipeline** (safe, modules, bridges,
+   per-chain lanes) — the agent MUST first investigate the core foundation of that code path, write
+   `research/INVESTIGATION-<topic>-<date>.md` (what was read, what the foundation does, what the change
+   applies to, conflicts found), and only then change code. Never patch over the unified design.
+
 ## Roles (load the matching playbook before acting)
 
 | Role | Playbook | Responsibility |

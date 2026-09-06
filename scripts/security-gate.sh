@@ -68,8 +68,10 @@ else
   DELEG=$(python3 "$D/scripts/solana-check-delegate.py" 2>/dev/null | sed -n 's/^delegatedAmount: //p')
   if [ -n "$DELEG" ]; then
     note "delegate remaining = \$$DELEG"
-    if [ "$(python3 -c "print(float('$DELEG') < 2.5)")" = "True" ]; then
-      halt "delegate remaining \$$DELEG < next-entry \$2.50 — raise cap"
+    # Boss GO 2026-09-06: capital sizing is boss's call — engine may act down to the
+    # minimum-trade floor ($0.30); vault_pull re-verifies before any spend.
+    if [ "$(python3 -c "print(float('$DELEG') < 0.30)")" = "True" ]; then
+      halt "delegate remaining \$$DELEG < min-trade \$0.30"
     fi
   else
     note "WARN: delegate amount unreadable (RPC?) — engine's vault_pull will re-verify before any spend"

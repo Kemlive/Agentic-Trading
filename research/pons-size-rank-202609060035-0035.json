@@ -1,0 +1,24 @@
+{
+ "asOf": "2026-09-06T00:35:35.286Z",
+ "ethUsd": 2487.24,
+ "n": 2,
+ "rows": [
+  {
+   "token": "0x1d5653e2d68d8cbf2c09a343ee8539a10b4a430a",
+   "type": "pons-usdg",
+   "curve": "0x58e62a3f9139e946d0134cfc015a31a5cc0728ae",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527329948609309030617992",
+   "t20": "6081454631069811025818655",
+   "impactPct": 0.46,
+   "note": null
+  },
+  {
+   "token": "0x4ef272b2406470bed38fdeb40431fb5c9671dcd6",
+   "type": "pons-native",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  }
+ ]
+}

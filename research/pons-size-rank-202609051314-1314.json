@@ -1,0 +1,161 @@
+{
+ "asOf": "2026-09-05T13:14:08.582Z",
+ "ethUsd": 2458.83,
+ "n": 14,
+ "rows": [
+  {
+   "token": "0x1d5653e2d68d8cbf2c09a343ee8539a10b4a430a",
+   "type": "pons-usdg",
+   "curve": "0x58e62a3f9139e946d0134cfc015a31a5cc0728ae",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527329948609309030617992",
+   "t20": "6081454631069811025818655",
+   "impactPct": 0.46,
+   "note": null
+  },
+  {
+   "token": "0x80a7326b0301eb61912556105fbd212310d85783",
+   "type": "pons-usdg",
+   "curve": "0xed76c2ff6d71d2627cb79b88654d5dc70fec0d1e",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527329947195529170157624",
+   "t20": "6081454625466160965866820",
+   "impactPct": 0.46,
+   "note": null
+  },
+  {
+   "token": "0xdc28cef20265694fccd4a36d16ea385ee3e70b7e",
+   "type": "pons-usdg",
+   "curve": "0xf6d11ce21f638b9a843c8e06399503014d122efb",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1505696143529265969080573",
+   "t20": "5995645702507497419477328",
+   "impactPct": 0.45,
+   "note": null
+  },
+  {
+   "token": "0x89705bfdb6affc99dfcac4d378347b63dc492a9c",
+   "type": "pons-usdg",
+   "curve": "0x021ef209fa76c8546b74b4a35185938a886e9980",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1496319592299902612543253",
+   "t20": "5958256062424520090623164",
+   "impactPct": 0.45,
+   "note": null
+  },
+  {
+   "token": "0xbd689a4316bd0b192ad7688a8ba703d5f8da43e2",
+   "type": "pons-usdg",
+   "curve": "0xc707bdc329904e2a4698ea9622982d47c46e497f",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1491982444975502879417279",
+   "t20": "5941160186677540300210555",
+   "impactPct": 0.45,
+   "note": null
+  },
+  {
+   "token": "0xffd4a03317ddfad3232332fd2a62b67d7d4418a8",
+   "type": "pons-native",
+   "curve": "0x421fe36896becce9e467b56324acedddd16ecda4",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1196870900717165585009925",
+   "t20": "4770355105234034002480194",
+   "impactPct": 0.36,
+   "note": null
+  },
+  {
+   "token": "0x08749de2b7fd8fc72e4a7bc07ff7aff392aa325d",
+   "type": "pons-native",
+   "curve": "0x5764d3856ae888af52ff13f471ba408b6f47729a",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1196870900717165585009925",
+   "t20": "4770355105234034002480194",
+   "impactPct": 0.36,
+   "note": null
+  },
+  {
+   "token": "0x380bc6f0f7f5edd1a16db13cc38e5d6029fb9226",
+   "type": "pons-native",
+   "curve": "0xd355894f53c5dfb66bac0ef28a41c6314d3fde3d",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1196870900717165585009925",
+   "t20": "4770355105234034002480194",
+   "impactPct": 0.36,
+   "note": null
+  },
+  {
+   "token": "0x0d013a65ce28e33d9d4c607c7e40035def2fac7f",
+   "type": "pons-native",
+   "curve": "0xef67684e48f877864d3bb37c64b47df302ef28af",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1196870900717165585009925",
+   "t20": "4770355105234034002480194",
+   "impactPct": 0.36,
+   "note": null
+  },
+  {
+   "token": "0x817fe2760cccafd30640510352dba03e14b3ed18",
+   "type": "pons-native",
+   "curve": "0xf6b203147755f581b68cf2c13af9d57f75fd26ec",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1196870900717165585009925",
+   "t20": "4770355105234034002480194",
+   "impactPct": 0.36,
+   "note": null
+  },
+  {
+   "token": "0x7ccea94c34a22b2bb711aa380a215130e3d064a2",
+   "type": "pons-native",
+   "curve": "0xa5b9d2e1f3fd7ad1f4da3f2c9d9a1ee42fe9a021",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1196870900717165585009925",
+   "t20": "4770355105234034002480194",
+   "impactPct": 0.36,
+   "note": null
+  },
+  {
+   "token": "0x132cb8b5773aef068fc8336d5a6abb11ce421947",
+   "type": "pons-native",
+   "curve": "0x45b619e1a46f2bf584e07405d2e4d00b38b0fb30",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1196201266880785022431604",
+   "t20": "4767690922649935734068491",
+   "impactPct": 0.36,
+   "note": null
+  },
+  {
+   "token": "0x4ef272b2406470bed38fdeb40431fb5c9671dcd6",
+   "type": "pons-native",
+   "curve": "0xd3c958268217ca9c88ab8e3ff72ede92ff55d91e",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1195838946359259639960210",
+   "t20": "4766249404784512006954531",
+   "impactPct": 0.36,
+   "note": null
+  },
+  {
+   "token": "0x0b3a0412335b3421c8eb304208d851d634e49517",
+   "type": "pons-native",
+   "curve": "0xb711647668f6f726873fab514641a216134a3023",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1195745035862374970807300",
+   "t20": "4765875775028211199365738",
+   "impactPct": 0.36,
+   "note": null
+  }
+ ]
+}

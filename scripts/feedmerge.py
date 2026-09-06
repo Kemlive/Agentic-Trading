@@ -34,6 +34,64 @@ def rows(p):
         return []
 
 
+def _row_ts(line):
+    try:
+        j = json.loads(line)
+        bt = j.get("blockTime")
+        if bt is not None and bt != "":
+            return float(int(bt))
+        t = j.get("ts")
+        if t:
+            return datetime.datetime.fromisoformat(str(t).replace("Z", "+00:00")).timestamp()
+    except Exception:
+        pass
+    return None
+
+
+def _ts_at(path, offset):
+    """Timestamp of the first complete line at/after byte `offset` (skip partial)."""
+    try:
+        with open(path, "rb") as fh:
+            fh.seek(offset)
+            fh.readline()
+            line = fh.readline()
+        if not line:
+            return None
+        return _row_ts(line.decode("utf-8", "replace"))
+    except Exception:
+        return None
+
+
+def rows_recent(path, window_sec):
+    """Stream only rows newer than `window_sec` (binary-search the byte offset;
+    feeds are append-only and roughly time-ordered)."""
+    try:
+        size = os.path.getsize(path)
+    except Exception:
+        return
+    if size <= 0:
+        return
+    need = time.time() - window_sec
+    lo, hi = 0, size
+    while lo < hi:
+        mid = (lo + hi) // 2
+        t = _ts_at(path, mid)
+        if t is None or t < need:
+            lo = mid + 1
+        else:
+            hi = mid
+    with open(path) as fh:
+        fh.seek(lo)
+        fh.readline()  # skip the partial line at the boundary
+        for line in fh:
+            line = line.strip()
+            if line:
+                try:
+                    yield json.loads(line)
+                except Exception:
+                    continue
+
+
 def uni_sol(r):
     return {"chain": "solana", "venue": r.get("venue"), "blk": r.get("slot"),
             "blockTime": r.get("blockTime"), "tx": r.get("tx"),
@@ -247,8 +305,9 @@ def registry(s, h):
 
 
 def main():
+    WINDOW = 26 * 3600  # registry/trend windows need <=24h; keep a 2h buffer
     s = [uni_sol(r) for r in rows(SOL)]
-    h = [uni_rh(r) for r in rows(RH)]
+    h = [uni_rh(r) for r in rows_recent(RH, WINDOW)]
     allr = s + h
     seen = set()
     uniq = []

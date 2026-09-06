@@ -1,0 +1,14 @@
+[Unit]
+Description=Agentic Desk — Robinhood Chain feed daemon
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+WorkingDirectory=/root/Agentic-Trading/evm-signer
+ExecStart=/usr/bin/env node /root/Agentic-Trading/evm-signer/src/rhfeed.mjs
+Restart=always
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

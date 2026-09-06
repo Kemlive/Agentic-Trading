@@ -1,0 +1,51 @@
+{
+ "asOf": "2026-09-05T11:41:47.633Z",
+ "quote": "USDG",
+ "rows": [
+  {
+   "token": "0x655669865602778cc24171bb2182f04cccd0449a",
+   "curve": "0x28d639262a8646bb5a1f128551c37171d5b7f576",
+   "owner": "0xe3479b4a4b0cc3826a0d84ea6ffe4757712198ec",
+   "impactPct": 0.43,
+   "t5": "1357607782807609588112618",
+   "t20": "5407072037573902563837997",
+   "status": "pull-ok"
+  },
+  {
+   "token": "0x39a89316c963daec27bf80b35fc513c45c44c481",
+   "curve": "0x6f8b0c0bac117dcf47394f182b957fdd9eef217c",
+   "owner": "0xa601f6fe1239838eaaa5a464f3fdc0555df06054",
+   "impactPct": 0.43,
+   "t5": "1350501001640553746846443",
+   "t20": "5378827787441475818957387",
+   "status": "pull-ok"
+  },
+  {
+   "token": "0x9ae0d7d9628de46033439265710d1b8d1e7c6029",
+   "curve": "0xd16a42923cc3a3e95547cefc2ccbed918698cdf2",
+   "owner": "0xbdb0b32d79fe5eabd043b2bdec3a102535729680",
+   "impactPct": 0.45,
+   "t5": "1511925698718301614540219",
+   "t20": "6020395622299787798071146",
+   "status": "pull-ok"
+  },
+  {
+   "token": "0x97f7f9d5fee0ded7d8a525b202976620dee4b7f5",
+   "curve": "0x5be244d553f07a1846d4bb58955f2bf721db8aa5",
+   "owner": "0xc26b5bb3ff8ca407fa1eecce812973bfc9321a15",
+   "impactPct": 0.45,
+   "t5": "1511925698251787468062771",
+   "t20": "6020395620450544765526589",
+   "status": "pull-ok"
+  },
+  {
+   "token": "0xfa35b8fc0fd921c83fd4d5a5f614b702d970f237",
+   "curve": "0x6753b69481c5bb42696fc3569df4eeb668d5951e",
+   "owner": "0x9eed092b5fc232338362858add47e0d9ebe01ea3",
+   "impactPct": 0.45,
+   "t5": "1511925692187105101979795",
+   "t20": "6020395596410391466222427",
+   "status": "pull-ok"
+  }
+ ]
+}

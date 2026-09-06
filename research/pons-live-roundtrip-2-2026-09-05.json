@@ -1,0 +1,20 @@
+{
+ "asOf": "2026-09-06T03:31:49.532787+00:00",
+ "test": "2nd live 1-USDG in-and-out on a DIFFERENT fresh Pons USDG candidate (repeatability)",
+ "chain": 4663,
+ "signer": "0xB1ACDaF72cA6648DdD54F5dB85B9Cf75d58f82b8",
+ "token": "0x1d5653e2d68d8cbf2c09a343ee8539a10b4a430a",
+ "curve": "0x58e62a3f9139e946d0134cfc015a31a5cc0728ae",
+ "txs": {
+  "approveUsdg": "0xa899b989fc9e8823896b6d6ed7a3c8a99e1c66d287caa51ab4ba06f6efbb4962",
+  "buy": "0x8b3fbbeee71606b1a27846be3c28fc0708d99de2c00ab8afb84d6bbd8f5cf2e0",
+  "sell": "0x2aea9eeda3f93b2247d994fb9e609399a1403a045650013d742db264bc369e8f"
+ },
+ "buyTokensOut": "305839684209194539242200",
+ "sellQuoteRaw": "980100",
+ "usdgDeltaRaw": "-19900",
+ "costUsdg": 0.0199,
+ "costPct": 1.99,
+ "gasUsedNative": "146289096048000",
+ "note": "Identical 1.99% round-trip cost to the first live test \u2014 deterministic protocol fee, repeatable across candidates."
+}

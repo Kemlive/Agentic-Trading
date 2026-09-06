@@ -1,0 +1,123 @@
+[
+ {
+  "token": "0x4a0e65a3eccec6dbe60ae065f2e7bb85fae35eea",
+  "status": "not-on-pons"
+ },
+ {
+  "token": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+  "status": "not-on-pons"
+ },
+ {
+  "token": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+  "status": "not-on-pons"
+ },
+ {
+  "token": "0x2e0847e8910a9732eb3fb1bb4b70a580adad4fe3",
+  "status": "not-on-pons"
+ },
+ {
+  "token": "0x020bfc650a365f8bb26819deaabf3e21291018b4",
+  "status": "not-on-pons"
+ },
+ {
+  "token": "0x2e8c31162b855a2ffa90f6f8634643ad6f111e18",
+  "status": "not-on-pons"
+ },
+ {
+  "token": "0xab5d6a69bfbcd21fa779252c67f03432f0fe4c50",
+  "curve": "0x225f1e20a13761e5fea9f4b4d7df484b24acbed5",
+  "isNative": false,
+  "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+  "status": "no-fill",
+  "tokensOut": null,
+  "reason": "execution reverted"
+ },
+ {
+  "token": "0x8e859dbdfbfd2df6a99870e2871eaa58e8784e05",
+  "curve": "0xb0b7c5d79319641ea583ee308c083de1eb5ec64f",
+  "isNative": true,
+  "pair": "0x0000000000000000000000000000000000000000",
+  "status": "no-fill",
+  "tokensOut": null,
+  "reason": "execution reverted"
+ },
+ {
+  "token": "0x39dbed3a2bd333467115de45665cc57f813c4571",
+  "status": "not-on-pons"
+ },
+ {
+  "token": "0x7ad7b2256ffcf7c6f7c7d95cf238d2ecc2c485e0",
+  "curve": "0xe5da6c2c773241e10c4f6a53d9c36c8b3099a39b",
+  "isNative": true,
+  "pair": "0x0000000000000000000000000000000000000000",
+  "status": "no-fill",
+  "tokensOut": null,
+  "reason": "execution reverted"
+ },
+ {
+  "token": "0x44812a88a643b2a55bc28bf618e180728f4d3fba",
+  "curve": "0x67407aa547cabc18faa1c5628e7feaa3a5edc3c3",
+  "isNative": true,
+  "pair": "0x0000000000000000000000000000000000000000",
+  "status": "no-fill",
+  "tokensOut": null,
+  "reason": "execution reverted"
+ },
+ {
+  "token": "0x0d6bbdd979ef4802567425ae4ab352edaa468f1d",
+  "curve": "0x90a6ed36815c15b4d0af6312487f4af4cbb7463c",
+  "isNative": true,
+  "pair": "0x0000000000000000000000000000000000000000",
+  "status": "no-fill",
+  "tokensOut": null,
+  "reason": "execution reverted"
+ },
+ {
+  "token": "0xcec185eb182c47d1ba1efc84e6959e18cd620be4",
+  "status": "not-on-pons"
+ },
+ {
+  "token": "0x6635c082c14b4206751600d96fe50428815c9fa9",
+  "curve": "0x7bc1442ecc855b8b37004381c240db2c84532c2c",
+  "isNative": true,
+  "pair": "0x0000000000000000000000000000000000000000",
+  "status": "no-fill",
+  "tokensOut": null,
+  "reason": "execution reverted"
+ },
+ {
+  "token": "0x322f0929c4625ed5bad873c95208d54e1c003b2d",
+  "status": "not-on-pons"
+ },
+ {
+  "token": "0xca907cfda1ef345453804f3308a966fc8ca87bca",
+  "curve": "0xa488a2fdef9f39202a59bd1d844006113739f021",
+  "isNative": false,
+  "pair": "0x2e0847e8910a9732eb3fb1bb4b70a580adad4fe3",
+  "status": "no-fill",
+  "tokensOut": null,
+  "reason": "custom-pair-sim-unsupported"
+ },
+ {
+  "token": "0x157a752f3446fe891d6e2881006813703fbb3ad9",
+  "curve": "0xbff875b4240f09eac849f66633b69c8b0aa7eabc",
+  "isNative": true,
+  "pair": "0x0000000000000000000000000000000000000000",
+  "status": "no-fill",
+  "tokensOut": null,
+  "reason": "execution reverted"
+ },
+ {
+  "token": "0xfa0653c203c4c73bf89ba357369cec6991e4d8d2",
+  "curve": "0x4ff370a4cd9bb057608a0544a39d853d08e0fdf2",
+  "isNative": true,
+  "pair": "0x0000000000000000000000000000000000000000",
+  "status": "no-fill",
+  "tokensOut": null,
+  "reason": "execution reverted"
+ },
+ {
+  "token": "0x12f190a9f9d7d37a250758b26824b97ce941bf54",
+  "status": "not-on-pons"
+ }
+]

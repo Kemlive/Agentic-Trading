@@ -1,12 +1,9 @@
 # Paper Trading — 2026-09-04
 
-_Auto run 2026-09-04T18:45:33.585216+00:00 | hypothetical $5 positions | rule engine v1_
+_Auto run 2026-09-04T23:47:26.900091+00:00 | hypothetical $5 positions | rule engine v1_
 
-**Realized all-time: $-90.49** | this run $-10.65 | Open: 3 (cost ~$15.00)
+**Realized all-time: $-93.88** | this run $4.33 | Open: 5 (cost ~$22.50)
 
-Opened 2 this run: CHILL@0.0001403, JERSEY@0.0001853
+Opened 1 this run: PARCAT@8.099e-05
 ### Events
-- CLOSE HUGCOIN time-stop pnl=$0.27 @ 0.0001237
-- CLOSE $LEAK stop -30% pnl=$-2.35 @ 1.164e-05
-- CLOSE GPU stop -30% pnl=$-3.64 @ 1.211e-05
-- CLOSE ONLYMEME stop -30% pnl=$-4.93 @ 1.948e-06
+- CLOSE PUMPLIFE TP2 pnl=$4.33 @ 0.0004265

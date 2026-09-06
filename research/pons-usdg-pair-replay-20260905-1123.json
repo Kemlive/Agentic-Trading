@@ -1,0 +1,633 @@
+{
+ "asOf": "2026-09-05T11:23:42.510833+00:00",
+ "method": "real-holder replay: eth_call buy($5 USDG) from real addresses with existing on-chain allowance to the Pons curve (Approval logs spender=curve + token mint buyers). Zero funds, no state override.",
+ "verdicts": {
+  "PASS": 42,
+  "no-eligible-holder": 20
+ },
+ "nPass": 42,
+ "rows": [
+  {
+   "token": "0x39a89316c963daec27bf80b35fc513c45c44c481",
+   "curve": "0x6f8b0c0bac117dcf47394f182b957fdd9eef217c",
+   "ownersFound": 6,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0xa601f6fe1239838eaaa5a464f3fdc0555df06054",
+    "tokensOut": "1350501001640553746846443"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0xbab39d9f16c0c6608a726a610a7567f9ba366d17",
+   "curve": "0x383659e9a3cfe0566bd82656965a896a1150f896",
+   "ownersFound": 3,
+   "verdict": "no-eligible-holder",
+   "detail": null,
+   "holderErr": null
+  },
+  {
+   "token": "0xbbf9e749d6d4792e3d5ae4281880e97ccfa109c1",
+   "curve": "0x00beb11873ff51c9b52cbe6103f3f0e3c680634f",
+   "ownersFound": 14,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0x53e68553ca08f512423628d64c01b0a14dfcda99",
+    "tokensOut": "1285022300255870172626673"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x2c9ce272a6389beb2e51516eebd404f79eb106cf",
+   "curve": "0x4984303f743e998c17f0e894103eaf01b3ef0e37",
+   "ownersFound": 5,
+   "verdict": "no-eligible-holder",
+   "detail": null,
+   "holderErr": null
+  },
+  {
+   "token": "0x0973aa8912815486794d0940544cd9569758e4e0",
+   "curve": "0xaa2872480b8227044b1d5f894b29e1a25b9403dd",
+   "ownersFound": 4,
+   "verdict": "no-eligible-holder",
+   "detail": null,
+   "holderErr": null
+  },
+  {
+   "token": "0xf66e5ec04dd7566abdc18016593101dc78d37e6d",
+   "curve": "0x9f217fa33cc8cc3c6364c0fd88574ad8751ee9e6",
+   "ownersFound": 7,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0x87e53f6d0e6d5938e3933b3e09401764d01b2c34",
+    "tokensOut": "1455675453262797829009123"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x1594ae7668bbcf19cf3e151f4ef6528e3508c7e2",
+   "curve": "0x9c395064c0336d59836531ec29153640095ca722",
+   "ownersFound": 9,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0xc26b5bb3ff8ca407fa1eecce812973bfc9321a15",
+    "tokensOut": "1323353392485100610183386"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x76ec792f41a5fd364a5ab1b852fb8b078b375db6",
+   "curve": "0x22690f52a57649dd3e16060bb5e163211e8dac59",
+   "ownersFound": 1,
+   "verdict": "no-eligible-holder",
+   "detail": null,
+   "holderErr": null
+  },
+  {
+   "token": "0xed4eb0b1aed1ffef00ed52f2686360ec56a6b530",
+   "curve": "0xf22cd6bfd9b8e85bad8884a201cbc68ec441ec01",
+   "ownersFound": 3,
+   "verdict": "no-eligible-holder",
+   "detail": null,
+   "holderErr": null
+  },
+  {
+   "token": "0x0f9a2807fa6eb76522e9f2f8d9811c8d8a1a5e07",
+   "curve": "0x039c7dd205e07330222c7473e46ce74b54e604f8",
+   "ownersFound": 7,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0xe3479b4a4b0cc3826a0d84ea6ffe4757712198ec",
+    "tokensOut": "1252414145752374016324187"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0xb7535834f21261041136c50e3d8a42739bb693a9",
+   "curve": "0x503f8a73c5d97799497eae929fb8a597ccbbadfc",
+   "ownersFound": 4,
+   "verdict": "no-eligible-holder",
+   "detail": null,
+   "holderErr": null
+  },
+  {
+   "token": "0xe5ae5ac9c4944af604cc9b242db107a399534930",
+   "curve": "0x8a6eb595bc07b5b16685d4290e514525c38ccf25",
+   "ownersFound": 7,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0xe3479b4a4b0cc3826a0d84ea6ffe4757712198ec",
+    "tokensOut": "1420049452919702190807903"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x331a244cb77c87ab8e25b0403d265a97a05c595e",
+   "curve": "0xa9fc5138044292dc50fa408e6badbb89a8787125",
+   "ownersFound": 8,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0x53e68553ca08f512423628d64c01b0a14dfcda99",
+    "tokensOut": "1382855492681994064731669"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x7b202d70ab26fa3493e1ca9dcf3eb72e0dc60517",
+   "curve": "0xd552285a5e8bc18e0ce992e6c9e88e6fe6f411b2",
+   "ownersFound": 21,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0x53e68553ca08f512423628d64c01b0a14dfcda99",
+    "tokensOut": "1175223843440345597718748"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0xfa35b8fc0fd921c83fd4d5a5f614b702d970f237",
+   "curve": "0x6753b69481c5bb42696fc3569df4eeb668d5951e",
+   "ownersFound": 8,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0x9eed092b5fc232338362858add47e0d9ebe01ea3",
+    "tokensOut": "1511925692187105101979795"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0xd4b8f71e651a516f093e03e31798047591bb77c1",
+   "curve": "0xcd65f33672a80241f617ed876a50dabdcbc5d691",
+   "ownersFound": 4,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0xbdb0b32d79fe5eabd043b2bdec3a102535729680",
+    "tokensOut": "1527329948609309030617992"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x88958ec4fc927930ada75b34fa58f32965197b73",
+   "curve": "0x09678bece28231509d454256ac7277e7e686c13d",
+   "ownersFound": 12,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0x87e53f6d0e6d5938e3933b3e09401764d01b2c34",
+    "tokensOut": "1327647679572720016581679"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0xb8e9dd7e5bf11137305a0311665708ee6a9ea05a",
+   "curve": "0x648bcab98382c4d3d50a88ce9f20006a1ba8c2f3",
+   "ownersFound": 7,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0x87e53f6d0e6d5938e3933b3e09401764d01b2c34",
+    "tokensOut": "1381867522397678884107134"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x3bf8a84ff2137eda1c9c1772fbb6a1ba6a735e6c",
+   "curve": "0x574b43f1f7b12c37290c56c4af75255218e7a1d3",
+   "ownersFound": 9,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0xe3479b4a4b0cc3826a0d84ea6ffe4757712198ec",
+    "tokensOut": "1299357129735247164933122"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0xadb79cdf4e31d74f701a4138fe4b32060386cf9b",
+   "curve": "0x7767ae7257d562f1ef1ed2326315c8218b1e5d27",
+   "ownersFound": 7,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0xbdb0b32d79fe5eabd043b2bdec3a102535729680",
+    "tokensOut": "1498263973914559569907281"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0xfa6ea172f1770846d8a8e3dc58af3641faf60cfb",
+   "curve": "0x11dc8bb0992c16cb0a0d015f08449c91345f2935",
+   "ownersFound": 9,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0x9eed092b5fc232338362858add47e0d9ebe01ea3",
+    "tokensOut": "1527329943896709505928658"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x1d5653e2d68d8cbf2c09a343ee8539a10b4a430a",
+   "curve": "0x58e62a3f9139e946d0134cfc015a31a5cc0728ae",
+   "ownersFound": 6,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0xbdb0b32d79fe5eabd043b2bdec3a102535729680",
+    "tokensOut": "1460634192920901374655796"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x3be470a014bed2470c84180e6c339096309c47ec",
+   "curve": "0x33e08885944d7e788f0b3d40b141c15745c0c59f",
+   "ownersFound": 5,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0xbdb0b32d79fe5eabd043b2bdec3a102535729680",
+    "tokensOut": "1527329948123442865618199"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x4bc8ff4252f49db19058048db534b07cfd377063",
+   "curve": "0x3ea9fb8c8912ab5217d607463cd700d6ea5ea86d",
+   "ownersFound": 4,
+   "verdict": "no-eligible-holder",
+   "detail": null,
+   "holderErr": null
+  },
+  {
+   "token": "0x1683e4d33a9fd620e1b308d2e10d211070fab73b",
+   "curve": "0x01c411564c8db2dd75a8a9a119a3fc33108b23bb",
+   "ownersFound": 30,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0x53e68553ca08f512423628d64c01b0a14dfcda99",
+    "tokensOut": "916901998691294305732280"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x6ad46b1033a36b60515284c84861c01ee40c149b",
+   "curve": "0xafd2324e6eca5ecbcc73cc034a76f4033bdf559e",
+   "ownersFound": 5,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0x9eed092b5fc232338362858add47e0d9ebe01ea3",
+    "tokensOut": "1527329947195529170157624"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0xffbf019697bacafe63a25249ac7a63dbc01495d9",
+   "curve": "0x962d3ddfa66d21b3b553533ce1be69e482c0d1fa",
+   "ownersFound": 7,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0xe3479b4a4b0cc3826a0d84ea6ffe4757712198ec",
+    "tokensOut": "1409695614602289355803100"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x97ee12b0cf03dabfcefa83c6d60bfa0a1ea16fb3",
+   "curve": "0x5f8a179b584c30a39b26593cacdfbc96a7e58649",
+   "ownersFound": 21,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0x5bf2a00621105ca37af7b6e02715ee2ee2dde966",
+    "tokensOut": "1163923227496326472342436"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x10efde824eeeb78c13eb48e3811229096e9bf3be",
+   "curve": "0x21a37c4e5a8a9dc5e5c395315f65784f61ffb5ca",
+   "ownersFound": 16,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0x03c3239111e983c55ed95b595e6a694cc7513daa",
+    "tokensOut": "1206831238384445566812242"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x8348b1180b7d5d1bde90fe0d895de06315d6ba05",
+   "curve": "0x07b4f81d702f758c3c988dcb4f93fb553c4bad84",
+   "ownersFound": 5,
+   "verdict": "no-eligible-holder",
+   "detail": null,
+   "holderErr": null
+  },
+  {
+   "token": "0xf80f2ebda0e817eb2b849c567bc8bf4a684b7288",
+   "curve": "0x619104927199eeb834031476ad88b676a6a5db4b",
+   "ownersFound": 3,
+   "verdict": "no-eligible-holder",
+   "detail": null,
+   "holderErr": null
+  },
+  {
+   "token": "0x84bc8d7c6757a7c2ac25a46dcf4090daa3006955",
+   "curve": "0x09504b2af0ece3817aacd384001b776aa33ffee3",
+   "ownersFound": 9,
+   "verdict": "no-eligible-holder",
+   "detail": null,
+   "holderErr": null
+  },
+  {
+   "token": "0x1abcc398945e223b2261fc804684cbd5062a6b6a",
+   "curve": "0x18d52d6fbcf100f92c2c86a5488c65a0930ce326",
+   "ownersFound": 11,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0x53e68553ca08f512423628d64c01b0a14dfcda99",
+    "tokensOut": "1371112513127384449092778"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x88a2daa2f6ebe6ced2fe02e4c0416f6eddff44a6",
+   "curve": "0xe0d22cdc1f3e1fe918b9150634e0f334a0a0de7b",
+   "ownersFound": 3,
+   "verdict": "no-eligible-holder",
+   "detail": null,
+   "holderErr": null
+  },
+  {
+   "token": "0xdc28cef20265694fccd4a36d16ea385ee3e70b7e",
+   "curve": "0xf6d11ce21f638b9a843c8e06399503014d122efb",
+   "ownersFound": 9,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0x9eed092b5fc232338362858add47e0d9ebe01ea3",
+    "tokensOut": "1505696143529265969080573"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0xb2d9d6d0a0eea53376fb457893e95ab49c56f5c4",
+   "curve": "0x2daf9fc2c37bb2d1366f20b2bf8b2a3b59786d8d",
+   "ownersFound": 6,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0xe3479b4a4b0cc3826a0d84ea6ffe4757712198ec",
+    "tokensOut": "1379840401621289949245712"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0xbebd46f559ea1525a1b2e5dd30af3e53ae974a0f",
+   "curve": "0x89559075cd715e6dfff4b7538097216972842876",
+   "ownersFound": 12,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0xe3479b4a4b0cc3826a0d84ea6ffe4757712198ec",
+    "tokensOut": "924447357050950275559549"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x0f34e3e844be38b172375765ba5744ab63d21879",
+   "curve": "0x33bf43ac364c3e6175e12df374c88c1bfdb978f4",
+   "ownersFound": 7,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0xe3479b4a4b0cc3826a0d84ea6ffe4757712198ec",
+    "tokensOut": "1416585977963765135196756"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x08986745ef3f0eb85ffbbf0c00c19127ca4ce87d",
+   "curve": "0x3c81419a861aae8dfa6bac17ee97f892dcc6b27e",
+   "ownersFound": 7,
+   "verdict": "no-eligible-holder",
+   "detail": null,
+   "holderErr": null
+  },
+  {
+   "token": "0x7dca49d799760701b9fc6d23240f5fb34b2a3caa",
+   "curve": "0xfe19f1a73b749c07de7fd4de9242c21a33738a42",
+   "ownersFound": 8,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0xc26b5bb3ff8ca407fa1eecce812973bfc9321a15",
+    "tokensOut": "1422649679525523229168371"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x89705bfdb6affc99dfcac4d378347b63dc492a9c",
+   "curve": "0x021ef209fa76c8546b74b4a35185938a886e9980",
+   "ownersFound": 5,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0x03c3239111e983c55ed95b595e6a694cc7513daa",
+    "tokensOut": "1496319592299902612543253"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0xaa2080dd592286bbd4466ea80314249d9b8d10d0",
+   "curve": "0xa61d430fd18e2d8ee67890da6c54a2c675c169c5",
+   "ownersFound": 3,
+   "verdict": "no-eligible-holder",
+   "detail": null,
+   "holderErr": null
+  },
+  {
+   "token": "0x50164d2df044ecad8b528260e4b9b02f101757e0",
+   "curve": "0xbedfb88cda44ef1aadd0a7ed8d09fe62bd8a9c41",
+   "ownersFound": 25,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0x2a4d34cd09a36f59ae3bedc0880cd5da929321d7",
+    "tokensOut": "1008113423226577523282403"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x9ae0d7d9628de46033439265710d1b8d1e7c6029",
+   "curve": "0xd16a42923cc3a3e95547cefc2ccbed918698cdf2",
+   "ownersFound": 4,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0xbdb0b32d79fe5eabd043b2bdec3a102535729680",
+    "tokensOut": "1495646534735930462461768"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x97f7f9d5fee0ded7d8a525b202976620dee4b7f5",
+   "curve": "0x5be244d553f07a1846d4bb58955f2bf721db8aa5",
+   "ownersFound": 6,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0xc26b5bb3ff8ca407fa1eecce812973bfc9321a15",
+    "tokensOut": "1494423687823273258468659"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x32ec7bb6ee37eae3a268b21041403d3a45e71c6a",
+   "curve": "0xd5fb7db29979e3aa83d4e006212815dc88e0211e",
+   "ownersFound": 8,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0xe3479b4a4b0cc3826a0d84ea6ffe4757712198ec",
+    "tokensOut": "1395944692439611070221252"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0xfc973191e0176a466b42aae82684ffc26c1cafae",
+   "curve": "0x6d0a8be4c0736e0068db6a8e5f2f955ae235609f",
+   "ownersFound": 3,
+   "verdict": "no-eligible-holder",
+   "detail": null,
+   "holderErr": null
+  },
+  {
+   "token": "0xedb455ca769ebf959bccd40ea7d8f7a1d9820071",
+   "curve": "0x8c2217b2cd101f757ab180d53105f5b86d8c706e",
+   "ownersFound": 8,
+   "verdict": "no-eligible-holder",
+   "detail": null,
+   "holderErr": null
+  },
+  {
+   "token": "0x5ca997c136f6e59cdd2cea6c6109e33f04d0a915",
+   "curve": "0x4c296637d7ccdd26c13b2510738bb903f815ae80",
+   "ownersFound": 11,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0x9eed092b5fc232338362858add47e0d9ebe01ea3",
+    "tokensOut": "1431562678666978124882040"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0xca0baab51ab9ba52d1bb05839e13b3dee03eda78",
+   "curve": "0x44ae16b78d9dd8b3acd586f9cfd0b898b2a79669",
+   "ownersFound": 14,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0xe3479b4a4b0cc3826a0d84ea6ffe4757712198ec",
+    "tokensOut": "1146346937358265551663713"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0xe04b4d9a9e9a4136822f69879087070a697ee7c0",
+   "curve": "0x704dcb2c3a0b6b6de18effc8da47c9be6144df0e",
+   "ownersFound": 29,
+   "verdict": "no-eligible-holder",
+   "detail": null,
+   "holderErr": "execution reverted"
+  },
+  {
+   "token": "0xbd689a4316bd0b192ad7688a8ba703d5f8da43e2",
+   "curve": "0xc707bdc329904e2a4698ea9622982d47c46e497f",
+   "ownersFound": 8,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0xbdb0b32d79fe5eabd043b2bdec3a102535729680",
+    "tokensOut": "1490030406783599390212594"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x655669865602778cc24171bb2182f04cccd0449a",
+   "curve": "0x28d639262a8646bb5a1f128551c37171d5b7f576",
+   "ownersFound": 7,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0xe3479b4a4b0cc3826a0d84ea6ffe4757712198ec",
+    "tokensOut": "1270210999573276982512148"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0xab6dd4fa70eb0aeadab0400d387f2a57c3513cb9",
+   "curve": "0xd7d94776c09e2bfc28a0ed967f4108a162c438d8",
+   "ownersFound": 2,
+   "verdict": "no-eligible-holder",
+   "detail": null,
+   "holderErr": null
+  },
+  {
+   "token": "0x80a7326b0301eb61912556105fbd212310d85783",
+   "curve": "0xed76c2ff6d71d2627cb79b88654d5dc70fec0d1e",
+   "ownersFound": 8,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0xbdb0b32d79fe5eabd043b2bdec3a102535729680",
+    "tokensOut": "1469683212705003935259988"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x9fb89cd48bdd54d38144665cb2c8f29c2e8d723b",
+   "curve": "0x97c5a396948fbd602677a32619d9d8d278c19890",
+   "ownersFound": 3,
+   "verdict": "no-eligible-holder",
+   "detail": null,
+   "holderErr": null
+  },
+  {
+   "token": "0x55931e1c29a528cbaa8978723960df255b642fda",
+   "curve": "0x649320d350d48c8a32fa4995c783e36813bd4c0c",
+   "ownersFound": 9,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0x87e53f6d0e6d5938e3933b3e09401764d01b2c34",
+    "tokensOut": "1526525360904066133241124"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0x084cf0853a3dcf93e3446c77e5b21b3528c51001",
+   "curve": "0x2974fd484afab493053dccbb092e9f3bca430ada",
+   "ownersFound": 20,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0x9eed092b5fc232338362858add47e0d9ebe01ea3",
+    "tokensOut": "1452484455792050191743536"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0xc33ce70f087dbb1ce9b49ef628ca8960bbffc34f",
+   "curve": "0xd24921a65df37d005f68e1ee5258d4ed12969ac7",
+   "ownersFound": 5,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0x9eed092b5fc232338362858add47e0d9ebe01ea3",
+    "tokensOut": "1524564585825348663059165"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0xea860075eb20a5a4c2ea6bb8ff8c79a09f130dc0",
+   "curve": "0x9f31a8da2a62cc9c4b3f9c658a3ce06cee06944c",
+   "ownersFound": 6,
+   "verdict": "no-eligible-holder",
+   "detail": null,
+   "holderErr": null
+  },
+  {
+   "token": "0x79325553da13972351ca5b138b590684d1bad485",
+   "curve": "0x1dc1e55eb8f6e85050e6f88d8fad5d06af49046c",
+   "ownersFound": 8,
+   "verdict": "PASS",
+   "detail": {
+    "owner": "0x2a4d34cd09a36f59ae3bedc0880cd5da929321d7",
+    "tokensOut": "1526672204176875973178382"
+   },
+   "holderErr": null
+  },
+  {
+   "token": "0xb95135607d00e44737983762cae5dbac595a79d1",
+   "curve": "0xf15daf2c20dea0f3badf5f97a3a7939f1a22664f",
+   "ownersFound": 3,
+   "verdict": "no-eligible-holder",
+   "detail": null,
+   "holderErr": null
+  }
+ ]
+}

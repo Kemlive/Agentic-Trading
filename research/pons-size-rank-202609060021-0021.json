@@ -1,0 +1,65 @@
+{
+ "asOf": "2026-09-06T00:21:18.057Z",
+ "ethUsd": 2481.95,
+ "n": 8,
+ "rows": [
+  {
+   "token": "0x1d5653e2d68d8cbf2c09a343ee8539a10b4a430a",
+   "type": "pons-usdg",
+   "curve": "0x58e62a3f9139e946d0134cfc015a31a5cc0728ae",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527329948609309030617992",
+   "t20": "6081454631069811025818655",
+   "impactPct": 0.46,
+   "note": null
+  },
+  {
+   "token": "0x80a7326b0301eb61912556105fbd212310d85783",
+   "type": "pons-usdg",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  },
+  {
+   "token": "0xdc28cef20265694fccd4a36d16ea385ee3e70b7e",
+   "type": "pons-usdg",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  },
+  {
+   "token": "0x817fe2760cccafd30640510352dba03e14b3ed18",
+   "type": "pons-native",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  },
+  {
+   "token": "0x7ccea94c34a22b2bb711aa380a215130e3d064a2",
+   "type": "pons-native",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  },
+  {
+   "token": "0x132cb8b5773aef068fc8336d5a6abb11ce421947",
+   "type": "pons-native",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  },
+  {
+   "token": "0x4ef272b2406470bed38fdeb40431fb5c9671dcd6",
+   "type": "pons-native",
+   "curve": "0xd3c958268217ca9c88ab8e3ff72ede92ff55d91e",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1184712603117606223631044",
+   "t20": null,
+   "impactPct": null,
+   "note": "fill20-revert"
+  },
+  {
+   "token": "0x0b3a0412335b3421c8eb304208d851d634e49517",
+   "type": "pons-native",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  }
+ ]
+}

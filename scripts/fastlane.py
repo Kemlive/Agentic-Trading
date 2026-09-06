@@ -164,24 +164,57 @@ def buy_px_checks(pr):
         return "MOMENTUM"
     return None
 
+def _mint_decimals(mint, default=6):
+    """On-chain mint decimals (STONK-type 9-dec tokens broke the old 1e6 hardcode)."""
+    try:
+        r = A.rpc("getAccountInfo", [mint, {"encoding": "jsonParsed"}])
+        data = ((r.get("result") or {}).get("value") or {}).get("data") or {}
+        if isinstance(data, dict):
+            return int(data.get("parsed", {}).get("info", {}).get("decimals") or default)
+    except Exception:
+        pass
+    return default
+
+
 def do_sell(pos, px, reason, frac=1.0):
-    """Sell `frac` of an open fast-lane position back to USDC. Returns realized or None."""
-    qty_raw = int(float(pos.get("qty") or 0) * frac * 1e6)
+    """Sell `frac` of an open fast-lane position back to USDC. Returns realized or None.
+
+    2026-09-05 fix (boss manual close exposed it): amounts are now decimals-aware
+    (old `qty * 1e6` assumed 6 decimals and under-sold 9-dec tokens while marking
+    the position closed) and a full close is only recorded after the on-chain fill
+    is verified (token balance actually moved down)."""
+    mint = pos.get("mint")
+    qty = float(pos.get("qty") or 0)
+    sell_qty = qty * frac
+    dec = _mint_decimals(mint)
+    qty_raw = int(sell_qty * (10 ** dec))
     if qty_raw <= 0:
         return None
-    before = A.token_balance_retry(A.USDC)
-    sig, err = A.build_and_send(pos["mint"], A.USDC, qty_raw, 200, "/tmp/fastlane_sell.b64")
+    before_bal = A.token_balance(mint) or 0.0
+    before_usdc = A.token_balance(A.USDC) or 0.0
+    sig, err = A.build_and_send(mint, A.USDC, qty_raw, 200, "/tmp/fastlane_sell.b64")
     if not sig:
         log_event({"event": "fastlane_sell_error", "symbol": pos.get("symbol"), "err": str(err)[:200], "reason": reason})
         notify("⚠️ FASTLANE sell FAILED %s: %s" % (pos.get("symbol"), (err or "")[:120]))
         return None
-    time.sleep(3)
-    proceeds = A.token_balance_retry(A.USDC) - before
-    if proceeds < 0:
-        proceeds = 0.0
+    # verify the fill: token balance must actually drop toward the expected remainder
+    confirmed = False
+    left_expected = qty - sell_qty
+    for _ in range(7):
+        time.sleep(2)
+        bal_now = A.token_balance(mint) or 0.0
+        if bal_now <= left_expected + max(1e-9, qty * 0.002):
+            confirmed = True
+            break
+    proceeds = max(0.0, (A.token_balance(A.USDC) or 0.0) - before_usdc)
+    if not confirmed:
+        if (A.token_balance(mint) or 0.0) >= before_bal * 0.995 and proceeds < 0.01:
+            log_event({"event": "fastlane_sell_unconfirmed", "symbol": pos.get("symbol"), "reason": reason, "tx": sig})
+            notify("⚠️ FASTLANE sell UNCONFIRMED %s (%s) - tokens not moved, review" % (pos.get("symbol"), reason))
+            return None
     cost_here = float(pos.get("costUsdc") or 0) * frac
     realized = proceeds - cost_here
-    pos["qty"] = round(float(pos.get("qty") or 0) * (1 - frac), 6)
+    pos["qty"] = round(max(0.0, qty - sell_qty), 8)
     pos["realizedUsdc"] = round(float(pos.get("realizedUsdc") or 0) + realized, 6)
     pos["realizedPct"] = round(realized / cost_here * 100, 1) if cost_here else 0
     pos["lastExit"] = {"ts": NOW, "reason": reason, "tx": sig, "proceeds": round(proceeds, 4)}

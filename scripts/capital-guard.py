@@ -30,6 +30,9 @@ F = _iu.module_from_spec(_FS)
 _FS.loader.exec_module(F)
 import fastlane as FL
 import autopilot as A
+_OP = _iu.spec_from_file_location("oraclepx", os.path.join(ROOT, "scripts", "oracle_px.py"))
+OPX = _iu.module_from_spec(_OP)
+_OP.loader.exec_module(OPX)
 
 STOP_PCT = -15.0
 BANK_PCT = 30.0
@@ -82,6 +85,13 @@ def price_sources(mint):
         p = ((d.get("data") or {}).get(mint) or {}).get("price")
         if p:
             return float(p)
+    except Exception:
+        pass
+    # ON-CHAIN oracle (boss GO 2026-09-05): vault/bin-decoded price before feed-dead close
+    try:
+        opx = OPX.price_usd(mint)
+        if opx and opx > 0:
+            return float(opx)
     except Exception:
         pass
     return None

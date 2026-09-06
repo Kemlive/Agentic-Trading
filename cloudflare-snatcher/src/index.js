@@ -26,6 +26,24 @@ async function tg(env, text) {
   } catch (e) { console.log("tg fail", e.message); }
 }
 
+// Unified desk: every action also lands in KV "events" so the PM dashboard
+// (:8127) and Telegram see the same snatcher lane. Never logs secrets.
+async function logEvent(env, text, ev) {
+  try {
+    const evs = JSON.parse((await env.STATE.get("events")) || "[]");
+    evs.push({ ts: new Date().toISOString(), text, ...ev });
+    while (evs.length > 80) evs.shift();
+    await env.STATE.put("events", JSON.stringify(evs));
+  } catch (_) {}
+  await tg(env, text);
+}
+
+function cfJson(obj) {
+  return new Response(JSON.stringify(obj), {
+    headers: { "content-type": "application/json", "access-control-allow-origin": "*" },
+  });
+}
+
 async function getJson(url) {
   const r = await fetch(url, { headers: { "user-agent": "agentic-snatcher/1" } });
   return r.json();
@@ -89,29 +107,129 @@ function snatcher(pos, price, txn, chg, peak, ageH) {
   return { act: "HOLD", why: "ride", pct };
 }
 
+async function readKv(env, key) { return JSON.parse((await env.STATE.get(key)) || "{}"); }
+
+function esc(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function pageFor(state, status, events, cfg) {
+  const now = Date.now();
+  const age = (t) => {
+    if (!t) return "n/a";
+    const s = Math.max(0, Math.floor((now - new Date(t).getTime()) / 1000));
+    return s < 90 ? s + "s" : s < 3600 ? Math.floor(s / 60) + "m" : (s / 3600).toFixed(1) + "h";
+  };
+  const st = state || {}, desk = status || {}, pids = desk.pids || {};
+  const pos = st.pos || {};
+  const dead = Object.entries(pids).filter(([, v]) => !v).map(([k]) => k);
+  const evs = (events || []).slice(-8).reverse()
+    .map((e) => `<li><span style="color:#64748b">${age(e.ts)}</span> ${esc(e.text || "")}</li>`).join("");
+  return `<!doctype html>
+<html><head><meta charset="utf-8"><meta http-equiv="refresh" content="20">
+<title>agentic-snatcher · 24/7 maintainer</title>
+<style>body{font-family:ui-monospace,Menlo,monospace;background:#0b1020;color:#e6edf3;padding:16px}
+h1{font-size:16px;color:#7ee787}.card{background:#111a2e;border:1px solid #26324a;border-radius:10px;padding:12px;margin:10px 0}
+.k{color:#8b98b8;font-size:11px;text-transform:uppercase;letter-spacing:.05em}td,th{padding:4px 8px;border-bottom:1px solid #1f2a44;text-align:left}
+.ok{color:#4ade80}.bad{color:#f87171}.pill{display:inline-block;border:1px solid #334155;border-radius:999px;padding:2px 9px;font-size:.7rem;background:#0b1220;margin-right:6px}
+.green{border-color:#14532d;color:#7ee787}.red{border-color:#7f1d1d;color:#ff7b72}</style></head><body>
+<h1>☁️ agentic-snatcher — Cloudflare 24/7 maintainer</h1>
+<div class="card"><span class="k">worker</span><br>
+${st.off ? '<span class="pill red">WORKER OFF (halt flag)</span>' : (st.paused ? '<span class="pill red">WORKER PAUSED (daily guard)</span>' : '<span class="pill green">WORKER ACTIVE</span>')}
+<br>worker loop ping ${age(st.ping || state.ts)} ago · USDC last seen $${st.usdc != null ? Number(st.usdc).toFixed(2) : "n/a"} (floor $${cfg.reserveMin})</div>
+<div class="card"><span class="k">local desk report</span><br>
+host <b>${esc(desk.host || "—")}</b> · received ${age(desk.receivedAt || desk.ts)} ago<br>
+<span class="pill ${dead.length ? "red" : "green"}">feeds ${dead.length ? "DOWN: " + esc(dead.join(",")) : "all alive"}</span></div>
+<div class="card"><span class="k">snatcher lane</span><br>
+open: ${pos.symbol ? esc(pos.symbol) + " (entry ~$" + Number(pos.entryImpliedUsd || 0).toFixed(4) + ", age " + age(pos.openedAt) + ")" : "none — scanning every 15 min"}</div>
+${evs ? '<div class="card"><span class="k">recent events</span><ul style="font-size:.8rem">' + evs + "</ul></div>" : ""}
+<p style="color:#64748b;font-size:.7rem">Cloudflare 24/7 maintainer · desk reports here every ~60s while the machine is on</p>
+</body></html>`;
+}
+
 export default {
   async scheduled(event, env, ctx) { await loop(env); },
   async fetch(request, env) {
     const u = new URL(request.url);
-    if (u.pathname === "/run") { await loop(env); return new Response("ok"); }
-    return new Response("alive");
+    const p = u.pathname;
+    if (p === "/ping") {
+      if (request.method !== "POST") return cfJson({ ok: false, error: "POST required" });
+      let body = {};
+      try { body = await request.json(); } catch (_) { return cfJson({ ok: false, error: "bad json" }); }
+      const tok = body.pingToken || u.searchParams.get("token") || "";
+      if (env.PING_TOKEN && tok !== env.PING_TOKEN) return cfJson({ ok: false, error: "bad token" });
+      delete body.pingToken;
+      const rec = { ...body, receivedAt: new Date().toISOString() };
+      await env.STATE.put("status", JSON.stringify(rec));
+      return cfJson({ ok: true, ts: rec.receivedAt });
+    }
+    if (p === "/page") {
+      if (request.method !== "POST") return cfJson({ ok: false, error: "POST required" });
+      let body = {};
+      try { body = await request.json(); } catch (_) { return cfJson({ ok: false, error: "bad json" }); }
+      const tok = body.pingToken || u.searchParams.get("token") || "";
+      if (env.PING_TOKEN && tok !== env.PING_TOKEN) return cfJson({ ok: false, error: "bad token" });
+      const html = String(body.html || "");
+      if (html.length < 500) return cfJson({ ok: false, error: "html too small" });
+      await env.STATE.put("page", JSON.stringify({ html, ts: new Date().toISOString() }));
+      return cfJson({ ok: true });
+    }
+    const state = await readKv(env, "state");
+    const status = await readKv(env, "status");
+    const events = JSON.parse((await env.STATE.get("events")) || "[]");
+    const cfg = { sizeUsdc: Number(env.SIZE_USDC), reserveMin: Number(env.RESERVE_MIN), wallet: env.WALLET };
+    if (p === "/state") return cfJson({ ok: true, service: "agentic-snatcher", ts: new Date().toISOString(), cfg, state, status, events });
+    if (p === "/run") { await loop(env); return new Response("ok"); }
+    if (p === "/" || p === "/status") {
+      const mirror = await readKv(env, "page");
+      if (mirror && mirror.html) {
+        const age = () => {
+          if (!mirror.ts) return "n/a";
+          const s = Math.max(0, Math.floor((Date.now() - new Date(mirror.ts).getTime()) / 1000));
+          return s < 90 ? s + "s" : s < 3600 ? Math.floor(s / 60) + "m" : (s / 3600).toFixed(1) + "h";
+        };
+        const ribbon = "<div style='position:sticky;top:0;z-index:99;background:#0b1020;border-bottom:1px solid #7c3aed;padding:7px 12px;font-size:11px;color:#a78bfa;font-family:ui-monospace,Menlo,monospace'>☁️ Cloudflare 24/7 mirror of the local PM desk — updated " + age() + " ago · read-only (CLOSE/Rebalance stay on the Mac) · <a href='/state' style='color:#8b98b8'>json</a></div>";
+        const out = mirror.html.includes("</head><body>")
+          ? mirror.html.replace("</head><body>", "</head><body>" + ribbon)
+          : ribbon + mirror.html;
+        return new Response(out, { headers: { "content-type": "text/html; charset=utf-8" } });
+      }
+      return new Response(pageFor(state, status, events, cfg), { headers: { "content-type": "text/html; charset=utf-8" } });
+    }
+    return cfJson({ ok: true, service: "agentic-snatcher", ts: new Date().toISOString() });
   },
 };
 
 async function loop(env) {
+  // FEED KEY GUARD (2026-09-05): the worker must NOT hold wallet keys; until its
+  // HELIUS_KEY is fixed server-side, the autopilot loop is disabled to stop the
+  // repeated `Unauthorized` feed failures. /status, /ping and the dashboard mirror
+  // keep working. Remove this guard only when a valid HELIUS_KEY is configured.
+  if (!env.HELIUS_KEY) {
+    const st0 = JSON.parse((await env.STATE.get("state")) || "{}");
+    if (!st0.noHeliusKeyNotified) {
+      st0.noHeliusKeyNotified = true;
+      await env.STATE.put("state", JSON.stringify(st0));
+      await logEvent(env, "AUTOPILOT DISABLED: no HELIUS_KEY on worker - loop paused until the feed key is fixed (wallet keys are never stored here)", { kind: "ERROR" });
+    }
+    return;
+  }
   const st = JSON.parse((await env.STATE.get("state")) || "{}");
   if (!st.day || st.day !== new Date().toISOString().slice(0, 10)) st.day = new Date().toISOString().slice(0, 10);
   try {
     const { usdc } = await balances(env);
+    st.usdc = usdc;
+    st.ping = new Date().toISOString();
+    await env.STATE.put("state", JSON.stringify(st));
     if (st.off) return;
     if (usdc < Number(env.RESERVE_MIN)) {
-      await tg(env, "AUTOPILOT holding: USDC $" + usdc.toFixed(2) + " < reserve floor");
+      await logEvent(env, "AUTOPILOT holding: USDC $" + usdc.toFixed(2) + " < reserve floor", { kind: "HOLD", usdc });
       return;
     }
     if (!st.paused && st.dayStartUsd && usdc <= st.dayStartUsd * 0.90) {
       st.paused = true;
       await env.STATE.put("state", JSON.stringify(st));
-      await tg(env, "AUTOPILOT PAUSED: daily loss guard (-10%). Balance $" + usdc.toFixed(2));
+      await logEvent(env, "AUTOPILOT PAUSED: daily loss guard (-10%). Balance $" + usdc.toFixed(2), { kind: "PAUSE", usdc });
       return;
     }
     st.dayStartUsd = st.dayStartUsd || usdc;
@@ -129,13 +247,13 @@ async function loop(env) {
         const sig = await signAndSend(env, tx);
         delete st.pos;
         await env.STATE.put("state", JSON.stringify(st));
-        await tg(env, "AUTOPILOT SELL " + pos.symbol + " (" + dec.why + ") " + Math.round(dec.pct) + "% tx " + sig.slice(0, 12));
+        await logEvent(env, "AUTOPILOT SELL " + pos.symbol + " (" + dec.why + ") " + Math.round(dec.pct) + "% tx " + sig.slice(0, 12), { kind: "SELL", symbol: pos.symbol, pct: Math.round(dec.pct), sig: sig.slice(0, 12), usdc });
       }
       return;
     }
     const cand = await pickCandidate(env, st);
     if (!cand) {
-      await tg(env, "SCAN clean round: no entry (USDC $" + usdc.toFixed(2) + " ready)");
+      await logEvent(env, "SCAN clean round: no entry (USDC $" + usdc.toFixed(2) + " ready)", { kind: "SCAN", usdc });
       return;
     }
     const amount = Math.floor(Number(env.SIZE_USDC) * 1e6);
@@ -145,9 +263,9 @@ async function loop(env) {
     st.pos = { mint: cand.token, symbol: cand.symbol, qty, entryImpliedUsd: Number(env.SIZE_USDC) / qty, openedAt: new Date().toISOString() };
     st.tried = (st.tried || []).concat(cand.token).slice(-30);
     await env.STATE.put("state", JSON.stringify(st));
-    await tg(env, "AUTOPILOT BUY " + cand.symbol + " $" + env.SIZE_USDC + " -> " + qty + " tokens tx " + sig.slice(0, 12));
+    await logEvent(env, "AUTOPILOT BUY " + cand.symbol + " $" + env.SIZE_USDC + " -> " + qty + " tokens tx " + sig.slice(0, 12), { kind: "BUY", symbol: cand.symbol, usdc: Number(env.SIZE_USDC), qty, sig: sig.slice(0, 12) });
   } catch (e) {
-    try { await tg(env, "AUTOPILOT error: " + e.message); } catch (_) {}
+    try { await logEvent(env, "AUTOPILOT error: " + e.message, { kind: "ERROR" }); } catch (_) {}
   }
 }
 

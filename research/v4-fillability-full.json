@@ -1,0 +1,128 @@
+[
+ {
+  "token": "0x39dbed3a2bd333467115de45665cc57f813c4571",
+  "decOut": 18,
+  "found": 0,
+  "status": "no-v4-pool",
+  "rows": []
+ },
+ {
+  "token": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+  "decOut": 18,
+  "found": 0,
+  "status": "no-v4-pool",
+  "rows": []
+ },
+ {
+  "token": "0xcec185eb182c47d1ba1efc84e6959e18cd620be4",
+  "decOut": 8,
+  "found": 0,
+  "status": "no-v4-pool",
+  "rows": []
+ },
+ {
+  "token": "0x2e8c31162b855a2ffa90f6f8634643ad6f111e18",
+  "decOut": 18,
+  "found": 0,
+  "status": "no-v4-pool",
+  "rows": []
+ },
+ {
+  "token": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+  "decOut": 18,
+  "found": 0,
+  "status": "no-v4-pool",
+  "rows": []
+ },
+ {
+  "token": "0xab5d6a69bfbcd21fa779252c67f03432f0fe4c50",
+  "decOut": 18,
+  "found": 0,
+  "status": "no-v4-pool",
+  "rows": []
+ },
+ {
+  "token": "0x8e859dbdfbfd2df6a99870e2871eaa58e8784e05",
+  "decOut": 18,
+  "found": 0,
+  "status": "no-v4-pool",
+  "rows": []
+ },
+ {
+  "token": "0x7ad7b2256ffcf7c6f7c7d95cf238d2ecc2c485e0",
+  "decOut": 18,
+  "found": 0,
+  "status": "no-v4-pool",
+  "rows": []
+ },
+ {
+  "token": "0x44812a88a643b2a55bc28bf618e180728f4d3fba",
+  "decOut": 18,
+  "found": 0,
+  "status": "no-v4-pool",
+  "rows": []
+ },
+ {
+  "token": "0x50ac4a09c6764b69f0132e283b059c8ab1374b36",
+  "decOut": 18,
+  "found": 0,
+  "status": "no-v4-pool",
+  "rows": []
+ },
+ {
+  "token": "0xe45f30d27ea95050d34e4b678f4d0386c0e4b783",
+  "decOut": 18,
+  "found": 0,
+  "status": "no-v4-pool",
+  "rows": []
+ },
+ {
+  "token": "0x0d6bbdd979ef4802567425ae4ab352edaa468f1d",
+  "decOut": 18,
+  "found": 0,
+  "status": "no-v4-pool",
+  "rows": []
+ },
+ {
+  "token": "0xc697aef3646a68bed422efc815ef6a110dfadd89",
+  "decOut": 18,
+  "found": 0,
+  "status": "no-v4-pool",
+  "rows": []
+ },
+ {
+  "token": "0xfa0653c203c4c73bf89ba357369cec6991e4d8d2",
+  "decOut": 18,
+  "found": 0,
+  "status": "no-v4-pool",
+  "rows": []
+ },
+ {
+  "token": "0x322f0929c4625ed5bad873c95208d54e1c003b2d",
+  "decOut": 18,
+  "found": 0,
+  "status": "no-v4-pool",
+  "rows": []
+ },
+ {
+  "token": "0x6635c082c14b4206751600d96fe50428815c9fa9",
+  "decOut": 18,
+  "found": 0,
+  "status": "no-v4-pool",
+  "rows": []
+ },
+ {
+  "token": "0x157a752f3446fe891d6e2881006813703fbb3ad9",
+  "decOut": 18,
+  "found": 0,
+  "status": "no-v4-pool",
+  "rows": []
+ },
+ {
+  "token": "0x12f190a9f9d7d37a250758b26824b97ce941bf54",
+  "decOut": 18,
+  "found": 0,
+  "status": "no-v4-pool",
+  "rows": []
+ }
+]

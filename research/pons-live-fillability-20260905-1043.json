@@ -1,0 +1,2851 @@
+{
+ "asOf": "2026-09-05T10:43:50.829Z",
+ "quote": "USDG/ETH(native)",
+ "method": "official factory TokenLaunched logs + LaunchedToken struct decode; real eth_call + state overrides",
+ "ethUsdSource": "coingecko-simple-price",
+ "scannedTokens": 350,
+ "latestBlock": 55055501,
+ "scannedBackTo": 55015499,
+ "rows": [
+  {
+   "token": "0xfcf2af2dc638d3280fbabe8ad64898c42a2a7892",
+   "curve": "0x95011c498f645db730917ff9b1f4ac8f1a3c4c1e",
+   "pair": "0x1b0e319c6a659f002271b69db8a7df2f911c153e",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x41f292fa26775c859cbd09b8c887a8b0eebe311e",
+   "curve": "0x291fe34163641cdc17140481a8aedc1b5343fcb6",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1138304257974814688115956",
+   "reason": null
+  },
+  {
+   "token": "0xc57d107e15bc5f02621978c951bf6dff790b7e1d",
+   "curve": "0x453384a157952dce50653a8cd52c268c617f0392",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "228815123593372209888975",
+   "reason": null
+  },
+  {
+   "token": "0xacd1ab4259837440abe266a1d3d7295a7660b84f",
+   "curve": "0x367abe74c8776511753d7faf0a8d02b3552ff7ee",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0x6b8de487d6be323be6c84bfe5acc711f8303d420",
+   "curve": "0x80d0e366e44c43e0ab5f5189a205e62f73a39e54",
+   "pair": "0xe93237c50d904957cf27e7b1133b510c669c2e74",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x39a89316c963daec27bf80b35fc513c45c44c481",
+   "curve": "0x6f8b0c0bac117dcf47394f182b957fdd9eef217c",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x267fd1e382cbc48bbcfab8ea6bd3ab0a32f48b1e",
+   "curve": "0x08b68d5e218b7c6557ae50341039bc0972367337",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "824920344762018309391358",
+   "reason": null
+  },
+  {
+   "token": "0x68c6606102709578c398160fa58d67c0c532528b",
+   "curve": "0xbf77151b58ffd1626bc74f1d80b3fda409321259",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1157934989021242172215614",
+   "reason": null
+  },
+  {
+   "token": "0x08485766eb4446c853e7edd7e0ab09deb1203f34",
+   "curve": "0xd334b393d6bdbf28068d56dc6e7cc9220afaeb9b",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1179999927154731586747809",
+   "reason": null
+  },
+  {
+   "token": "0x180262e36ee04ff576e418741983fa0eeae95844",
+   "curve": "0x8b5359385cb1fa3bcfd446ef18332839c1929847",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1154243721568694754882437",
+   "reason": null
+  },
+  {
+   "token": "0xbab39d9f16c0c6608a726a610a7567f9ba366d17",
+   "curve": "0x383659e9a3cfe0566bd82656965a896a1150f896",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xe43815f36529649f1516007a92736ba1f5663c4c",
+   "curve": "0xe5baa5c885a5dad72b8f18f9faffed06c770ccd8",
+   "pair": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x6fbb0b94f19474f3dca8f8ef4c7ef26288786165",
+   "curve": "0x2392237a3cfe5e14ab7b1893e869961d6250ccd7",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1134302272780729874733532",
+   "reason": null
+  },
+  {
+   "token": "0xcb606639ab9465f0e1f4316a2f93f382fc0f1b18",
+   "curve": "0x555575b8f997659fce04cbbcdf9b24cebc712238",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "403762925289598836965130",
+   "reason": null
+  },
+  {
+   "token": "0x02d8dceae4801c4fa7586b2ff63b4420bb56bab6",
+   "curve": "0xbfb6e613131b805c07816b0f94b99e31a7dfe6a7",
+   "pair": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xd18a9d8c14507da4bea03d85b09d88cbabbc8aed",
+   "curve": "0x1c283d8a72bda84dff33113333eb15ba7e8c46d0",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1149165160854228522265492",
+   "reason": null
+  },
+  {
+   "token": "0xbe68dcb8abccc21eb306105fdc4253d0fe2e7ef6",
+   "curve": "0x3018a4b6fb9e9a2de9c9a3ed74886e3d74fed7c8",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094772688307",
+   "reason": null
+  },
+  {
+   "token": "0xc28f0565d33f96bb8c692846d156a8b3ef23b6b0",
+   "curve": "0x514e21ad3830d67b941e63969a70126e965b96d3",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1158161963139786328348874",
+   "reason": null
+  },
+  {
+   "token": "0x33ebdfdd2350769105e6cd6f599b052ad21e9e34",
+   "curve": "0x8c3035137e04a456b80bf2a807cd3c68e28d17b2",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0xb47b028c36217e9d1b48d57121fa49735331c9c0",
+   "curve": "0x7876e87aec21bc119add1a7a6c535b0ab876b70f",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1175605089173769340008382",
+   "reason": null
+  },
+  {
+   "token": "0x61bd8999b61566027eff83d4f5c5f723a6ce834f",
+   "curve": "0x2911010864ddb4fcbc1003d5beb9a8678fa3d321",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1156751333049994721698873",
+   "reason": null
+  },
+  {
+   "token": "0xcafe429bdeb8370865eb9c733207af61a5d18e6f",
+   "curve": "0xb577a468ff824526b3f0169c83dd8954be8111fd",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "297722054738968050673906",
+   "reason": null
+  },
+  {
+   "token": "0x44965603e76c3d289fe44c739e3fded1fd3013b1",
+   "curve": "0xd5f14a9eeea0e6b40ff1ac270926159d49d07bfc",
+   "pair": "0x1b0e319c6a659f002271b69db8a7df2f911c153e",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x637e99bbe1b77b808c2a9295a490e2737d6279a0",
+   "curve": "0x39be25d632c9725697bfd29499ecfbc5142fe357",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1185665104036443195163511",
+   "reason": null
+  },
+  {
+   "token": "0xd7675bfe3e8ace695beb56fa5ff08eb6d6a1fcb0",
+   "curve": "0xfbe456852a17329398315599ce4aa86d6bc3817b",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1156416613443752869787796",
+   "reason": null
+  },
+  {
+   "token": "0x292e3157b69be824e18708bf1ea2dfd2c832d61c",
+   "curve": "0x38da7bac276ef14f8086656c85393b04c153a18a",
+   "pair": "0x48e39e56acdba37b09020c0b734a613c9a2f100a",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x7f6c1feb820a210f611d7d3a3eec6c1b99860888",
+   "curve": "0x3010a8fbb948187f67d1ae23c686eccd7e49d3e3",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "status": "not-phase0",
+   "phase": 1
+  },
+  {
+   "token": "0x15cf3da75d33e2c3f47e1e78529db8dc49063b07",
+   "curve": "0x510970962d21073294a9864185ee65c99f8b062f",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "820533188984304182943770",
+   "reason": null
+  },
+  {
+   "token": "0x69cddd43497107fbaf4d964bd800017e001fa66c",
+   "curve": "0xbe7b4e09ee88a6ed77edd4a453a3e3a4b954f7be",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1187405272636523783629525",
+   "reason": null
+  },
+  {
+   "token": "0xc868ceb671630235eacb3f448e13c32eb4fe661e",
+   "curve": "0x62871674b50d70103777a530844658c7baae6e27",
+   "pair": "0x1b0e319c6a659f002271b69db8a7df2f911c153e",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x994bb4e74793b2348f40a707bf4002987964ed3d",
+   "curve": "0xc8072ca00512674103409a4971f03f9d8539d95d",
+   "pair": "0x05b37fb53a299a1b874a619e1c4c404d52c36f4c",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x2a5982426b30d38cde1ff06e3b34bfaac5a22777",
+   "curve": "0x3d2922cb462c6ca0863dd43f573d2161576e4b7b",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1084809500830138257825253",
+   "reason": null
+  },
+  {
+   "token": "0x73ebc734e32f47dbfd45824d030eef5a7c8306d1",
+   "curve": "0xa8b175bb67bd0df99fcbdf32f2ef9f6611e614c1",
+   "pair": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xa86731ea43b81d4818bc5b5c577f2d21ebf85372",
+   "curve": "0xef320679481301042a6be8b282b672ad07d2a1da",
+   "pair": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xbbf9e749d6d4792e3d5ae4281880e97ccfa109c1",
+   "curve": "0x00beb11873ff51c9b52cbe6103f3f0e3c680634f",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x648637e6cd2f6d2b4f79dffaf2f2290c800c30c4",
+   "curve": "0x9140fea91627e9edb806c2c805eb63a00e7ad020",
+   "pair": "0x1b0e319c6a659f002271b69db8a7df2f911c153e",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x646293221a8deb87119e7b2bf5cb81ca34f342a8",
+   "curve": "0x867879bc2b51f047bf7b7f18213a56727c5fe055",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094773401011",
+   "reason": null
+  },
+  {
+   "token": "0x6fdeee008575d8a0e816a42075a2ea2486411927",
+   "curve": "0x5b4b83a924ff4123a06b641b2166f79619c82d91",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0xb2e6d5281f692e574b1c1c388b4f11ed699ab5d7",
+   "curve": "0x740330e10f05a83052de761dbdaacbd8b5e66b68",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1167841788155728723325423",
+   "reason": null
+  },
+  {
+   "token": "0xd9ed87463c2f3275ded0ae5bf5f3958498735918",
+   "curve": "0xcac6cb6525335ddd0641c503f9c850abf40a4e54",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1184922275838457903335460",
+   "reason": null
+  },
+  {
+   "token": "0x2c9ce272a6389beb2e51516eebd404f79eb106cf",
+   "curve": "0x4984303f743e998c17f0e894103eaf01b3ef0e37",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xc29f4750a4822f1ac836f3fb57624b0947f60cf5",
+   "curve": "0x15368165d0c0d56f6fd98c19e9dc44af5f63b48a",
+   "pair": "0x1b0e319c6a659f002271b69db8a7df2f911c153e",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x4984291590e3daa5ebb4fcb1db828a5b2832617d",
+   "curve": "0x6eca05dd554426b94a5162ec17f8bdf4f8a5d9db",
+   "pair": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x75beef469b5b2179283d9bb174733a60f013080d",
+   "curve": "0xb928bc52d71e3dc430233d9faa30aa6833b63c9f",
+   "pair": "0x1b0e319c6a659f002271b69db8a7df2f911c153e",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x0973aa8912815486794d0940544cd9569758e4e0",
+   "curve": "0xaa2872480b8227044b1d5f894b29e1a25b9403dd",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xac4faa205d93044966c737087a60c36061588fe6",
+   "curve": "0xc5d8ab342f563cfb2fe87908e170493f4b7e5b9d",
+   "pair": "0x1b0e319c6a659f002271b69db8a7df2f911c153e",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x691d788dc39a5f0556f822a19e7c915ebfc81d25",
+   "curve": "0x4d5b7a0fd65368dd8d3745b7eca3888f4bc05bd5",
+   "pair": "0xccee82fe024c36fa15e1005ede3e9e4787e23d09",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x3a6e78c1c7edab2f531ccac55094bbfbc476b18d",
+   "curve": "0xdffa7d280774a580cf15b2399b6e9bca18a186cc",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1118961343974872465486976",
+   "reason": null
+  },
+  {
+   "token": "0xcf75ead638339c043a0f852c0c34accfaba7dc9a",
+   "curve": "0x489d3a1f1c3cc10bfca28e1a8eaf223ff139dc56",
+   "pair": "0x05b37fb53a299a1b874a619e1c4c404d52c36f4c",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xf66e5ec04dd7566abdc18016593101dc78d37e6d",
+   "curve": "0x9f217fa33cc8cc3c6364c0fd88574ad8751ee9e6",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xdb76fb5fc2343bdf3050e82d58cf6e91c299443c",
+   "curve": "0xffcb97e084e225c4286c4f2aaffd0751bb6f257c",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "357671848345477717956104",
+   "reason": null
+  },
+  {
+   "token": "0xc78897a22abc99dc31c5f5398e59b3f522d1c55e",
+   "curve": "0xe0b36fcbef34f611cc40af0be706ee9a4e434eb1",
+   "pair": "0x1b0e319c6a659f002271b69db8a7df2f911c153e",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xd44f90415141dcaea9b5997083148bb20c8e0b3f",
+   "curve": "0x9730bcc18cff9a83489c988d2438be326932f684",
+   "pair": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x1594ae7668bbcf19cf3e151f4ef6528e3508c7e2",
+   "curve": "0x9c395064c0336d59836531ec29153640095ca722",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x9785678ccac0f4c54ac9d19f791111d884623d1e",
+   "curve": "0xb643483879dab52ea90c95f49b7e0642e2d57b07",
+   "pair": "0x05b37fb53a299a1b874a619e1c4c404d52c36f4c",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xe4f67e1fdd5173690bdef1dd0cb1704dfa30a1e3",
+   "curve": "0xea98cf9012cf69628efc8cb649ee759ab527b6d7",
+   "pair": "0x1b0e319c6a659f002271b69db8a7df2f911c153e",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x36ef6c98853141ec748ae3dc68d57c7a8a19e745",
+   "curve": "0x0f3c56f56d651c38e95f9c6d5aa4493b63539f89",
+   "pair": "0x1b0e319c6a659f002271b69db8a7df2f911c153e",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x36acda6e90a6f8de34330b5ce87186fab712ccfd",
+   "curve": "0x0110cb750cab2818eb9e0be42567c75571e0ce92",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1176558652975666341744347",
+   "reason": null
+  },
+  {
+   "token": "0xcb5b2916b4ded220fcb8943a975de579e5ec39d5",
+   "curve": "0x1f36251da3f80b4e26310e9c317b5da5d5acc348",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445740848033204619",
+   "reason": null
+  },
+  {
+   "token": "0x76ec792f41a5fd364a5ab1b852fb8b078b375db6",
+   "curve": "0x22690f52a57649dd3e16060bb5e163211e8dac59",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xed4eb0b1aed1ffef00ed52f2686360ec56a6b530",
+   "curve": "0xf22cd6bfd9b8e85bad8884a201cbc68ec441ec01",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x43d1d26f7f844107af611f5eb63baa01ea3154a5",
+   "curve": "0xb1c9dd3a03d6f1a23b7c3fc3c5a1adca23f8ca0a",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1054134327148231594162118",
+   "reason": null
+  },
+  {
+   "token": "0xa0719bdcdc183b190f3b83ecf098a565fa792370",
+   "curve": "0x0c8821bb0bc5f7ca6ff2db6c952c1a15274f5fc3",
+   "pair": "0x1b0e319c6a659f002271b69db8a7df2f911c153e",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xf9f40f9276533b9a26e346534f44246806def0bc",
+   "curve": "0xb767e06ffa2b907b0814d7bf2c2612d44f81579e",
+   "pair": "0xd5f3879160bc7c32ebb4dc785f8a4f505888de68",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x0488ce48af504e7cb4fbaaa18daaf449d5d16c64",
+   "curve": "0x36dcc28e89de99d169f8c84c57038377a18fd963",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445721680709627883",
+   "reason": null
+  },
+  {
+   "token": "0x0f9a2807fa6eb76522e9f2f8d9811c8d8a1a5e07",
+   "curve": "0x039c7dd205e07330222c7473e46ce74b54e604f8",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x1493b299668e9f4e23aed36a4412f2299a44a13d",
+   "curve": "0x17f78f47eeef7b6dadccd68f9b699aba1f9fb29e",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772954958298875288",
+   "reason": null
+  },
+  {
+   "token": "0x3e208dc63cc0ef2a61e401587737e4df2dc74aef",
+   "curve": "0xc12c8f3541c7cd2817a59bc19de3308414e0beee",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "303748885082222068901271",
+   "reason": null
+  },
+  {
+   "token": "0xb7535834f21261041136c50e3d8a42739bb693a9",
+   "curve": "0x503f8a73c5d97799497eae929fb8a597ccbbadfc",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x51ccc8bfbf4adbe77b9c5434f8249a0534593189",
+   "curve": "0x3d33e8935a68575a65eeb11e1f2387711d0d11c5",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1189468478776172103425360",
+   "reason": null
+  },
+  {
+   "token": "0x23942f30c34345c6282f937b24554849b5ed2518",
+   "curve": "0xd8428c5d76f4b1742d76497f7d2eb51328e326cc",
+   "pair": "0x2e0847e8910a9732eb3fb1bb4b70a580adad4fe3",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x65130d1197a431f0e695bcbb047b3518f7313bf3",
+   "curve": "0x3f554e76b1b2ddcdea30fb4d4f6bc13c7d369744",
+   "pair": "0x4e62068525ab11fe768e29dfd00ef909b9803016",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x0e939393fd9c105d815c596841ab2fa6a56082fe",
+   "curve": "0xd1c1e9e1cde0bab15371ed02e94c8ccf86da41b1",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1056275520249104646860274",
+   "reason": null
+  },
+  {
+   "token": "0xd2dd6f8a8a321a03cb0a2a7c9b7e66b5d3def24f",
+   "curve": "0x7398a4210b710a9cdcf41671cd8af95747093918",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "status": "not-phase0",
+   "phase": 2
+  },
+  {
+   "token": "0x3e07bde3e3a7e1f4d061f2ab3fec27f8329f046d",
+   "curve": "0xcf30d03e76341196e20b4fce410b3153ada9a733",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1166199689268305765811195",
+   "reason": null
+  },
+  {
+   "token": "0xe5ae5ac9c4944af604cc9b242db107a399534930",
+   "curve": "0x8a6eb595bc07b5b16685d4290e514525c38ccf25",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xffd4a03317ddfad3232332fd2a62b67d7d4418a8",
+   "curve": "0x421fe36896becce9e467b56324acedddd16ecda4",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0xbf970d94ea7b5c1797bbf402e597aa7af53aefa6",
+   "curve": "0x8162982fd127073baed630168e00c8eccbd910b5",
+   "pair": "0x92fd66527192e3e61d4ddd13322aa222de86f9b5",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xb2a7cf785351c6f642b1bbad80ec20553227bcd3",
+   "curve": "0xd44e8ee48e89f36d00dbf0257400ffebe6e0c1ff",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "822213540746547542019402",
+   "reason": null
+  },
+  {
+   "token": "0x6a38b8a259e01946bb4cde0278ea17558fbd8fd5",
+   "curve": "0xc9fbe40390e37fe0eb9c4233820f6f5312a034be",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094771262899",
+   "reason": null
+  },
+  {
+   "token": "0x9b8a182815646c7925ceb771feca6c74e4808a0f",
+   "curve": "0x8cbeef9aba1cf8acd60d09ab8b9be8d6b3413b42",
+   "pair": "0x92fd66527192e3e61d4ddd13322aa222de86f9b5",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x47b4f45fdb17e41304c00ac6d882ac7c94ae3321",
+   "curve": "0x7ee8d2b2c71be4925b5b02134103678977e48c6f",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1098344369393301059584813",
+   "reason": null
+  },
+  {
+   "token": "0x14f573cbe30bb67388eca78d2538dfb411f15dd3",
+   "curve": "0xd809701d7fea2dfa327cf18390766858efdb367b",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1171592969913786638812218",
+   "reason": null
+  },
+  {
+   "token": "0x0df659bbbcc75988bbc57d9afd1081fe1d6b5907",
+   "curve": "0x79689c958e4567ddcf48addd495808f2d1b6fb90",
+   "pair": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x331a244cb77c87ab8e25b0403d265a97a05c595e",
+   "curve": "0xa9fc5138044292dc50fa408e6badbb89a8787125",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x6e5aae66f21f9b5a5c4ed2d80474f8fb3cf45072",
+   "curve": "0x0b51a9a0e98c02cb323c098300a42b8534bbe53b",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1183922798840852209621003",
+   "reason": null
+  },
+  {
+   "token": "0x7b202d70ab26fa3493e1ca9dcf3eb72e0dc60517",
+   "curve": "0xd552285a5e8bc18e0ce992e6c9e88e6fe6f411b2",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x78581635799dc77c31f01afeb5d0601c78111ab7",
+   "curve": "0x776a8b66ffcc61dc4bd02274df7b9bdd0a3bfa97",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1148827523848857984673395",
+   "reason": null
+  },
+  {
+   "token": "0xfa35b8fc0fd921c83fd4d5a5f614b702d970f237",
+   "curve": "0x6753b69481c5bb42696fc3569df4eeb668d5951e",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x250e3905c5aa051ea7d4189a2a282df5ebde0cf8",
+   "curve": "0xe88884c7a81aa8ef33a0de5217d8650796fd3b43",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1180796695292902305321124",
+   "reason": null
+  },
+  {
+   "token": "0x261f6fbe6b715142c7baf71cd55f6e8c7a08b398",
+   "curve": "0xad7e43314b58bd00f4d72bc39a45ae018ffde253",
+   "pair": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x132cb8b5773aef068fc8336d5a6abb11ce421947",
+   "curve": "0x45b619e1a46f2bf584e07405d2e4d00b38b0fb30",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198109071781560235029086",
+   "reason": null
+  },
+  {
+   "token": "0x83e7116178efef2402df568bed3cfdb31ce2eec7",
+   "curve": "0x15c27c6acbac597eeb66c7841d28563967b842d2",
+   "pair": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xcb5b3bde3e3bc4bbd07094f47f77f75f7a183a28",
+   "curve": "0x123c128dedaa61338e4f3c8e9cf750d72f521502",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445740848032506279",
+   "reason": null
+  },
+  {
+   "token": "0xa794bef7c87f3c2333f66c99c3851a9bc70ba1ac",
+   "curve": "0x04d32afbfd9cd851aac5a4dc4ef0474d2bde4203",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1159786581877024112635525",
+   "reason": null
+  },
+  {
+   "token": "0xd4b8f71e651a516f093e03e31798047591bb77c1",
+   "curve": "0xcd65f33672a80241f617ed876a50dabdcbc5d691",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x88958ec4fc927930ada75b34fa58f32965197b73",
+   "curve": "0x09678bece28231509d454256ac7277e7e686c13d",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xc208997333b26735991e1b0f5fb256cfa762978a",
+   "curve": "0x8041d5e71608bc37653687dd2f4bb90366f0dbc8",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094772688307",
+   "reason": null
+  },
+  {
+   "token": "0x5d00de7a3b7f58b4bcc18ffe46888f45b0a0951b",
+   "curve": "0x89dab439e0e033e690e7b3d4376ea130f496f331",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094773401011",
+   "reason": null
+  },
+  {
+   "token": "0xb8e9dd7e5bf11137305a0311665708ee6a9ea05a",
+   "curve": "0x648bcab98382c4d3d50a88ce9f20006a1ba8c2f3",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xb5d9091a6e7b877a2b315bb0a219dce52f742b4f",
+   "curve": "0xb691ea367877258be84784b77c3860b0b4483386",
+   "pair": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xa7cc3d4a5689782ed62d28bdb2cd8cd93fa60db0",
+   "curve": "0x4784886eed81ceaff8486dae29ac4f57c18e4d86",
+   "pair": "0x62fd0668e10d8b72339be2dcf7643001688ff13b",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x7f9c9f23a54f1c374379a94fd455a9ce398b0724",
+   "curve": "0xdab6a9a13324f33ffaa041a9c3906f1b2cceb562",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445733336513610778",
+   "reason": null
+  },
+  {
+   "token": "0xb3f0269ee56741fde5952211aef633a330b3271e",
+   "curve": "0xd5b6d79206311886f2ecc86cc19a53da7241c582",
+   "pair": "0x92fd66527192e3e61d4ddd13322aa222de86f9b5",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x7d29e42d6c8f11f502b0d715036a7a8ca7874a3c",
+   "curve": "0x4b08a855b3b1c04b8f7f3b433f0e4b619a06b22e",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198040618662217952463249",
+   "reason": null
+  },
+  {
+   "token": "0xe2e3692e2f2cb6ceca11375329538cbbaf256725",
+   "curve": "0xdc904c97e6bafa9dc158ea5c78398d9d5824f019",
+   "pair": "0x92fd66527192e3e61d4ddd13322aa222de86f9b5",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x3bf8a84ff2137eda1c9c1772fbb6a1ba6a735e6c",
+   "curve": "0x574b43f1f7b12c37290c56c4af75255218e7a1d3",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xd0494032034544c9fa637d08831fb1248566f1e8",
+   "curve": "0x725c5f1fa9bb273623611577a3643772c680843f",
+   "pair": "0x4a0e65a3eccec6dbe60ae065f2e7bb85fae35eea",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xc3cf62c359cbe417cc7553d353d0603c20775022",
+   "curve": "0x9570646c8984dac7dfbc30480b8f07e9137494af",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654910738566",
+   "reason": null
+  },
+  {
+   "token": "0xb326f29d25cbcdab3f76e060f2b7aafe20c98a74",
+   "curve": "0x2a15a895d45cd5be12ca678d5b5d59b5d5676e86",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1155254151641538957064120",
+   "reason": null
+  },
+  {
+   "token": "0xca87873bf4d2735f86a8d231dbe6312387756441",
+   "curve": "0x306d51e105ea04023210a255b3f92da9a70e4605",
+   "pair": "0x980dcf6766fa79f5cf0c4aadb3ab477ff15a9619",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xfff3a36f9b9b9c1c591030477d92f31218a41853",
+   "curve": "0xa932275aa79c1083ee4f376eebf307af8bd7b20b",
+   "pair": "0x4a0e65a3eccec6dbe60ae065f2e7bb85fae35eea",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xadb79cdf4e31d74f701a4138fe4b32060386cf9b",
+   "curve": "0x7767ae7257d562f1ef1ed2326315c8218b1e5d27",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xb438cd3824206c7f8a1b335d8310e4d961397804",
+   "curve": "0xfbed24fd9306e447f54088a7231f92d346f701c6",
+   "pair": "0x92fd66527192e3e61d4ddd13322aa222de86f9b5",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x8d64b0d124aceef112bec456a8744d0e2c3119c2",
+   "curve": "0xa9f3390a182487a4ccc79671c1657d195727f76d",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1184519342263672006824463",
+   "reason": null
+  },
+  {
+   "token": "0x1187f60ad63b340ebbdd0fbc7752ec6fc7bbde9a",
+   "curve": "0x265b0ec6343c1d7f38bac86c299af3f92e281a99",
+   "pair": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xfa6ea172f1770846d8a8e3dc58af3641faf60cfb",
+   "curve": "0x11dc8bb0992c16cb0a0d015f08449c91345f2935",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x27e68d50ecaf4d0bd645c5f0f167e5f957079c05",
+   "curve": "0xd7a6be1b93794570ba597eb7c4acc60d2d31080f",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186539199434825584694403",
+   "reason": null
+  },
+  {
+   "token": "0x1917078d1d3247b3b934e5d939f84e6924d6cfcd",
+   "curve": "0xf76464fcf2eb8f02e7dc7336124fa9f6f0c86ba7",
+   "pair": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x9ff2bfb5c71154578f2292ab5abc56048181aa2c",
+   "curve": "0x7239f4ca94d2e850de55699493a7dcf6ef3a055a",
+   "pair": "0x322f0929c4625ed5bad873c95208d54e1c003b2d",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xc477b9cd9340a98f26d564e2a0375abcc4fb3c66",
+   "curve": "0x2316418671b33a3bf0d54c4bf522c34acfea9701",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445721680708929544",
+   "reason": null
+  },
+  {
+   "token": "0x08749de2b7fd8fc72e4a7bc07ff7aff392aa325d",
+   "curve": "0x5764d3856ae888af52ff13f471ba408b6f47729a",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0x1d5653e2d68d8cbf2c09a343ee8539a10b4a430a",
+   "curve": "0x58e62a3f9139e946d0134cfc015a31a5cc0728ae",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xbbd512a924e845ca5895db6d7cda32299e90633d",
+   "curve": "0xb7e7a59185cd469066f5318012a0a1c4a78d5105",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654889192970",
+   "reason": null
+  },
+  {
+   "token": "0x8fb957e4f18cb510924d9e3b30f44278066ba701",
+   "curve": "0x00e1f80030a0fb531ff0bb454587e98b5fd366f0",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1191700212370556732234795",
+   "reason": null
+  },
+  {
+   "token": "0xc0d393a0f29797930e76dcaddcd47a2df2d389dc",
+   "curve": "0x16caf54315a042e0369a27540baf7d45159e47d6",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0x3be470a014bed2470c84180e6c339096309c47ec",
+   "curve": "0x33e08885944d7e788f0b3d40b141c15745c0c59f",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x4bc8ff4252f49db19058048db534b07cfd377063",
+   "curve": "0x3ea9fb8c8912ab5217d607463cd700d6ea5ea86d",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x12977045856318296789a87c74144b2de42bb386",
+   "curve": "0x8050da5d5b70b19456a07221b71efc03cdf3e13b",
+   "pair": "0x980dcf6766fa79f5cf0c4aadb3ab477ff15a9619",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xe2a74c4583361fb426e35a609e994d403ec2acec",
+   "curve": "0x2ebfebe86e788db4fd7f917122da24efada838bf",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1169532776468056092959923",
+   "reason": null
+  },
+  {
+   "token": "0x6115b02996ee65d658d7f11f48798990d2365ce5",
+   "curve": "0xc9aa3d579bd32e547eed2fc9e4f3184f2960d7bd",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "908422348620183463207573",
+   "reason": null
+  },
+  {
+   "token": "0x5e7bae6d8846c8ad565fbde07578ad28e3c9cefa",
+   "curve": "0x8986a729e111bb05d406632bcf80144dc44f929c",
+   "pair": "0xb90a19ff0af67f7779aff50a882a9cff42446400",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x8f46ac3ffb126fb5e5c7b7df31a76b2f338beb7e",
+   "curve": "0xb583b16bc1641a3562a60240438e068e6856d6f0",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "451345793162960400329017",
+   "reason": null
+  },
+  {
+   "token": "0xe72bfa4a8996f10cdcbdd2435d92b3656c0aa684",
+   "curve": "0xc15bfae708792ef1c19b8cdf65d38aaa93ba1656",
+   "pair": "0x4a0e65a3eccec6dbe60ae065f2e7bb85fae35eea",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x7cd4a1205905e6a4f48120a332d53c2200c0b580",
+   "curve": "0xeadb849038526961c4d31211e3ac4879ce71e4e8",
+   "pair": "0x6330d8c3178a418788df01a47479c0ce7ccf450b",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x3287f2caa4f39f8d8df853f8bb975834ed6be67b",
+   "curve": "0xe27b3f529245103df1940040cf482414e7c3c230",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "345043345392775424451446",
+   "reason": null
+  },
+  {
+   "token": "0xaee354d7245467d27f2edac2f6a6e39fdf80eabd",
+   "curve": "0xb16aee50ff3fd09fc73cde843026ed7af17a0574",
+   "pair": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x086c6dceec12f553370de78492fa106e2e624813",
+   "curve": "0x3ccea5556345b7e7716c1b16d6d25a523f37e21a",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1158208094884329271780906",
+   "reason": null
+  },
+  {
+   "token": "0x1683e4d33a9fd620e1b308d2e10d211070fab73b",
+   "curve": "0x01c411564c8db2dd75a8a9a119a3fc33108b23bb",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x6ad46b1033a36b60515284c84861c01ee40c149b",
+   "curve": "0xafd2324e6eca5ecbcc73cc034a76f4033bdf559e",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x7b1d1aba2f3cc81a6bf450e04b8174be38e714b0",
+   "curve": "0xe3427a22810af174e1e6a3ec248c3389f3535cec",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1159843026865639030120621",
+   "reason": null
+  },
+  {
+   "token": "0x6ea88c1d6943fbce8d478032b1b64491bb6ac80b",
+   "curve": "0xdd09c1f584665087560c5ddbccc505a4a21dfba1",
+   "pair": "0xaf3d76f1834a1d425780943c99ea8a608f8a93f9",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x7925c041f349a3445af69ffed4b4caa702a92cfe",
+   "curve": "0x16d306ac0272b22caea99a86675c8a562b427350",
+   "pair": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x85bab4712c0bf62538c50df1a8e92514e9af4482",
+   "curve": "0xf29c7149ff96167f486a67a4aea81fb71e57a5ce",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1149100749106206388063529",
+   "reason": null
+  },
+  {
+   "token": "0x0dcd30265aeae7109b62326cad4048e6c15591d3",
+   "curve": "0x56ed787ce10e4a516d20665df6040e92dfa7ecca",
+   "pair": "0x05b37fb53a299a1b874a619e1c4c404d52c36f4c",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x66539bf981f93598b1de64dc943364c0af3df489",
+   "curve": "0x295c9ba0307dce7fe60cc46e056763ad7be9a9a1",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1187638251061645547275744",
+   "reason": null
+  },
+  {
+   "token": "0x5946eff9ca396d8f46949e628a56426f22dad995",
+   "curve": "0xc0994505a0b36fb1793d6c8c8985c509c5e1af56",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1012831935767188027061000",
+   "reason": null
+  },
+  {
+   "token": "0xffbf019697bacafe63a25249ac7a63dbc01495d9",
+   "curve": "0x962d3ddfa66d21b3b553533ce1be69e482c0d1fa",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x2cfed4f0be1e873fc5f8a6d2f4739e85bfad813f",
+   "curve": "0x89bde3c0570940fdd9af74500f66e914ea2e90ac",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094764848563",
+   "reason": null
+  },
+  {
+   "token": "0xf4bb7c5f0dc49464134a8f6e1b080e4376985511",
+   "curve": "0x59519d1128eb8c54d520bdfe5d91fcd3ae4af94b",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094773401011",
+   "reason": null
+  },
+  {
+   "token": "0x15a9e141c94657f74a7f5b2a2f61495cda2db815",
+   "curve": "0x025216a8f43e004c04ed6f648a64ac9be39282dd",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1146740990708820573925526",
+   "reason": null
+  },
+  {
+   "token": "0x59fa6276079ea465a5441ebc752203bc626ed90c",
+   "curve": "0xe714941f1bc80034f23b9553835c4ef6374c3abe",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0x380bc6f0f7f5edd1a16db13cc38e5d6029fb9226",
+   "curve": "0xd355894f53c5dfb66bac0ef28a41c6314d3fde3d",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0xaebf2ba52f797f33b3cabacd82cba9f3e2e7dcc0",
+   "curve": "0xdc98f9215bef6aebaedafe70d89f6046b67d5993",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0xd2496b97bd648ae007f251bfadf58da827695778",
+   "curve": "0x82da2c968c42d33b96ace32b64d0716c74f9a178",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1155188799189775550696915",
+   "reason": null
+  },
+  {
+   "token": "0xc7a88ae88e434b309fecc495245e85c042c0dccf",
+   "curve": "0x0f08cb69fdd906a837aaaa8a0af246487ea5e3d2",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1161554583910914822069233",
+   "reason": null
+  },
+  {
+   "token": "0xe1be971fefbbd553a0f14c0421cc2526c714b85a",
+   "curve": "0x112c722011a4bc8e77fd6bf9dba1477772624434",
+   "pair": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x97ee12b0cf03dabfcefa83c6d60bfa0a1ea16fb3",
+   "curve": "0x5f8a179b584c30a39b26593cacdfbc96a7e58649",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x0b49e37062abc1e02f8f0345c7df92d2c5e27f06",
+   "curve": "0xa1962f6b6f71113e3735d8acfc975230635c252e",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1154928978845909102665017",
+   "reason": null
+  },
+  {
+   "token": "0x2a7cc9e61c708d5587e9424f1433947bc965f8c4",
+   "curve": "0x8bbde4a7400df6a54073b19336deb01baf2e3fd1",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198776624605835417919699",
+   "reason": null
+  },
+  {
+   "token": "0x3b7fc5653108b064840847743e1d4721922d5ef0",
+   "curve": "0x3b5571cf3e99b2320abcaca52a5ad64d6688efe9",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1149005725454232957566602",
+   "reason": null
+  },
+  {
+   "token": "0xd539271d1c1abceeb4c98d1e43cd9a90cf8251d6",
+   "curve": "0x723a6f4e32ca4a6a50858cfe841652448b9954fd",
+   "pair": "0xb90a19ff0af67f7779aff50a882a9cff42446400",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x10efde824eeeb78c13eb48e3811229096e9bf3be",
+   "curve": "0x21a37c4e5a8a9dc5e5c395315f65784f61ffb5ca",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x307cb19750a66db59341d29359eadeb967ed7923",
+   "curve": "0x44b46355eb07a61f199e983b7685b3b482ef5229",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1155707594047249385640273",
+   "reason": null
+  },
+  {
+   "token": "0x8348b1180b7d5d1bde90fe0d895de06315d6ba05",
+   "curve": "0x07b4f81d702f758c3c988dcb4f93fb553c4bad84",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xa9c19dc1ec80b00b8eea7d6a02fdc468d2ecf103",
+   "curve": "0x0180836ac95b3035854fe9334319d945814c28e1",
+   "pair": "0x322f0929c4625ed5bad873c95208d54e1c003b2d",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x61e8626b714bfe134705abde0fa9173f758e137b",
+   "curve": "0x01f2406747f8ccd9ed33a98f1a50a168df9c8d1f",
+   "pair": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x1f02704f393614fa78ea88b3ab59761ad7239e36",
+   "curve": "0xe9e3c7a9913b722e6011373bccdf9b01272a5d8d",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654909327522",
+   "reason": null
+  },
+  {
+   "token": "0x6efeada154ff2f72cea8c1dfbf3272ce0bb5a778",
+   "curve": "0x6e8d41553f805d42048d62d938581dfa9eaa5a30",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1180637887386433954143833",
+   "reason": null
+  },
+  {
+   "token": "0x85b1e52f47734d71a94e8c8ff2c04b33286d09fb",
+   "curve": "0x7589d119f3a58517e99ad06462e6f78f181a6d16",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1185766528856481437942381",
+   "reason": null
+  },
+  {
+   "token": "0x03b759df7d44d4436c666c10441a644713ea4b04",
+   "curve": "0x39ab594a6a1b28e1633fc44d7934b5589b340556",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1118347620276096807927237",
+   "reason": null
+  },
+  {
+   "token": "0x6cabf375164ee0651f89fbea80ef9d5c77f84135",
+   "curve": "0x751bcae33a0c654082f977494d670d258afeab12",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1158761497660976102392668",
+   "reason": null
+  },
+  {
+   "token": "0xa71536725339de10d962df0918886a76d6c3fd1f",
+   "curve": "0x38770aa3ebbe72c4f0b59a2f19a17ac6c57acc7e",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1194460170621924212367905",
+   "reason": null
+  },
+  {
+   "token": "0x9411a65683ea31ddd60524a0ab22539a33934b5d",
+   "curve": "0x4c56d39f58effdd09220c0fa2c2394e13f2f4167",
+   "pair": "0x05b37fb53a299a1b874a619e1c4c404d52c36f4c",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xa756296b35a22ef91906027271738ce204566a18",
+   "curve": "0x20f1e2bed3cda5b254cdd281b5b529e81efa18ae",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654910033044",
+   "reason": null
+  },
+  {
+   "token": "0x1be41583d9be7e69acb3dc17ad1b1b1eb219d569",
+   "curve": "0xe7e2c6c8fc3aebcecd2b00ef681176e3e970ca1d",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1120708926766601043564170",
+   "reason": null
+  },
+  {
+   "token": "0xf30a90857b2be40beaa5af1c2a5f470be3ac6d46",
+   "curve": "0x98e4394f59a5addac01b08bd53a7522dce19352a",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1148827523848857984673395",
+   "reason": null
+  },
+  {
+   "token": "0xbbcc36767506b8c461f750f00712f14dd46672cf",
+   "curve": "0xcd7fe7f488db5701ddbe9ccc562b33ae0a46b044",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445739052862552422",
+   "reason": null
+  },
+  {
+   "token": "0x9ce5746e8404613820bbc68e86eeaad8cd4ac69f",
+   "curve": "0xb6547aed94884475bb629d12a05464c6da802259",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1192731155825849685327319",
+   "reason": null
+  },
+  {
+   "token": "0x6a3bf53aa1376b05a73c08209ad2976be88aca5e",
+   "curve": "0xae21018887b409b3663ac2562e113f96318a1e31",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1038723187584037492494163",
+   "reason": null
+  },
+  {
+   "token": "0x5f7fd169b227873c051da44886fc51f82932ce04",
+   "curve": "0x8e28323d32b11c09803aabe9233cbedc9f00a0e4",
+   "pair": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "status": "not-phase0",
+   "phase": 2
+  },
+  {
+   "token": "0x2ede1ac8f35f73f51865b5764ceacdb49882c02c",
+   "curve": "0xa0afa276a4e942888456e5e6a10c5d4e35c1801a",
+   "pair": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xe708bc9416a2e85a71832ad2036466ba584691bf",
+   "curve": "0xc5704c59a2d3c6492829b57dfd21498b56487403",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1177071816455920229284459",
+   "reason": null
+  },
+  {
+   "token": "0xf80f2ebda0e817eb2b849c567bc8bf4a684b7288",
+   "curve": "0x619104927199eeb834031476ad88b676a6a5db4b",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x313d20f35666fce3e908bf7c1d695edc935ffc6c",
+   "curve": "0xe130074d99dc80b747e358e1a68f182aac32bc40",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445733874851578689",
+   "reason": null
+  },
+  {
+   "token": "0x4b28093dca956e753b3ef2a966a03b593aaf013a",
+   "curve": "0x64712dfa5afeeede5a19e7269b6085d62d2f100b",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1161151125963439360158992",
+   "reason": null
+  },
+  {
+   "token": "0x47a5e847916e89cb20f9112d927eaa1250db6dc8",
+   "curve": "0x3bb807187836dc5d0fe396b550e1e3120f3aacf0",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "642958203384700608754936",
+   "reason": null
+  },
+  {
+   "token": "0x0d013a65ce28e33d9d4c607c7e40035def2fac7f",
+   "curve": "0xef67684e48f877864d3bb37c64b47df302ef28af",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0x817fe2760cccafd30640510352dba03e14b3ed18",
+   "curve": "0xf6b203147755f581b68cf2c13af9d57f75fd26ec",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0x64154047e53f0782ef109e8c5ebd62cfc208db47",
+   "curve": "0x49b524990bc6d4bb7d3ed264911e2dbf4d38e6c7",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1149331802907448351105539",
+   "reason": null
+  },
+  {
+   "token": "0x164260cf33c14a745e83853714fc317678636531",
+   "curve": "0xafbdfc091f2250c6f04ec6e904bc2c6caf51c8e1",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198601329350231131606689",
+   "reason": null
+  },
+  {
+   "token": "0x84bc8d7c6757a7c2ac25a46dcf4090daa3006955",
+   "curve": "0x09504b2af0ece3817aacd384001b776aa33ffee3",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x8077bce64548b5ab230fbfd60aaf8e6a892e8ef1",
+   "curve": "0xe4cebd016d146e12c4688f3722d7d4152937cbd7",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1137408676100342646376933",
+   "reason": null
+  },
+  {
+   "token": "0x745fcd6dad435dbb20e290a9473fa7415ddc44e1",
+   "curve": "0xf9845f0ef942ddfb149222c5cb50d81b0fbb587f",
+   "pair": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x81e9c3c6e1c80e8cf261a49ac1fb11feb276350c",
+   "curve": "0x52a7bfb1687ff8e538815a00df7b8cd41ca83516",
+   "pair": "0x4a0e65a3eccec6dbe60ae065f2e7bb85fae35eea",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x1e9b78e6f116fe2d4c34b2a618bb93aea4f763d3",
+   "curve": "0x655a21cfd6bd108d1233854e675934813410e6ba",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094771975603",
+   "reason": null
+  },
+  {
+   "token": "0x149a743f72f791e3bbf5dcea6d2dfd16d5fc6a83",
+   "curve": "0x06b51697c0f013bd36853433dca394632ff4b7be",
+   "pair": "0xe93237c50d904957cf27e7b1133b510c669c2e74",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x95b02240d6aca776e82776b8b09f6aabf6618562",
+   "curve": "0x18190b036deb16cb01771b7c16b4a4f8e69d8350",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1132432423255384006143306",
+   "reason": null
+  },
+  {
+   "token": "0x839a93de6372250d17e915253ec6dc01b1ba8b10",
+   "curve": "0xbbfea68d15896ce38aa543a36e2fd5f04bd69316",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1197843427285071620646096",
+   "reason": null
+  },
+  {
+   "token": "0xde0e4f0bfdd5510c0dc88fe52e996156e2105625",
+   "curve": "0xbe55240d5445c0ef5bf44c417fa0d6c45035cc00",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094761997747",
+   "reason": null
+  },
+  {
+   "token": "0x887786724266ccc7864a9d659dce96a9c0ddac49",
+   "curve": "0x01feea1553d1c76f94f1630f0959d8e3ed77fd4d",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094773401011",
+   "reason": null
+  },
+  {
+   "token": "0xfb097e2a068aca2b72e638f9d4c7a0f499378243",
+   "curve": "0x0b7ce5c519969d122e813964db964914c1a7e85a",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654910033044",
+   "reason": null
+  },
+  {
+   "token": "0x83bf52d43e49c223e46be94d7687abc72df2e74a",
+   "curve": "0xf7038867b74e98e3fd4957332658fc4007f4551e",
+   "pair": "0xc9a981fee1f9dec688bb123ccdecc63d0debfc4e",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x7bb57e65f7237457a811bb8866ebbe77fda6877a",
+   "curve": "0x0b49158c58b7d68c899d26e3094ee68bcf610431",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654905094390",
+   "reason": null
+  },
+  {
+   "token": "0x80c3b329e9bbe24335925875548069f4dd377bb3",
+   "curve": "0x285a8a5a26aa1d2129df468741682ef2db518bac",
+   "pair": "0xad25ac6c84d497db898fa1e8387bf6af3532a1c4",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x59cd69ec574ab599b06bfb71a17c40cdd48203c8",
+   "curve": "0x5d60126ec27d52751a3b9434bf18a5c4faeb2166",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186407207484159762132904",
+   "reason": null
+  },
+  {
+   "token": "0x16ead0a87f9060be818cf9c97e8be8d2f0591bfc",
+   "curve": "0x190b726049dadab021fae24843f9e00ac319472d",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094773401011",
+   "reason": null
+  },
+  {
+   "token": "0xb7fd23cf2c07f86e32671f57c2daf154ffb8460c",
+   "curve": "0x03e190cf650884523fe2a8afce0ec895ac9b48ee",
+   "pair": "0x4a0e65a3eccec6dbe60ae065f2e7bb85fae35eea",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xd978e18bda2355e1d3a31d89ad5f071d377a8c23",
+   "curve": "0x5445c1031949ff18806045b1e8492ec58aa38537",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1154540757134530169769598",
+   "reason": null
+  },
+  {
+   "token": "0x1abcc398945e223b2261fc804684cbd5062a6b6a",
+   "curve": "0x18d52d6fbcf100f92c2c86a5488c65a0930ce326",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x9900fd4225933f5a8c9b75c26032a9a09b2806a4",
+   "curve": "0x516eeefd09e7e4ea43d5905e254171ede39af311",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1170336207496150184258501",
+   "reason": null
+  },
+  {
+   "token": "0x88a2daa2f6ebe6ced2fe02e4c0416f6eddff44a6",
+   "curve": "0xe0d22cdc1f3e1fe918b9150634e0f334a0a0de7b",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xdc28cef20265694fccd4a36d16ea385ee3e70b7e",
+   "curve": "0xf6d11ce21f638b9a843c8e06399503014d122efb",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x1a1269fb3f1070122b978aab0621707d10f21fc8",
+   "status": "factory-revert",
+   "reason": "Too Many Requests"
+  },
+  {
+   "token": "0xfefe4b0b15eeae4def4369da987dc79251978b1c",
+   "curve": "0xfd6b1882dd687d48d851ef136bfb1922352e5cef",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198777079561709984880808",
+   "reason": null
+  },
+  {
+   "token": "0x48efeef08367394c685a015d30c8e72686c8c352",
+   "curve": "0xee8fab54afd88c5f0ece1ee90346af609222ce2c",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1132077593821683416115652",
+   "reason": null
+  },
+  {
+   "token": "0x6318813d34102ec7a47443271f12d78c97a0631f",
+   "curve": "0xe2683aaee65ef6c3ebd91ca2d7874027563f79e0",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0x43fd47525bee989eb14c19383c7e3eab49eaee29",
+   "curve": "0x6067a4e316131b15fff82fbed52c6c31f3c9aadb",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1196177237941690857380850",
+   "reason": null
+  },
+  {
+   "token": "0x7fbfc7791b40a57ea0655af9ef685130924f1a8b",
+   "curve": "0xf0c49bdf7ce2e08d1495b3230c180d8b0eeeb6cc",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1077821419177685692807131",
+   "reason": null
+  },
+  {
+   "token": "0x5c59d48f210645cf8d202dad314cda4d5d8db063",
+   "curve": "0xd862715f914cc1cbb6296103c7fe65c063243b34",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1151460740085157527038796",
+   "reason": null
+  },
+  {
+   "token": "0xb2d9d6d0a0eea53376fb457893e95ab49c56f5c4",
+   "curve": "0x2daf9fc2c37bb2d1366f20b2bf8b2a3b59786d8d",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x2caed28e328634a10d9763e178a6513e672b647b",
+   "curve": "0x7fce5077fb6a188f8ada680281b4ba22ebacff8f",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1197363448078004467830257",
+   "reason": null
+  },
+  {
+   "token": "0x9ef0e828ffa982b62a8327cbf72b2839ffd193a4",
+   "curve": "0x7bb7a0aeb638381e96daa731a46a4fe3a23a7135",
+   "pair": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xbebd46f559ea1525a1b2e5dd30af3e53ae974a0f",
+   "curve": "0x89559075cd715e6dfff4b7538097216972842876",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x2882299a00d92c43aadb11498292509c58505f21",
+   "curve": "0x9e7b02d4c2270e9d252cc392f2c97eabb4eed3be",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1102015433641378298358578",
+   "reason": null
+  },
+  {
+   "token": "0xcc63c3676f2b01080ab8bcfe0f8254697e3ad4a7",
+   "curve": "0x575e6b869f40c2731a48471dd76cf94056b388a0",
+   "pair": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xb5e6f003b32a1626d835ef38423484aa553b737d",
+   "curve": "0x9b71ddb8e86c43d7459abc57b85e265a3e7de796",
+   "pair": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x0f34e3e844be38b172375765ba5744ab63d21879",
+   "curve": "0x33bf43ac364c3e6175e12df374c88c1bfdb978f4",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x5a1ef3c436d06b7a1527df6d012346c5d92a882a",
+   "curve": "0x829d16de447302be3900220f9d28c9194f1932a0",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094772688307",
+   "reason": null
+  },
+  {
+   "token": "0xdcde713b61e2471a217963b6b368c3e03dcc8d22",
+   "curve": "0x771248dff1fce2bf5d8579d48ae432ab5a7df11c",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174454899902358978509346",
+   "reason": null
+  },
+  {
+   "token": "0x7ccea94c34a22b2bb711aa380a215130e3d064a2",
+   "curve": "0xa5b9d2e1f3fd7ad1f4da3f2c9d9a1ee42fe9a021",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0xf3ea2cf707ec2843569f1045517a047e3a46e042",
+   "curve": "0x166e241e1d29e31f8e219e9a5ac434e8f8c9da65",
+   "pair": "0xccee82fe024c36fa15e1005ede3e9e4787e23d09",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xca5e27512eb27b3527fdceb1421fa27776c8281f",
+   "curve": "0x4ce608898df73ef0a24bef3362dc27348778cf4d",
+   "pair": "0xccee82fe024c36fa15e1005ede3e9e4787e23d09",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x06d9ac9b6b9b6728aff49009cfaa8b709a5fd273",
+   "curve": "0x7eaa91d93490d5025f3eeff4d536eac48adaa80a",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1188743888722569909873926",
+   "reason": null
+  },
+  {
+   "token": "0xa5cd23bcda91880e84fbb2ce93715ae537e2c783",
+   "curve": "0xbf9ba1ea58545b4534aff3280c5ca2b1b1464e49",
+   "pair": "0x941ae714ec6d8130c7b75d67160ca08f1e7d11dd",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xce614272d1578c8ffdfe1e03d61dcc008da39508",
+   "curve": "0x50921d80a253724f88f1aa939914cf46b3c84958",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1149317354295336359096762",
+   "reason": null
+  },
+  {
+   "token": "0x55058250c50d65bcd20dfc50d133c267dca4d8f4",
+   "curve": "0xa4f4180edfcf4e0a1ffe39242ab580cad32b0d9f",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1148948479638908792557050",
+   "reason": null
+  },
+  {
+   "token": "0x7334b2f633845c2dc9946c1279dc160ed2c48dab",
+   "curve": "0x55dccb66e99e2226c74a91f023720719b430ae1b",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0x62413061dd422af498dc34b5cd022d8ac3c453fc",
+   "curve": "0x12e63c21e99290138a6efc483723cd0473aaf22a",
+   "pair": "0x4a0e65a3eccec6dbe60ae065f2e7bb85fae35eea",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x08986745ef3f0eb85ffbbf0c00c19127ca4ce87d",
+   "curve": "0x3c81419a861aae8dfa6bac17ee97f892dcc6b27e",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x7dca49d799760701b9fc6d23240f5fb34b2a3caa",
+   "curve": "0xfe19f1a73b749c07de7fd4de9242c21a33738a42",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x8e6e3ef7f070e8991455de4fee4e4dd1608d2162",
+   "curve": "0xfb3b4808e337448b9cfc480ba654d5cbb576e7c9",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174135000757015216505510",
+   "reason": null
+  },
+  {
+   "token": "0x4f3081e412a6a44e33d0334a03f06284ab000220",
+   "curve": "0x7793bd2f97d60637e4379d006e52ba09693afb9d",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "657783256439162741130593",
+   "reason": null
+  },
+  {
+   "token": "0xfd58a5c4df7daf7f535cd5ad5e15666025dd26ce",
+   "curve": "0x1811b5411e2190aa7180d2c13de18d53263a6095",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1165896563117540336614387",
+   "reason": null
+  },
+  {
+   "token": "0x5929a98f214d21ca9a763824d71c457549619218",
+   "curve": "0x1cf870e081d5cd1ce9b8b16c07d065a5b95c4505",
+   "pair": "0x12f190a9f9d7d37a250758b26824b97ce941bf54",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xe3832176ff0280f39c03215ce9c42e05dd328346",
+   "curve": "0x124d25d3cba0e811f53c1663b10c9ce1fae70721",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1183922798840852209621003",
+   "reason": null
+  },
+  {
+   "token": "0x05991fa5bf823587151a2211171c63acb0119e4c",
+   "curve": "0x21203dd031d3f91ce7f98ac89a52206e63e02687",
+   "pair": "0x4a0e65a3eccec6dbe60ae065f2e7bb85fae35eea",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x89705bfdb6affc99dfcac4d378347b63dc492a9c",
+   "curve": "0x021ef209fa76c8546b74b4a35185938a886e9980",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x34191d25d90f4ab9a46b60a09733f8fa1788db5f",
+   "curve": "0xb45a9836f9455a66af35f8500654e13124b6038e",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445740848029014580",
+   "reason": null
+  },
+  {
+   "token": "0xaa2080dd592286bbd4466ea80314249d9b8d10d0",
+   "curve": "0xa61d430fd18e2d8ee67890da6c54a2c675c169c5",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x50164d2df044ecad8b528260e4b9b02f101757e0",
+   "curve": "0xbedfb88cda44ef1aadd0a7ed8d09fe62bd8a9c41",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xcffb2e5f7b9f8bf8a05f895f94ae5a437812ed4a",
+   "curve": "0xcd30de55c0f781142688627af7c52989fadfd1e7",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1099269963767352407560829",
+   "reason": null
+  },
+  {
+   "token": "0x1187d864564a69ebe980a4f289c8e6778213e48d",
+   "curve": "0x2f324285328d9cc65bf8e773aeb7e127860090f7",
+   "pair": "0xcef9027c7d6985b85f0ba431125073529a947a68",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xd2a67ba9eca69ad71aa1672014ceb47e25c3d392",
+   "curve": "0xd25caa73c9f639a6301a007a204250f95ad9c3ed",
+   "pair": "0xaf3d76f1834a1d425780943c99ea8a608f8a93f9",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x7d3c551322717be60ef4b500802b925473385ca1",
+   "curve": "0x694ba52eaffc5d2dbe2b90f372a0895a63ada987",
+   "pair": "0x894e1ec2d74ffe5aef8dc8a9e84686accb964f2a",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x9ae0d7d9628de46033439265710d1b8d1e7c6029",
+   "curve": "0xd16a42923cc3a3e95547cefc2ccbed918698cdf2",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xdd5abaf569e8cb3086e03ecc3fd301240cdf8f0e",
+   "curve": "0x2d3eb7082dd51ca626737497e2d5568e098eb759",
+   "pair": "0x05b37fb53a299a1b874a619e1c4c404d52c36f4c",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x203ecec817f2725719d43d879a57021c61a9e373",
+   "curve": "0x56b1be0c211d624622e2825129b95c465d1d5604",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1159245470788269246216226",
+   "reason": null
+  },
+  {
+   "token": "0x97f7f9d5fee0ded7d8a525b202976620dee4b7f5",
+   "curve": "0x5be244d553f07a1846d4bb58955f2bf721db8aa5",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xb8ed626ec937f2a1f6e28e74d50345eef8428fd2",
+   "curve": "0xa9672035ffe4453cd4e1fbf10ba6a743f52c10a3",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186126478945956123049863",
+   "reason": null
+  },
+  {
+   "token": "0x41759343624b78e553751d944dff7385407dee4a",
+   "curve": "0x494ec814e58e4ad55e0a6914c74989649ac75ceb",
+   "pair": "0xcef9027c7d6985b85f0ba431125073529a947a68",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x131d3204a740ee9888e30eb152fe5745615086fd",
+   "curve": "0xb1c00448fe869b70bf7f390f78a4ba6a69be4a31",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1185611758659745374971419",
+   "reason": null
+  },
+  {
+   "token": "0xb2acb6b2d813d347601fff8fa84dcfb33a981adc",
+   "curve": "0xef32513f4ee0a894bf063cedd8111fc338b5495c",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0x20daec9a479da453e19ae8d091b736a78e7201f1",
+   "curve": "0xba79cefca685a0e793582db8cc093c4eeace8925",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774113715",
+   "reason": null
+  },
+  {
+   "token": "0x699402a8782604ba0f2c3aa11a707687d56ea7ba",
+   "curve": "0xc142337576bf2528502f0fdcab673531d154c57f",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094705694132",
+   "reason": null
+  },
+  {
+   "token": "0x24d9bc4e284469da5710c062ee2eb59fcca16669",
+   "curve": "0x045d2696912c981a44011ee42f39ddda61976d26",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1177041885084812502193411",
+   "reason": null
+  },
+  {
+   "token": "0x0b5d26c8207b63ae7534df29d28f241ef6aa041c",
+   "curve": "0x434a3babd047e682306d20b7e45d1c97e0628b97",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1144275950077648058969537",
+   "reason": null
+  },
+  {
+   "token": "0xcce46027a80a05addc300769c34127715f09a91f",
+   "curve": "0x50923c20ae90e1c099bda6382acc7ad8589294db",
+   "pair": "0xc9a981fee1f9dec688bb123ccdecc63d0debfc4e",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x32ec7bb6ee37eae3a268b21041403d3a45e71c6a",
+   "curve": "0xd5fb7db29979e3aa83d4e006212815dc88e0211e",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xfc973191e0176a466b42aae82684ffc26c1cafae",
+   "curve": "0x6d0a8be4c0736e0068db6a8e5f2f955ae235609f",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xe6d9bd6b89c9bc9a9896618bba53c18301ccf3d6",
+   "curve": "0x939582ac9d9f62093aa81e33cfe6d06450e6a8df",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1196163038314646996202426",
+   "reason": null
+  },
+  {
+   "token": "0x715216662c6134b00fe04a64681a55ee79e49651",
+   "curve": "0xa7f808f1addaacf2c5f94253bbbeae0323c37ac8",
+   "pair": "0xa30fa36db767ad9ed3f7a60fc79526fb4d56d344",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xf9ea6ab74a8acbe511a2e2adc97ff86719fafd10",
+   "curve": "0xd18a376740f3e52e98a6052778e96eac7176de66",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445740848032506279",
+   "reason": null
+  },
+  {
+   "token": "0x529cc204fbc87339212dca3b0d036b2a9c0e84dc",
+   "curve": "0xf4a796f91e17cf41c19b8e8cccec6ef9010860e5",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "177668429063625037801628",
+   "reason": null
+  },
+  {
+   "token": "0x412c0dbeb4582a58a3adf0beafa8124a0f784929",
+   "curve": "0x6b69fcbd4a4dcfc5fcc87e2fae04ac90549dd3b6",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1184121028537456022336433",
+   "reason": null
+  },
+  {
+   "token": "0x4ef272b2406470bed38fdeb40431fb5c9671dcd6",
+   "curve": "0xd3c958268217ca9c88ab8e3ff72ede92ff55d91e",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1197746173746427927296850",
+   "reason": null
+  },
+  {
+   "token": "0xc38cae44dbaa54b5f786a12282ffac4ffe20ee99",
+   "curve": "0x91738024dbbf09fa28c769906b8bdce72fd06888",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094761997747",
+   "reason": null
+  },
+  {
+   "token": "0xedb455ca769ebf959bccd40ea7d8f7a1d9820071",
+   "curve": "0x8c2217b2cd101f757ab180d53105f5b86d8c706e",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x5ca997c136f6e59cdd2cea6c6109e33f04d0a915",
+   "curve": "0x4c296637d7ccdd26c13b2510738bb903f815ae80",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xe7f1f2463d2d300e2466a17c2c9201291fd824fa",
+   "curve": "0x2f25bde8b94edeb9a3591417a09f4053f0c364b7",
+   "pair": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x8af651e992abc4d5c809fd487a28fbc15abd830a",
+   "curve": "0xd0ed0ac7cbfe25151ce724b701d3d06a9a232f48",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1138304257958419707090537",
+   "reason": null
+  },
+  {
+   "token": "0x7cbc6682e4cb0ab48a3f27bfeeee7ad5be4beeee",
+   "curve": "0xb8311c671a1298297df292c4f0720127c89c3d1e",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445719419761838041",
+   "reason": null
+  },
+  {
+   "token": "0x11f17f3114b9959bef397d6b7507e18a9b9b7406",
+   "curve": "0x933858fb598181625a981597e9669f204f3c9285",
+   "pair": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x3bc8e6e9b9e9f1f368589d30090d6907065a0bef",
+   "curve": "0x7dcecd748dae493701b6c48755038a250c7e8a7d",
+   "pair": "0xd5f3879160bc7c32ebb4dc785f8a4f505888de68",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xc1eba37e5f8b5ffb551565bc7a9193b656ef950b",
+   "curve": "0xbaf34952c7b5b3f9b4e9a2db75dd319a320a5b7c",
+   "pair": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xca0baab51ab9ba52d1bb05839e13b3dee03eda78",
+   "curve": "0x44ae16b78d9dd8b3acd586f9cfd0b898b2a79669",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xa1db5d7f5024022510293ad65c92e566f3ada36e",
+   "curve": "0x61e25430d5d74f7aa240d69bd976a380703a1ff3",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1188259520436642887495340",
+   "reason": null
+  },
+  {
+   "token": "0x5ee73cc059ddafc5706b77fb4038cc0189732fff",
+   "curve": "0xbbffb05e1f64c7cffbfe9dac2094c5ce5fede29e",
+   "pair": "0x4a0e65a3eccec6dbe60ae065f2e7bb85fae35eea",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x7c1796ee33a49fcf2e3ef75299618f414226e468",
+   "curve": "0xeb972325d484de03e95e22f4654dded26a389f83",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198719578301634155094814",
+   "reason": null
+  },
+  {
+   "token": "0x0f4b6c4af4e2a4ec2ac3cb035a0d2cba3a82b387",
+   "curve": "0x80655ab79fdd9d14ce1306ffad9acccd231a1f02",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174473175558315634292097",
+   "reason": null
+  },
+  {
+   "token": "0x398cc9a0bd14e4cefc410559a700391c5db6425d",
+   "curve": "0xa96596f13a5e3b485b3e92ff1991f53a419b33ea",
+   "pair": "0x2e0847e8910a9732eb3fb1bb4b70a580adad4fe3",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xe04b4d9a9e9a4136822f69879087070a697ee7c0",
+   "curve": "0x704dcb2c3a0b6b6de18effc8da47c9be6144df0e",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "status": "not-phase0",
+   "phase": 2
+  },
+  {
+   "token": "0xd1864e547459cf94ac9d17c7b97ad981d34dd0df",
+   "curve": "0xeb994e59d76f0e8b27db01055342ba98d1fee36f",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1172669503045317793902367",
+   "reason": null
+  },
+  {
+   "token": "0x9e43e16f59431d459ef363dd85d04b22add64ecc",
+   "curve": "0x1d13bd70110e20521fccbf5b62388ff86627d2e7",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654909327522",
+   "reason": null
+  },
+  {
+   "token": "0x8a9e515722484da04f81d3a480dba7549a2c9af1",
+   "curve": "0xbcfef4bbcc903357c639f7ca8ff492e3a110790a",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174355677328789400737136",
+   "reason": null
+  },
+  {
+   "token": "0x7587d4c0227d0dbc12ce3937013aedd6b32a4f38",
+   "curve": "0x59214cfa552789a5722d8205a9df1180278e5e50",
+   "pair": "0x84cab63bc87912e71ad199ff14a0ba45de68fef8",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xbd689a4316bd0b192ad7688a8ba703d5f8da43e2",
+   "curve": "0xc707bdc329904e2a4698ea9622982d47c46e497f",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x655669865602778cc24171bb2182f04cccd0449a",
+   "curve": "0x28d639262a8646bb5a1f128551c37171d5b7f576",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xfc1579c428c6bbf62e8372ae1257541bc94556e5",
+   "curve": "0xd981d1b03c53e8166eba338e910487cbfea18c4e",
+   "pair": "0xaf3d76f1834a1d425780943c99ea8a608f8a93f9",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x41e152a6ba8496f75508a235b2ead7d8a9b87677",
+   "curve": "0x0eff4612da921343d9d1e594f8dd86111fa0c59f",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1163024350646741690178429",
+   "reason": null
+  },
+  {
+   "token": "0xeecf699f8411afbc6eb278b63aec7fa3d3100fd0",
+   "curve": "0xf7e2e7d01e81c148ff3ed3bfed7a8a48a910337d",
+   "pair": "0x84cab63bc87912e71ad199ff14a0ba45de68fef8",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xab6dd4fa70eb0aeadab0400d387f2a57c3513cb9",
+   "curve": "0xd7d94776c09e2bfc28a0ed967f4108a162c438d8",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x5050d81d49fe436c86649452eb1b5b0fbf6ad5a6",
+   "curve": "0xed16f097f155cb0683010de09a9ab42fd0e17857",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1133471710609521278663149",
+   "reason": null
+  },
+  {
+   "token": "0xb6fc4995810ad6b542b37e3bf0fdb66ebdfd2f85",
+   "curve": "0x2c3983918f420aa43057d20d500575cd7652d9b6",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445740848032506279",
+   "reason": null
+  },
+  {
+   "token": "0x56998b302b66fdac94d628b1e3bb7c5b63e3ff8d",
+   "curve": "0x81ad0e55adf72a4cbd41d12709a03c9eb5b786be",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1158658808065869748051571",
+   "reason": null
+  },
+  {
+   "token": "0xa50b4d517bd1e154c433e490b6d1be42a51f20d1",
+   "curve": "0x8322e1cf810a6803eb3ca46a0c8304cc63766a0a",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1161583281947502414282574",
+   "reason": null
+  },
+  {
+   "token": "0x80a7326b0301eb61912556105fbd212310d85783",
+   "curve": "0xed76c2ff6d71d2627cb79b88654d5dc70fec0d1e",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xccc4aa4d0bfd4d029f890a1a13a13f8e433cd22b",
+   "curve": "0x837139f3b9144239453e6070eef978491306b953",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1095827247407662048320314",
+   "reason": null
+  },
+  {
+   "token": "0xfc26950464f1c123049822d5e160373b86e90f3a",
+   "curve": "0xc01cdf8af69db3f88c2ba3ab9b1763d438b0564a",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0x8de24da609ca1c8914de1c3217069628e87a0477",
+   "curve": "0x3c7e3f93e66451d460f043f51e93cc0b60f2dd43",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "998216650426893362997407",
+   "reason": null
+  },
+  {
+   "token": "0x06e8a9fcef7f85e0c0846e509f457b473dfaefe5",
+   "curve": "0x981abde8cfda5ee3fa29f3287fcd38f54d55b395",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1189119225072640981021887",
+   "reason": null
+  },
+  {
+   "token": "0xed2b3d04d03979a56dfbd52b7a332e6620f42261",
+   "curve": "0xbad4142df4b40daec3c98d8df4e4bae560daeb73",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445740848032506279",
+   "reason": null
+  },
+  {
+   "token": "0x29baa90a2dd7c2a5dd7eea4c1605c37cbe539359",
+   "curve": "0x82571fc36752ca268dfef3fabee737a86b567c4f",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0x0e69da1026f24f6d828b993d738efe1ab6ca5e20",
+   "curve": "0x5007095acfc6bc803dddbfdbce456a6472f71f47",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654910033044",
+   "reason": null
+  },
+  {
+   "token": "0x9fb89cd48bdd54d38144665cb2c8f29c2e8d723b",
+   "curve": "0x97c5a396948fbd602677a32619d9d8d278c19890",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x7ce3f693332d472ed9723321d4043b1f643bf2e5",
+   "curve": "0x5e9dac98662c8c082cb61b1c68dd2922c24da4b1",
+   "pair": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x0b3a0412335b3421c8eb304208d851d634e49517",
+   "curve": "0xb711647668f6f726873fab514641a216134a3023",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1197652113562744231764306",
+   "reason": null
+  },
+  {
+   "token": "0x17488dcb53e60b88f091422000187121959dcf39",
+   "curve": "0xa42d7a305b539895e9ad6c4eadf48ddbfb1ae06c",
+   "pair": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xf471bbc0611ea131fb87ff19eeda2a401ab98353",
+   "curve": "0x62fc85c9e0778ddc0bf5b208a3ac9d666162f9e8",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445740848026919561",
+   "reason": null
+  },
+  {
+   "token": "0x79165533afebf896547099177500f9b06b0d5a76",
+   "curve": "0xa7c1be652868b6553c704fc7998fe92113876f96",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1149100749106206389429161",
+   "reason": null
+  },
+  {
+   "token": "0x5e517b8f7fac315fbe15f46851049089b7e5450d",
+   "curve": "0xf284fd80f1555ce3fe8bb1c87933b5180051bf63",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1174590445740848031807939",
+   "reason": null
+  },
+  {
+   "token": "0xce276e080816dbdaf8b93865f5f3c06861a4c04a",
+   "curve": "0x9818508e220dd6638a5b2d141367b00d8a5b3d24",
+   "pair": "0xc0d6457c16cc70d6790dd43521c899c87ce02f35",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xca8cdd7cd7e39cde7808b06947cc45734317105c",
+   "curve": "0xcba180e93c56fb5a81bab3d8790c4f4bb66b71e5",
+   "pair": "0xc0d6457c16cc70d6790dd43521c899c87ce02f35",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x813eaf492dc768e5b474573e172ccdcb59e47889",
+   "curve": "0xc12d25889c4955d95cf49c765f6c51f7fcf5404a",
+   "pair": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x48a9a409aecbad17e7355971b8baa5d15afc79e4",
+   "curve": "0x242a42b6d36b5e29d93a7c865a5e44557addd4c2",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1131523168304855490417412",
+   "reason": null
+  },
+  {
+   "token": "0xcd47848e220fc1f803446e1bca9d4b77541a2376",
+   "curve": "0xc9b8b0fbca70a8d5077397e8f84eee98a301fa2b",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1187487775790975446033884",
+   "reason": null
+  },
+  {
+   "token": "0x4e180599e16583fa00ae1f20b1b50760a280fc35",
+   "curve": "0x9a16b8af7191720d1577ba1687b34158567a52e5",
+   "pair": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xba213d23a55b9338acb265a420e756e838f006a7",
+   "curve": "0xc610ebf1498337704d2e0f75edaa91b2d4f0e3d5",
+   "pair": "0x2e0847e8910a9732eb3fb1bb4b70a580adad4fe3",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x01ba126f154e2dbc5d7b8230fbf4ff8ce04bfe63",
+   "curve": "0xc8d9bbbc8ef02a9fa497e5aa2a78881c4ff19274",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654909327522",
+   "reason": null
+  },
+  {
+   "token": "0xa31d092c86a2097bce1080d939c959885a44717f",
+   "curve": "0x082e05767d20ab978a1c027b892b85e4a6fd809d",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1020522291579177519178414",
+   "reason": null
+  },
+  {
+   "token": "0x5121d0c6066d523b09581ee026acbc5d75c2373c",
+   "curve": "0x1c9c977b9fa3d6c2fe23344122b53bb5693e2186",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654909327522",
+   "reason": null
+  },
+  {
+   "token": "0xc80340c04d943fd561066944d6b311a93c920855",
+   "curve": "0x52bbca5462fdc38285d32408baff059731b52ab8",
+   "pair": "0x5e81213613b6b86eab4c6c50d718d34359459786",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xcabacd468d0dbbc1f436338181d440da14fb5593",
+   "curve": "0xa73dc0789a57759efcec86db67b525d0f39a05aa",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654910033044",
+   "reason": null
+  },
+  {
+   "token": "0x7428c76c76142315913bef50478ab74a67576e7d",
+   "curve": "0x3078d2fbe93bdb0d279a0dfb68acdfc64f8a69f3",
+   "pair": "0xaf3d76f1834a1d425780943c99ea8a608f8a93f9",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xe17a12c576c924fbc58b6bd29b9ef3d0e3cab675",
+   "curve": "0x3392b527fbb0ecb9b3f8d6fc313974fc2d320a78",
+   "pair": "0x12f190a9f9d7d37a250758b26824b97ce941bf54",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xcc798b527a43924e00d7688f29dda78e25350cc3",
+   "curve": "0x455d2bb917dcd09f08c472ea0dee4607b87ad364",
+   "pair": "0x2e0847e8910a9732eb3fb1bb4b70a580adad4fe3",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0xfd3d458f2053922e47cf81f2bb326721e9941fa8",
+   "curve": "0x95d53fc3fd7563965c5da99efc20ed3cdc93fd0c",
+   "pair": "0x2e0847e8910a9732eb3fb1bb4b70a580adad4fe3",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x55931e1c29a528cbaa8978723960df255b642fda",
+   "curve": "0x649320d350d48c8a32fa4995c783e36813bd4c0c",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xb00cda8a9f53475c44b91d2c383b893d0d84f059",
+   "status": "factory-revert",
+   "reason": "Too Many Requests"
+  },
+  {
+   "token": "0x084cf0853a3dcf93e3446c77e5b21b3528c51001",
+   "curve": "0x2974fd484afab493053dccbb092e9f3bca430ada",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xe601779e102c68e24ceac6dd7691e77dff067060",
+   "curve": "0x949b068553d7755f18cdb162bce1e28e1e6ef8a0",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094759859635",
+   "reason": null
+  },
+  {
+   "token": "0xc33ce70f087dbb1ce9b49ef628ca8960bbffc34f",
+   "curve": "0xd24921a65df37d005f68e1ee5258d4ed12969ac7",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0xb765b3795fb2e8162d56618cb5e66647550f268c",
+   "curve": "0x52b91656e9eac0753432ca5a12fb357c39412954",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1198779772967094774826419",
+   "reason": null
+  },
+  {
+   "token": "0xea860075eb20a5a4c2ea6bb8ff8c79a09f130dc0",
+   "curve": "0x9f31a8da2a62cc9c4b3f9c658a3ce06cee06944c",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x79325553da13972351ca5b138b590684d1bad485",
+   "curve": "0x1dc1e55eb8f6e85050e6f88d8fad5d06af49046c",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  },
+  {
+   "token": "0x0d3775554b81543161ab5b1ce8740c13cd55fff2",
+   "curve": "0xfa81eda31b821075d6bbc3df5109576d4944f01c",
+   "pair": "0xe0444ef8bf4ed74f74fd73686e2ddf4c1c5591e8",
+   "status": "custom-pair-skipped"
+  },
+  {
+   "token": "0x160457b9d06b6297ce9e97c717a12780980a2099",
+   "curve": "0x1280d0c04df69f14bec821d9b54d0c12b6b6e46c",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1186685255808654909327522",
+   "reason": null
+  },
+  {
+   "token": "0x1af70406469b10d0d8f3e203c3d1e5d929908b65",
+   "curve": "0x53175722b69bbe32d5991e9fb9430e9f7183b88a",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1143376922763944755190207",
+   "reason": null
+  },
+  {
+   "token": "0xec931eb1a1f9ea89b5db54a2d6907be31bc51ee0",
+   "curve": "0x099c05ba109694795730cf6f7285dad01c61163d",
+   "pair": "0x0000000000000000000000000000000000000000",
+   "native": true,
+   "status": "PASS",
+   "tokensOut": "1195960753096125429651887",
+   "reason": null
+  },
+  {
+   "token": "0xb95135607d00e44737983762cae5dbac595a79d1",
+   "curve": "0xf15daf2c20dea0f3badf5f97a3a7939f1a22664f",
+   "pair": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "native": false,
+   "status": "no-fill",
+   "tokensOut": null,
+   "reason": "execution reverted [0x13be252b]"
+  }
+ ],
+ "usdgPairVerdict": {
+  "decoded": "InsufficientAllowance()",
+  "selector": "0x13be252b",
+  "rootCause": "storage state-overrides unsupported/ignored on RH RPC",
+  "implication": "USDG-pair Pons fills NOT verifiable with zero funds on this endpoint; do not treat prior no-fill rows as genuine failures"
+ }
+}

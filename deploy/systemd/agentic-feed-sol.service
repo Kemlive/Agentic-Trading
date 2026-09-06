@@ -1,0 +1,14 @@
+[Unit]
+Description=Agentic Desk — Solana feed daemon
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+WorkingDirectory=/root/Agentic-Trading
+ExecStart=/usr/bin/python3 /root/Agentic-Trading/scripts/solfeed.py
+Restart=always
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

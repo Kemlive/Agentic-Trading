@@ -1,0 +1,22 @@
+{
+ "asOf": "2026-09-05T12:10:26.028565+00:00",
+ "what": "First REAL funded 1-USDG to-and-fro on a Pons v2 USDG-pair curve (live on-chain).",
+ "chain": 4663,
+ "wallet": "0xB1ACDaF72cA6648DdD54F5dB85B9Cf75d58f82b8",
+ "token": "0x655669865602778cc24171bb2182f04cccd0449a",
+ "curve": "0x28d639262a8646bb5a1f128551c37171d5b7f576",
+ "quote": "USDG (1.0000 in)",
+ "txs": {
+  "approveUsdg": "0x6c83ff2c7b0dd2b9f8b9a4f23a69d039d433e65bfefbbf1253bb15dbe8e01008",
+  "buy": "0x57304aeef2134c77d54f7817e04160fb29e65260f57673616970e5c25a25f7ec",
+  "approveToken": "0x7fe4e29eea03584752247532633bb4b211b87e221d36d67a19f81fbdf8257a2b",
+  "sell": "0xf828994733173851c342d7a469efbdde385ddf0be9fc8345b27ae98148113891"
+ },
+ "buyTokensOut": "271834717428346286286544",
+ "sellQuoteBackRaw": "980100",
+ "usdgDeltaRaw": "-19900",
+ "roundTripCostUsdg": 0.0199,
+ "roundTripCostPct": 1.99,
+ "gasUsedNativeWei": "136109268526000",
+ "note": "Execution proven end-to-end on this venue at 1 USDG. Not an armed lane: scaling/caps/policy still boss-gated."
+}

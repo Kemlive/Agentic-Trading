@@ -1,0 +1,522 @@
+{
+ "asOf": "2026-09-05T08:46:03.432056+00:00",
+ "quote": "USDG",
+ "sizesTested": [
+  5.0,
+  25.0,
+  50.0
+ ],
+ "maxImpactPct": 5.0,
+ "notes": "simulation only - QuoterV2 eth_call, no funds",
+ "rows": [
+  {
+   "token": "0x8e859dbdfbfd2df6a99870e2871eaa58e8784e05",
+   "venue": "-",
+   "pool": "-",
+   "fee": "-",
+   "q5": "no-pool",
+   "impact5": null,
+   "maxFillUsd": 0,
+   "status": "no-pool"
+  },
+  {
+   "token": "0x4a0e65a3eccec6dbe60ae065f2e7bb85fae35eea",
+   "venue": "uniswap-v3",
+   "pool": "-",
+   "fee": "?",
+   "q5": "no-fill",
+   "impact5": null,
+   "maxFillUsd": 0,
+   "status": "no-fill",
+   "lastReason": "revert@$5"
+  },
+  {
+   "token": "0x7ad7b2256ffcf7c6f7c7d95cf238d2ecc2c485e0",
+   "venue": "-",
+   "pool": "-",
+   "fee": "-",
+   "q5": "no-pool",
+   "impact5": null,
+   "maxFillUsd": 0,
+   "status": "no-pool"
+  },
+  {
+   "token": "0x44812a88a643b2a55bc28bf618e180728f4d3fba",
+   "venue": "-",
+   "pool": "-",
+   "fee": "-",
+   "q5": "no-pool",
+   "impact5": null,
+   "maxFillUsd": 0,
+   "status": "no-pool"
+  },
+  {
+   "token": "0x50ac4a09c6764b69f0132e283b059c8ab1374b36",
+   "venue": "-",
+   "pool": "-",
+   "fee": "-",
+   "q5": "no-pool",
+   "impact5": null,
+   "maxFillUsd": 0,
+   "status": "no-pool"
+  },
+  {
+   "token": "0xe45f30d27ea95050d34e4b678f4d0386c0e4b783",
+   "venue": "-",
+   "pool": "-",
+   "fee": "-",
+   "q5": "no-pool",
+   "impact5": null,
+   "maxFillUsd": 0,
+   "status": "no-pool"
+  },
+  {
+   "token": "0x92fd66527192e3e61d4ddd13322aa222de86f9b5",
+   "venue": "uniswap-v3",
+   "pool": "-",
+   "fee": "?",
+   "q5": "no-fill",
+   "impact5": null,
+   "maxFillUsd": 0,
+   "status": "no-fill",
+   "lastReason": "revert@$5"
+  },
+  {
+   "token": "0xa45c124ffae66b7dee8f18deb95c181ce02bf9dd",
+   "venue": "-",
+   "pool": "-",
+   "fee": "-",
+   "q5": "no-pool",
+   "impact5": null,
+   "maxFillUsd": 0,
+   "status": "no-pool"
+  },
+  {
+   "token": "0xfa0653c203c4c73bf89ba357369cec6991e4d8d2",
+   "venue": "-",
+   "pool": "-",
+   "fee": "-",
+   "q5": "no-pool",
+   "impact5": null,
+   "maxFillUsd": 0,
+   "status": "no-pool"
+  },
+  {
+   "token": "0x1f5c1a978d605830b45e1050173b923332d3cec9",
+   "venue": "-",
+   "pool": "-",
+   "fee": "-",
+   "q5": "no-pool",
+   "impact5": null,
+   "maxFillUsd": 0,
+   "status": "no-pool"
+  },
+  {
+   "token": "0x0d6bbdd979ef4802567425ae4ab352edaa468f1d",
+   "venue": "-",
+   "pool": "-",
+   "fee": "-",
+   "q5": "no-pool",
+   "impact5": null,
+   "maxFillUsd": 0,
+   "status": "no-pool"
+  },
+  {
+   "token": "0x6866659217450bb50bd0d837190b110bf38fcb04",
+   "venue": "-",
+   "pool": "-",
+   "fee": "-",
+   "q5": "no-pool",
+   "impact5": null,
+   "maxFillUsd": 0,
+   "status": "no-pool"
+  },
+  {
+   "token": "0x322f0929c4625ed5bad873c95208d54e1c003b2d",
+   "venue": "uniswap-v3",
+   "pool": "-",
+   "fee": "?",
+   "q5": "no-fill",
+   "impact5": null,
+   "maxFillUsd": 0,
+   "status": "no-fill",
+   "lastReason": "revert@$5"
+  },
+  {
+   "token": "0x157a752f3446fe891d6e2881006813703fbb3ad9",
+   "venue": "uniswap-v3",
+   "pool": "-",
+   "fee": "?",
+   "q5": "no-fill",
+   "impact5": null,
+   "maxFillUsd": 0,
+   "status": "no-fill",
+   "lastReason": "revert@$5"
+  },
+  {
+   "token": "0xd5f3879160bc7c32ebb4dc785f8a4f505888de68",
+   "venue": "uniswap-v3",
+   "pool": "-",
+   "fee": "?",
+   "q5": "no-fill",
+   "impact5": null,
+   "maxFillUsd": 0,
+   "status": "no-fill",
+   "lastReason": "revert@$5"
+  },
+  {
+   "token": "0xe2bd4ed34dc6ec9efeadcde67b4552166a5933ba",
+   "venue": "-",
+   "pool": "-",
+   "fee": "-",
+   "q5": "no-pool",
+   "impact5": null,
+   "maxFillUsd": 0,
+   "status": "no-pool"
+  }
+ ],
+ "otherVenues": {
+  "0x8e859dbd": [
+   {
+    "pool": "0x2a5c52399e7858bf17560f410d16447a13da117f42ec504a84ca24a9176d15e7",
+    "dex": "pons-v2-dex",
+    "liqUsd": "136645.4544"
+   },
+   {
+    "pool": "0x7686aca0b66bea34614a1a3b0b3ec158fe150b09934baa6398c98511d990e935",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "213907.2593"
+   },
+   {
+    "pool": "0x714bb4597ec961f6c40a82c8259cd01b941dcad346e6c11f4659129f247b5f65",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "13082.6651"
+   },
+   {
+    "pool": "0xcf6cf65c31d5a68738a6b94ced23956db4cc78e289e8147218129046a007cf91",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "9686.1001"
+   },
+   {
+    "pool": "0x0c1cc60595ee0a1fb73f9901c22d1a18276191bce1b20fe1ed544bc992ac3672",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "5292.1242"
+   },
+   {
+    "pool": "0x37befd2c507ae85094e181ffd0eddf8ad38282a86e02d7ada04080144a42b099",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "1834.632"
+   }
+  ],
+  "0x4a0e65a3": [
+   {
+    "pool": "0xc61284332117c3fb23a2a56cceffd07f7af60029",
+    "dex": "uniswap-v3-robinhood",
+    "liqUsd": "2556437.8744"
+   },
+   {
+    "pool": "0xcb6ffbcc84359535c2cc0a5688c0a76520ea6e0a4820fddd3ac8d7880e576370",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "3229246.8361"
+   },
+   {
+    "pool": "0xc3c9f0171490ef0f4536fe493f3b0ebb5ee0cb5e",
+    "dex": "uniswap-v3-robinhood",
+    "liqUsd": "472086.6712"
+   },
+   {
+    "pool": "0x225cc98f7d66b29fef96377becc7bf89582e2ab7b923a09aee9719fd80eb94ca",
+    "dex": "bankr-robinhood",
+    "liqUsd": "1216771.9048"
+   },
+   {
+    "pool": "0xedf5d3c9f4a0cb59734c13e73309d70ddafa19ca113790449311554a6f6c4f4e",
+    "dex": "pons-v2-dex",
+    "liqUsd": "73732.804"
+   },
+   {
+    "pool": "0x9d3e7931d8aede8fd612dfc4217da14733439272a249a92fbf212ddb4d4a69d6",
+    "dex": "pons-v2-dex",
+    "liqUsd": "257839.948"
+   }
+  ],
+  "0x7ad7b225": [
+   {
+    "pool": "0x48f9cb210e8f2165c2503e1d8963aa0b04d9dcb288a8afcbd2119e64a98840d0",
+    "dex": "pons-v2-dex",
+    "liqUsd": "58097.9442"
+   },
+   {
+    "pool": "0x8540e9a6eb9bcce8ae99e4a7cbf5c7057fec51241a431c6b5b589357020dfa33",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "13869.5429"
+   },
+   {
+    "pool": "0xc143aa1303d58724152d07b51b9f18da66f838257a3fdca09cc2ae7fdfa81d78",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "5327.2228"
+   },
+   {
+    "pool": "0x871b9a27431669c88b836dad9ac8b71a359a6a78d690002768f60d337a25f37b",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "5182.1195"
+   },
+   {
+    "pool": "0xc659c91c64a62faf8e47ee65326adbc1e182eb86fb35c523189b96c73bbce747",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "3713.4115"
+   },
+   {
+    "pool": "0x1f164135a077b3c94ef554d2ab8606e0aa155577c619133f797690136ab6f39e",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "1556.6249"
+   }
+  ],
+  "0x44812a88": [
+   {
+    "pool": "0xbe1fd8b6b642c8bf10e741dea070d98da2f835baa1a83e9e95f3202c3052d551",
+    "dex": "pons-v2-dex",
+    "liqUsd": "50696.752"
+   },
+   {
+    "pool": "0xa9969505b8246a603ea5f00291fd1cf209742f8a25b100ede07b3a6f76570763",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "5945.4848"
+   },
+   {
+    "pool": "0x775889ca7189c7314c4ff6e23ac374cd01702b25316d9cbe43510d61636f518c",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "273.844"
+   },
+   {
+    "pool": "0x702025e74cf8bbfcc07747e7e71aa4bdd390a347d61f95bb0ad9fcac8a910c3e",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "405.9553"
+   },
+   {
+    "pool": "0xf972596c1c63a9864c058128d7966083a779b441e82995db20f27fbb52103697",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "32.9087"
+   },
+   {
+    "pool": "0x51e682abe6efa72be45fe02b1650f60855d7bf1f3d7a8a0dad34d22c9ca08444",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "81.2893"
+   }
+  ],
+  "0x50ac4a09": [
+   {
+    "pool": "0xd4d64e9726ada5f085a8b6c9e9d41e7613ec0c52c6450016a92a356a377734bf",
+    "dex": "pons-v2-dex",
+    "liqUsd": "36148.3533"
+   },
+   {
+    "pool": "0xa87e04d5f21c6ff8b39bc8b00105c8e09880ab8634f2fc7a1bdf3cb6988d4b3c",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "40.0328"
+   },
+   {
+    "pool": "0x2c78ed7ea9e5f7450aef772516fd762822bfd3a7be7ed8f628011a893d822cc7",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "500.0416"
+   },
+   {
+    "pool": "0x4864692f2a1e42e85e48b0008f1533dce2591357c500df31a2d6d451916b3d57",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "350.4712"
+   },
+   {
+    "pool": "0x3a54ea3bf57a62a3afaa63cd51579d833bc4029e3e0024c34837064b530f3a93",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "270.4056"
+   },
+   {
+    "pool": "0xff54eabe91a6aa6952a60e31720413f227daaab8cfc47b618a8e8de9dc80e74a",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "74.629"
+   }
+  ],
+  "0x92fd6652": [
+   {
+    "pool": "0xfab520051f96f4d2a32c22b6a3dd7fffdf231bfe",
+    "dex": "uniswap-v3-robinhood",
+    "liqUsd": "1783375.6797"
+   },
+   {
+    "pool": "0x2a72510d7d92cc121f9733ab6d14227ef8963cfadf9d40ac574f02e20e6299a8",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "113790.6776"
+   },
+   {
+    "pool": "0x6ba50150b17ffd0972915aaf04ffd5e8f4fa49b4",
+    "dex": "uniswap-v3-robinhood",
+    "liqUsd": "194695.5127"
+   },
+   {
+    "pool": "0x3458e9d5e42fc937c6fe9fe62e41e1c76bd9d808d431c57dac50d5cef6483e6d",
+    "dex": "bankr-robinhood",
+    "liqUsd": "328261.3464"
+   },
+   {
+    "pool": "0x75cb93baaaa87c22b58d4e3496d88a49bdc8c084e97309a388714949fda0d267",
+    "dex": "pons-v2-dex",
+    "liqUsd": "23497.2888"
+   },
+   {
+    "pool": "0xa9349400def8a8fb8b96763c52870fcadbc8775361dd49e95291486be5141e0a",
+    "dex": "bankr-robinhood",
+    "liqUsd": "342985.617"
+   }
+  ],
+  "0xfa0653c2": [
+   {
+    "pool": "0xf9bfebd09dcb7d936d5a21e23e1db77d6e3ab3ffe1ebee9328be6e80e03163fa",
+    "dex": "pons-v2-dex",
+    "liqUsd": "32619.5018"
+   },
+   {
+    "pool": "0x1e9c7ea3f4c84c16f9c009ddd93de7e15708e4e9f0e38a9da5e9e1fe670d9f03",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "587.4752"
+   },
+   {
+    "pool": "0x59954c3736acb8cefa7f14dbb75ce5687f14ef22ddff153605b72a9147f0469c",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "128.3756"
+   },
+   {
+    "pool": "0x60d8ba1c12a1d8942cc6f224a465c12e9c308a05f20fe80bcbae8d1a64d54f35",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "143.8513"
+   },
+   {
+    "pool": "0xd5b95578bd0545b9349ca6b3038319c448908743de3455e531a02df2d223cf1e",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "14.9816"
+   },
+   {
+    "pool": "0xa0fbae33b9ff0d8ef0c01bf60fad818a1d932cb96c57481d6d28b1c7a1dc31dd",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "5.1576"
+   }
+  ],
+  "0x68666592": [
+   {
+    "pool": "0x46b21aa8b49540edfe2feb3b8818b33c6ce39ffbf62e346ab6d7031932b6addd",
+    "dex": "pons-v2-dex",
+    "liqUsd": "11142.5652"
+   },
+   {
+    "pool": "0xe29702572ee396827eac20828211e71d2e7e80a522b4785bf95a10db3183356c",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "16.7008"
+   },
+   {
+    "pool": "0x5be9a22d38639d9e31f732e113a5ec18c1dea3f9",
+    "dex": "pons-v2",
+    "liqUsd": "0.0"
+   },
+   {
+    "pool": "0xef69517befac9032639ea373d4608862b7d9da8ed8f3fccbbf058f8dcdd3964e",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "-168.682268505159"
+   }
+  ],
+  "0x322f0929": [
+   {
+    "pool": "0xf4acdaeeb7022862a763c9b1b885e11191c889e3",
+    "dex": "uniswap-v3-robinhood",
+    "liqUsd": "932916.3259"
+   },
+   {
+    "pool": "0x8517f8071ae5b831b738052f12125e8e3d6c158b78728aa44ce3b25e5104d32e",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "886749.0778"
+   },
+   {
+    "pool": "0xa1771923045e0dade6578f8c99de248d5a6029b97fb928328f9e767674e7663a",
+    "dex": "pons-v2-dex",
+    "liqUsd": "308695.6941"
+   },
+   {
+    "pool": "0xa821b3724b451b22476c5347471b2a96d185b86af8760f226273e34ab4b2b8a0",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "304752.8008"
+   },
+   {
+    "pool": "0xa953ca88ff430e9487c60ca34d757414f4efda07",
+    "dex": "uniswap-v3-robinhood",
+    "liqUsd": "351977.2894"
+   },
+   {
+    "pool": "0xc4f0172d6ac8dd294dd1137d047d5e1893760236",
+    "dex": "uniswap-v3-robinhood",
+    "liqUsd": "139566.4859"
+   }
+  ],
+  "0x157a752f": [
+   {
+    "pool": "0x77a0e74e47ddb1b74cc5fbcaf5f39d97ef89c51525a97d141529c6331da7da10",
+    "dex": "pons-v2-dex",
+    "liqUsd": "96597.713"
+   },
+   {
+    "pool": "0x77c75b061598ac3b03066aecfed5d1b1272c215716b1bd8c6db70cf19aa7a22f",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "51655.9231"
+   },
+   {
+    "pool": "0xe78f0a73e913e86ee5a0e6ec068fe68d52a8d33a7b2e0f4d10657176a01b40c4",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "9052.9505"
+   },
+   {
+    "pool": "0x9ff44159bbb9c8912dede26aa7d116cf85123d81b086531cb8daa8c6252e448f",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "19511.5835"
+   },
+   {
+    "pool": "0x0f04fcb8225d70137b16e3145255a93a7565f2c9e0c8307958ef71220a44d385",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "394.6792"
+   },
+   {
+    "pool": "0x1bd2b0f544ac90208df3a3f3041651c46b93413c77143b652d769c33d26ac880",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "2243.1653"
+   }
+  ],
+  "0xe2bd4ed3": [
+   {
+    "pool": "0xc2c0bdfeb307a025db64e2e8019772cb840d89a39f0cc26cd3bc6480ea27a86c",
+    "dex": "pons-v2-dex",
+    "liqUsd": "30093.7334"
+   },
+   {
+    "pool": "0x854039fd1bcefeb5fc12d0506555feaaaf05595908a57ae4112703b1d9786273",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "0.0"
+   },
+   {
+    "pool": "0x598632de90986da1bd73a194a048358b0c06ee249c341211800d9791acc8f87b",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "35.3664"
+   },
+   {
+    "pool": "0x766bd1991128cfb8a48df36e9baf3e6b83d0c16840ea5748d50e9d0062eac5c8",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "48.3832"
+   },
+   {
+    "pool": "0x78b7e9618d84e12bf3617899bba31c695d5cf9d2439d45bf6266cff72d39fd31",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "41.2905"
+   },
+   {
+    "pool": "0x5141bf0628fc5f5993c0ee2bee54f2307fd28db62e1142d50e4e42e6caddc4f5",
+    "dex": "uniswap-v4-robinhood",
+    "liqUsd": "22.104"
+   }
+  ]
+ }
+}

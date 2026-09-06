@@ -1,0 +1,17 @@
+{
+ "asOf": "2026-09-06T03:41:22.480975+00:00",
+ "test": "LIVE Base in-and-out via SwapModule (Safe funds): USDC -> AERO -> USDC",
+ "chain": 8453,
+ "safe": "0x203FD7cefb443672ef5700A1E27521c22A6E7B3A",
+ "module": "0x315f754ef53bb14c2f9001be8fe0d857e2e31013",
+ "ownerSigner": "0xB1ACDaF72cA6648DdD54F5dB85B9Cf75d58f82b8",
+ "txs": {
+  "usdcToAero": "0x64875b67036ee886838b269ca0ddd1f8cabb33cf74d43b357621f5718efddeea",
+  "aeroToUsdc": "0xa60d44697b13d0e5d9bfa06aad07303a4f02e9ae6ec7b38257115547d5e6b858"
+ },
+ "startUsdc": "0.50",
+ "endUsdc": "0.497304",
+ "netUsdCost": 0.002696,
+ "roundTripCostPct": 0.6,
+ "note": "AERO fully back to 0. Round-trip cost ~0.6% consistent with dry Aerodrome RT (99.40%). Both legs status 1."
+}

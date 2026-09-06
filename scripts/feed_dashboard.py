@@ -124,6 +124,63 @@ def _get_json(url, timeout=12):
     return json.loads(urllib.request.urlopen(req, timeout=timeout).read())
 
 
+# ---- Cloudflare 24/7 agentic-snatcher (unified desk: dashboard sees the same lane as Telegram) ----
+_CF_CACHE = {"at": 0.0, "d": None}
+
+
+def _age(t):
+    try:
+        tt = datetime.datetime.fromisoformat(str(t).replace("Z", "+00:00"))
+        s = int((datetime.datetime.now(datetime.timezone.utc) - tt).total_seconds())
+        if s < 0:
+            s = 0
+        if s < 90:
+            return "%ds" % s
+        if s < 3600:
+            return "%dm" % (s // 60)
+        return "%.1fh" % (s / 3600)
+    except Exception:
+        return "?"
+
+
+def _cf_state():
+    """Live snapshot of the Cloudflare worker (/state), cached 15s. Falls back to
+    a saved data/live/cf-worker.json URL, else discovers the workers.dev subdomain."""
+    now = datetime.datetime.now(datetime.timezone.utc).timestamp()
+    if now - _CF_CACHE["at"] < 15:
+        return _CF_CACHE["d"]
+    url = os.environ.get("CF_SNATCHER_URL")
+    if not url:
+        cfg = read(os.path.join(LIVE, "cf-worker.json"), {}) or {}
+        url = cfg.get("url")
+    if not url:
+        try:
+            cf = json.load(open(os.path.expanduser("~/.config/agentic-trading/cloudflare.json")))
+            req = urllib.request.Request(
+                "https://api.cloudflare.com/client/v4/accounts/%s/workers/subdomain" % cf["account_id"],
+                headers={"Authorization": "Bearer " + cf["api_token"]})
+            body = json.loads(urllib.request.urlopen(req, timeout=10).read())
+            sub = (body.get("result") or {}).get("subdomain")
+            if sub:
+                url = "https://agentic-snatcher.%s.workers.dev" % sub
+                try:
+                    with open(os.path.join(LIVE, "cf-worker.json"), "w") as fh:
+                        json.dump({"url": url, "discovered": now_iso()}, fh, indent=2)
+                except Exception:
+                    pass
+        except Exception:
+            url = None
+    data = None
+    if url:
+        try:
+            data = _get_json(url.rstrip("/") + "/state", timeout=10)
+        except Exception:
+            data = None
+    _CF_CACHE["at"] = now
+    _CF_CACHE["d"] = data
+    return data
+
+
 def _sol_rpc_url():
     try:
         k = open(os.path.expanduser("~/.config/agentic-trading/helius.key")).read().strip()
@@ -459,6 +516,7 @@ def collect():
     d["alphaTop"] = {k: [{"symbol": c.get("symbol"), "transfers": c.get("transfers"),
                           "token": (c.get("token") or "")[:10]}
                           for c in clusters.get(k, [])[:4]] for k in clusters}
+    d["cf"] = _cf_state()
     fst = read(os.path.join(LIVE, "feed-state.json"), {})
     counts = {}
     for v in (fst.get("counts") or {}).items():
@@ -1031,6 +1089,105 @@ def render(d):
     h.append("</div>")
     h.append("</div>")  # end grid
 
+    # Cloudflare 24/7 — agentic-snatcher (one unified desk with PM + Telegram)
+    cf = d.get("cf") or {}
+    h.append("<div class='card' style='margin-top:12px;border:1px solid #b45309'><div class='k'>☁️ CLOUDFLARE 24/7 — agentic-snatcher worker (workers.dev · cron */15 · runs with the laptop off)</div>")
+    if not cf:
+        h.append("<div class='empty-badge'>worker /state unreachable — check deployment URL / CF_SNATCHER_URL</div>")
+    else:
+        st = cf.get("state") or {}
+        evs = cf.get("events") or []
+        cfg = cf.get("cfg") or {}
+        off = st.get("off")
+        paused = st.get("paused")
+        if off:
+            pill = "<span class='pill grey'>HALTED (off)</span>"
+        elif paused:
+            pill = "<span class='pill bad'>PAUSED — daily -10% guard</span>"
+        else:
+            pill = "<span class='pill green'>ACTIVE · live mainnet</span>"
+        ping = _age(st.get("ping") or cf.get("ts"))
+        usdc = st.get("usdc")
+        floor = cfg.get("reserveMin")
+        usdc_s = ("%.2f" % usdc) if usdc is not None else "?"
+        extra = (" · reserve floor $%.2f" % floor) if floor is not None else ""
+        if st.get("dayStartUsd"):
+            extra += " · day start $%.2f" % st.get("dayStartUsd")
+        sts = cf.get("status") or {}
+        dead = [k for k, v in (sts.get("pids") or {}).items() if not v]
+        warn = (" · ⚠ %s DOWN" % ",".join(dead)) if dead else ""
+        h.append("<div class='pf-tools'><span class='stat'>%s · worker ping %s · USDC $%s%s</span>"
+                 "<span class='stat'>desk <b>%s</b> · report %s ago · feeds %s%s</span></div>"
+                 % (pill, ping, usdc_s, extra,
+                    sts.get("host") or "—", _age(sts.get("receivedAt") or sts.get("ts")),
+                    ("%s alive" % len(sts.get("pids") or {})) if (sts.get("pids")) else "n/a", warn))
+        pos = st.get("pos") or {}
+        if pos:
+            age_h = 0.0
+            if pos.get("openedAt"):
+                try:
+                    t0 = datetime.datetime.fromisoformat(str(pos["openedAt"]).replace("Z", "+00:00"))
+                    age_h = (datetime.datetime.now(datetime.timezone.utc) - t0).total_seconds() / 3600
+                except Exception:
+                    age_h = 0.0
+            h.append("<div class='pos-card'><div class='pos-head'>"
+                     "<b>OPEN · %s</b><span class='ticker-badge font-mono'>qty %s</span>"
+                     "<span class='meta-tag tag-green'>entry ~$%.4f</span><span class='pill'>age %.1fh</span></div>"
+                     % (pos.get("symbol") or str(pos.get("mint", ""))[:8], pos.get("qty"),
+                        pos.get("entryImpliedUsd") or 0.0, age_h))
+            h.append("<div class='sub'>Cloudflare enforces exits even with the laptop off: hard -30% · time-stop 24h · trail -15% off peak · bank ≥ +30% on m5 fade. Manual override = CLOSE button on the PM desk.</div>")
+            h.append("</div>")
+        else:
+            h.append("<div class='empty-badge'>No open snatcher position — scanning every 15 min (entry rails: liq ≥ $15k · FDV $30–150k · m5 buy:sell ≥ 1.3 · no labels).</div>")
+        if evs:
+            h.append("<div style='margin-top:8px;border-top:1px dashed #1f2a44;padding-top:6px'>")
+            for ev in evs[-6:][::-1]:
+                h.append("<div style='display:flex;gap:10px;align-items:baseline;font-size:.72rem;margin:3px 0'>"
+                         "<span style='color:#64748b;min-width:38px'>%s</span>"
+                         "<span class='font-mono' style='color:#e2e8f0;word-break:break-all'>%s</span></div>"
+                         % (_age(ev.get("ts")), ev.get("text") or ""))
+            h.append("</div>")
+    h.append("</div>")
+
+    # RH potential-coin shortlist (research only — no auto-trade)
+    rp = read(os.path.join(FD, "rh-potential.json"), {}) or {}
+    tiers = rp.get("tiers") or {}
+    rp_age = _age(rp.get("asOf")) if rp else "n/a"
+    h.append("<div class='card' style='margin-top:12px;border:1px solid #0e7490'><div class='k'>🪙 ROBINHOOD potential-coin shortlist — trending / gainers / new (research only · no auto-trade)</div>")
+    h.append("<div class='sub'>source: feed registry · updated %s ago · registry age %s · rank by score</div>" % (rp_age, rp.get("registryAgeSec")))
+    if not rp:
+        h.append("<div class='empty-badge'>no shortlist yet — waiting for rh_potential.py</div>")
+    else:
+        for tier in ("trending", "gainer", "new", "watch"):
+            rows = tiers.get(tier) or []
+            h.append("<div style='margin-top:8px'><span class='meta-tag tag-purple'>%s (%d)</span></div>" % (tier.upper(), len(rows)))
+            if not rows:
+                h.append("<div class='empty-badge'>none</div>")
+                continue
+            h.append("<table><tr><th>Sym</th><th>Type</th><th>CA</th><th>vol 1h</th><th>holders 1h</th><th>accel</th><th>score</th><th>%</th></tr>")
+            for r in rows:
+                sym = r.get("sym") or "?"
+                ca = str(r.get("key") or "")[:8] + "…"
+                h.append("<tr><td><b>%s</b></td><td>%s</td><td class='font-mono'>%s</td><td>%s</td><td>%s</td><td>%.0f</td><td>%.0f</td><td>%.0f</td></tr>"
+                         % (sym, r.get("type") or "coin", ca, r.get("t60"), r.get("u60"),
+                            float(r.get("accel") or 0), float(r.get("score") or 0), float(r.get("pct") or 0)))
+            h.append("</table>")
+    h.append("</div>")
+
+    # Pons v2 live-fillable candidates (sim PASS @ $5 native ETH, research only — no auto-trade)
+    pl = (rp.get("tiers") or {}).get("pons-live") or []
+    if pl:
+        pl_age = _age((rp.get("ponsLive") or {}).get("refreshedAt") or rp.get("asOf"))
+        h.append("<div class='card' style='margin-top:12px;border:1px solid #16a34a'><div class='k'>🧪 PONS v2 live-fillable — sim PASS @ $5 native ETH (research only · no auto-trade)</div>")
+        h.append("<div class='sub'>phase=0 native curves · real eth_call sim · %d shown · updated %s ago · refresh: node scripts/pons_live_fill.cjs</div>"
+                 % (len(pl), pl_age))
+        h.append("<table><tr><th>Token</th><th>Curve</th><th>tokensOut($5)</th></tr>")
+        for r in pl[:15]:
+            h.append("<tr><td class='font-mono'>%s…</td><td class='font-mono'>%s…</td><td>%s</td></tr>"
+                     % (str(r.get("key") or "")[:8], str(r.get("curve") or "")[:8], r.get("tokensOut5")))
+        h.append("</table></div>")
+
+    # PORTFOLIO MANAGER — trading wallet (managed for results)
     # PORTFOLIO MANAGER — trading wallet (managed for results)
     pf = d.get("portfolio") or {}
     h.append("<div class='card' style='margin-top:12px'><div class='k'>PORTFOLIO MANAGER — trading wallet (bot positions + assets)</div>")
