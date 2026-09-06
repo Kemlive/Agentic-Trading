@@ -1,0 +1,29 @@
+{
+ "asOf": "2026-09-06T06:16:58.477Z",
+ "ethUsd": 2509.68,
+ "n": 2,
+ "rows": [
+  {
+   "token": "0xc0d393a0f29797930e76dcaddcd47a2df2d389dc",
+   "type": "pons-native",
+   "curve": "0x16caf54315a042e0369a27540baf7d45159e47d6",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1172648881634101338805079",
+   "t20": "4674152108807463111304638",
+   "impactPct": 0.35,
+   "note": null
+  },
+  {
+   "token": "0xaebf2ba52f797f33b3cabacd82cba9f3e2e7dcc0",
+   "type": "pons-native",
+   "curve": "0xdc98f9215bef6aebaedafe70d89f6046b67d5993",
+   "phase": 0,
+   "status": "no-fill5",
+   "t5": null,
+   "t20": null,
+   "impactPct": null,
+   "note": null
+  }
+ ]
+}

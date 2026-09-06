@@ -853,3 +853,7 @@ Append a dated entry under the right section. Never delete old lessons. Format:
 - Capital map corrected after boss feedback (my earlier POL "0" was an RPC failure): POL wallet = 9.59 POL; Base Safe 0.50 USDC (now 0.4973); RH wallet 8.67 USDG; ETH/BNB/ARB = gas only; stable balances on other chains = 0 → bridging single USDC on demand (standard, proven via Rubic quotes) is the funding method, not a blocker.
 - Live in-and-out now proven on TWO chains: BASE (module, 0.60%) and RH Pons (×2, 1.99%).
 
+
+## 2026-09-06 — autopilot.py fixes (explicit edits): same-coin rebuy + dry-tick diagnostics
+- Added prune_banned / blocked_mints / ban_mint / rank_key; 24h re-entry ban on ANY close (win/loss/dust) via prev.bannedMints; candidate pool now excludes tried + banned + open mints; empty ticks log `autopilot_no_entry` with reason (cooldown/reserve/max_open/zero_eligible/all_blocked_or_tried/no_scan_file_or_empty) + Telegram 🛑 NO-ENTRY. SIZE_USDC, regime floors, RELIEF_BAR, gecko thresholds unchanged. py_compile OK (760 lines) + import OK.
+

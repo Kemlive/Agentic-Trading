@@ -1,0 +1,140 @@
+{
+ "asOf": "2026-09-06T05:34:06.184Z",
+ "ethUsd": 2506.17,
+ "n": 13,
+ "rows": [
+  {
+   "token": "0x1d5653e2d68d8cbf2c09a343ee8539a10b4a430a",
+   "type": "pons-usdg",
+   "curve": "0x58e62a3f9139e946d0134cfc015a31a5cc0728ae",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527329948138049076840387",
+   "t20": "6081454629201927671353958",
+   "impactPct": 0.46,
+   "note": null
+  },
+  {
+   "token": "0x0f9a2807fa6eb76522e9f2f8d9811c8d8a1a5e07",
+   "type": "pons-usdg",
+   "curve": "0x039c7dd205e07330222c7473e46ce74b54e604f8",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527329946724269217252467",
+   "t20": "6081454623598277614844380",
+   "impactPct": 0.46,
+   "note": null
+  },
+  {
+   "token": "0x1594ae7668bbcf19cf3e151f4ef6528e3508c7e2",
+   "type": "pons-usdg",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  },
+  {
+   "token": "0x55931e1c29a528cbaa8978723960df255b642fda",
+   "type": "pons-usdg",
+   "curve": "0x649320d350d48c8a32fa4995c783e36813bd4c0c",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1527329946253009264638126",
+   "t20": "6081454621730394264969359",
+   "impactPct": 0.46,
+   "note": null
+  },
+  {
+   "token": "0x5ca997c136f6e59cdd2cea6c6109e33f04d0a915",
+   "type": "pons-usdg",
+   "curve": "0x4c296637d7ccdd26c13b2510738bb903f815ae80",
+   "phase": 0,
+   "status": "no-fill5",
+   "t5": null,
+   "t20": null,
+   "impactPct": null,
+   "note": null
+  },
+  {
+   "token": "0xbbf9e749d6d4792e3d5ae4281880e97ccfa109c1",
+   "type": "pons-usdg",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  },
+  {
+   "token": "0xfa35b8fc0fd921c83fd4d5a5f614b702d970f237",
+   "type": "pons-usdg",
+   "curve": "0x6753b69481c5bb42696fc3569df4eeb668d5951e",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1511925692187105101979795",
+   "t20": "6020395596410391466222427",
+   "impactPct": 0.45,
+   "note": null
+  },
+  {
+   "token": "0xc0d393a0f29797930e76dcaddcd47a2df2d389dc",
+   "type": "pons-native",
+   "curve": "0x16caf54315a042e0369a27540baf7d45159e47d6",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1174289298765672631486645",
+   "t20": "4680667820664042642618565",
+   "impactPct": 0.35,
+   "note": null
+  },
+  {
+   "token": "0x59fa6276079ea465a5441ebc752203bc626ed90c",
+   "type": "pons-native",
+   "curve": "0xe714941f1bc80034f23b9553835c4ef6374c3abe",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1174289298765672631486645",
+   "t20": "4680667820664042642618565",
+   "impactPct": 0.35,
+   "note": null
+  },
+  {
+   "token": "0xaebf2ba52f797f33b3cabacd82cba9f3e2e7dcc0",
+   "type": "pons-native",
+   "curve": "0xdc98f9215bef6aebaedafe70d89f6046b67d5993",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1174289298765672631486645",
+   "t20": "4680667820664042642618565",
+   "impactPct": 0.35,
+   "note": null
+  },
+  {
+   "token": "0x29baa90a2dd7c2a5dd7eea4c1605c37cbe539359",
+   "type": "pons-native",
+   "curve": "0x82571fc36752ca268dfef3fabee737a86b567c4f",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1174289298765672631486645",
+   "t20": "4680667820664042642618565",
+   "impactPct": 0.35,
+   "note": null
+  },
+  {
+   "token": "0xacd1ab4259837440abe266a1d3d7295a7660b84f",
+   "type": "pons-native",
+   "curve": "0x367abe74c8776511753d7faf0a8d02b3552ff7ee",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1174289298765672631486645",
+   "t20": "4680667820664042642618565",
+   "impactPct": 0.35,
+   "note": null
+  },
+  {
+   "token": "0x699402a8782604ba0f2c3aa11a707687d56ea7ba",
+   "type": "pons-native",
+   "curve": "0xc142337576bf2528502f0fdcab673531d154c57f",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1174289298765672563765036",
+   "t20": "4680667820664042373630685",
+   "impactPct": 0.35,
+   "note": null
+  }
+ ]
+}

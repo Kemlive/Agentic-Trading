@@ -1,0 +1,13 @@
+{
+ "asOf": "2026-09-06T06:31:03.412Z",
+ "ethUsd": 2506.17,
+ "n": 1,
+ "rows": [
+  {
+   "token": "0xc0d393a0f29797930e76dcaddcd47a2df2d389dc",
+   "type": "pons-native",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  }
+ ]
+}

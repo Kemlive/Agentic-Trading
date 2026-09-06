@@ -1,0 +1,18 @@
+{
+ "asOf": "2026-09-06T06:24:00.351Z",
+ "ethUsd": 2507.26,
+ "n": 1,
+ "rows": [
+  {
+   "token": "0xc0d393a0f29797930e76dcaddcd47a2df2d389dc",
+   "type": "pons-native",
+   "curve": "0x16caf54315a042e0369a27540baf7d45159e47d6",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1173779390368862191976714",
+   "t20": "4678642479124747227856388",
+   "impactPct": 0.35,
+   "note": null
+  }
+ ]
+}

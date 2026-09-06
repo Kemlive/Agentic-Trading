@@ -1,0 +1,35 @@
+{
+ "asOf": "2026-09-06T06:09:55.186Z",
+ "ethUsd": 2510.63,
+ "n": 3,
+ "rows": [
+  {
+   "token": "0xc0d393a0f29797930e76dcaddcd47a2df2d389dc",
+   "type": "pons-native",
+   "curve": "0x16caf54315a042e0369a27540baf7d45159e47d6",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1172205681886963942880375",
+   "t20": "4672391715198185692420106",
+   "impactPct": 0.35,
+   "note": null
+  },
+  {
+   "token": "0x59fa6276079ea465a5441ebc752203bc626ed90c",
+   "type": "pons-native",
+   "status": "stale-or-not-live",
+   "reason": "launch-decode-fail"
+  },
+  {
+   "token": "0xaebf2ba52f797f33b3cabacd82cba9f3e2e7dcc0",
+   "type": "pons-native",
+   "curve": "0xdc98f9215bef6aebaedafe70d89f6046b67d5993",
+   "phase": 0,
+   "status": "fresh-PASS",
+   "t5": "1172205681886963942880375",
+   "t20": "4672391715198185692420106",
+   "impactPct": 0.35,
+   "note": null
+  }
+ ]
+}

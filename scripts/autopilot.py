@@ -373,6 +373,82 @@ def save_position(pos):
     atomic_write(HOLD, h)
 
 
+def prune_banned(banned):
+    """Drop expired mint bans. banned: {mint: untilUnix}."""
+    now = time.time()
+    out = {}
+    for m, until in (banned or {}).items():
+        try:
+            if float(until) > now:
+                out[str(m)] = float(until)
+        except Exception:
+            continue
+    return out
+
+
+def blocked_mints(holdings=None, banned=None):
+    """Mints we must not re-enter: open + recent closes + explicit bans."""
+    blocked = set()
+    now = time.time()
+    today = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
+    try:
+        h = holdings if holdings is not None else json.load(open(HOLD))
+    except Exception:
+        h = {"positions": []}
+    for p in (h.get("positions") or []):
+        mint = str(p.get("mint") or p.get("token") or "").strip()
+        if not mint:
+            continue
+        st = str(p.get("status", "open")).lower()
+        if st == "open":
+            blocked.add(mint)
+            continue
+        if st != "closed":
+            continue
+        closed = str(p.get("closedAt") or "")
+        ts = _iso_secs(closed)
+        if ts is not None and (now - ts) < 24 * 3600:
+            blocked.add(mint)
+        try:
+            realized = float(p.get("realizedUsdc") or p.get("realizedUsd") or 0)
+        except Exception:
+            realized = 0.0
+        if closed[:10] == today and realized < 0:
+            blocked.add(mint)
+    for m, until in (banned or {}).items():
+        try:
+            if float(until) > now:
+                blocked.add(str(m))
+        except Exception:
+            continue
+    return blocked
+
+
+def ban_mint(prev, mint, hours=24.0, reason=""):
+    """Record a durable mint ban in autopilot state."""
+    if not mint:
+        return prev
+    banned = prune_banned(prev.get("bannedMints") or {})
+    until = time.time() + float(hours) * 3600.0
+    prev_until = float(banned.get(mint) or 0)
+    banned[mint] = max(prev_until, until)
+    prev["bannedMints"] = banned
+    log({"event": "mint_banned", "mint": mint, "hours": hours, "reason": reason, "until": until})
+    return prev
+
+
+def rank_key(c, tried_set, blocked_set):
+    """Higher liq first; deprioritize tried/blocked."""
+    mint = str(c.get("token") or "")
+    liq = float(c.get("liqUsd") or 0)
+    penalty = 0.0
+    if mint in tried_set:
+        penalty += 1e12
+    if mint in blocked_set:
+        penalty += 1e15
+    return (penalty, -liq)
+
+
 def main():
     if os.path.exists(OFF):
         return 0
@@ -440,6 +516,8 @@ def main():
             pos["status"] = "closed"
             pos["closedAt"] = datetime.datetime.now(datetime.timezone.utc).isoformat()
             pos["closeReason"] = "autopilot:dust_zero_qty"
+            prev = ban_mint(prev, pos.get("mint") or "", hours=24.0, reason="dust_zero_qty")
+            atomic_write(STATE, prev)
             atomic_write(HOLD, h)
             continue
         usdc_before_sell = token_balance(USDC)
@@ -456,8 +534,10 @@ def main():
             # honest streak + circuit breaker: 2 straight losing closes -> 6h entry cooldown
             if realized < 0:
                 prev["lossStreak"] = prev.get("lossStreak", 0) + 1
+                prev = ban_mint(prev, pos.get("mint") or "", hours=24.0, reason="closed_loss")
             else:
                 prev["lossStreak"] = 0
+                prev = ban_mint(prev, pos.get("mint") or "", hours=24.0, reason="closed_win")
             if prev["lossStreak"] >= 2 and time.time() >= float(prev.get("cooldownUntil") or 0):
                 prev["cooldownUntil"] = time.time() + 6 * 3600
                 tg("🧊 AUTO COOLDOWN: %d straight stop-outs -> no new entries for 6h" % prev["lossStreak"])
@@ -493,6 +573,7 @@ def main():
             tg("⚠️ AUTO sell FAILED for %s: %s" % (pos["symbol"], err))
     opens = [p for p in h.get("positions", []) if p["status"] == "open"]
     if len(opens) >= MAX_OPEN:
+        log({"event": "autopilot_no_entry", "reason": "max_open", "open": len(opens)})
         return 0
     # refresh balances after any sells (owner basis incl. vault)
     sol, usdc = balances()
@@ -501,10 +582,12 @@ def main():
     cash_disp = cash_total if VAULT_MODE else usdc
     # 2) find an entry
     if time.time() < float(prev.get("cooldownUntil") or 0):
-        tg("🧊 AUTO cooldown active - no new entries (2 straight stop-outs). Reserve $%.2f ready." % cash_disp)
+        log({"event": "autopilot_no_entry", "reason": "cooldown", "until": prev.get("cooldownUntil")})
+        tg("🛑 NO-ENTRY reason=cooldown - no new entries (2 straight stop-outs). Reserve $%.2f ready." % cash_disp)
         return 0
     if cash_total < RESERVE_MIN:
-        tg("AUTOPILOT holding: reserve $%.2f below floor %.2f" % (cash_disp, RESERVE_MIN))
+        log({"event": "autopilot_no_entry", "reason": "reserve", "reserve": cash_disp})
+        tg("🛑 NO-ENTRY reason=reserve - cash $%.2f below floor %.2f" % (cash_disp, RESERVE_MIN))
         return 0
     # PORTFOLIO MANAGER (T-1): full advisory once per tick - Risk cycle + Execution sizing.
     pm_size = SIZE_USDC
@@ -534,8 +617,18 @@ def main():
     load_regime_bar()
     tried = prev.get("tried", [])
     dry_runs = int(prev.get("emptyRuns", 0))
-    cands = sorted([c for c in latest_scan_candidates() if c.get("token") not in tried],
-                   key=lambda x: float(x.get("liqUsd") or 0), reverse=True)
+    prev["bannedMints"] = prune_banned(prev.get("bannedMints") or {})
+    try:
+        holdings_snap = json.load(open(HOLD))
+    except Exception:
+        holdings_snap = {"positions": []}
+    blocked = blocked_mints(holdings_snap, prev.get("bannedMints"))
+    tried_set = set(tried)
+    raw = latest_scan_candidates()
+    pool = [c for c in raw if c.get("token") and c.get("token") not in tried_set
+            and c.get("token") not in blocked]
+    pool.sort(key=lambda c: rank_key(c, tried_set, blocked))
+    cands = pool
     bar, entry_note = _BAR, _BAR.get("mode", "NEUTRAL_SNATCH")
     strict = [c for c in cands if eligible(c, bar)]
     relief = [c for c in cands if eligible(c, RELIEF_BAR)] if (not strict and dry_runs >= 2) else []
@@ -543,31 +636,25 @@ def main():
     log({"event": "autopilot_hunt", "mode": entry_note,
          "queue": [{"s": c.get("symbol"), "liq": c.get("liqUsd"), "fdv": c.get("fdv"),
                     "h1": c.get("chg_h1"), "m5": c.get("chg_m5")} for c in queue],
-         "strict": len(strict), "relief": len(relief)})
+         "strict": len(strict), "relief": len(relief),
+         "blocked": len(blocked), "rawScan": len(raw)})
     if not queue:
         prev["emptyRuns"] = dry_runs + 1
         atomic_write(STATE, prev)
-        if dry_runs in (2, 5, 10, 20):  # CURIOSITY LOOP (boss 2026-09-04): ask WHY no fill
-            try:
-                liq15 = [c for c in cands if float(c.get("liqUsd") or 0) >= 15000]
-                boosted = sum(1 for c in cands if c.get("boosted"))
-                top = []
-                for c in sorted(cands, key=lambda x: float(x.get("liqUsd") or 0), reverse=True)[:3]:
-                    top.append("%s(liq$%.0f h1=%s m5=%s flags=%d)" % (
-                        c.get("symbol"), float(c.get("liqUsd") or 0),
-                        c.get("chg_h1"), c.get("chg_m5"), len(c.get("flags") or [])))
-                diag = ("🔍 WHY-NO-FILL #%d [%s] scanned=%d liq>=15k=%d boosted=%d barMinLiq=$%s | top: %s"
-                        % (dry_runs + 1, entry_note, len(cands), len(liq15), boosted,
-                           _BAR.get("minLiq"), " ; ".join(top) if top else "none"))
-                log({"event": "autopilot_diagnosis", "detail": diag})
-                tg(diag)
-            except Exception:
-                pass
-        if dry_runs >= 4:
-            tg("🕸️ AUTOPILOT dry tape #%d: even the relief net is empty. Reserve $%.2f ready." % (dry_runs + 1, cash_disp))
-        else:
-            tg("AUTOPILOT [%s] scan: no clean entry (dry #%d -> relief net at 5). Reserve $%.2f ready."
-               % (entry_note, dry_runs + 1, cash_disp))
+        reason = "zero_eligible"
+        if not raw:
+            reason = "no_scan_file_or_empty"
+        elif not pool and (tried_set or blocked):
+            reason = "all_blocked_or_tried"
+        elif not strict and dry_runs < 2:
+            reason = "zero_eligible_strict_relief_pending"
+        open_n = len([p for p in holdings_snap.get("positions", []) if str(p.get("status")) == "open"])
+        diag = ("🛑 NO-ENTRY reason=%s mode=%s emptyRuns=%d open=%d blocked=%d scanned=%d "
+                "strict=0 relief=%d reserve=$%.2f barLiq=%s" %
+                (reason, entry_note, dry_runs + 1, open_n, len(blocked), len(raw),
+                 len(relief), cash_disp, _BAR.get("minLiq")))
+        log({"event": "autopilot_no_entry", "reason": reason, "detail": diag})
+        tg(diag)
         return 0
     # MULTI-SHOT HUNT (boss 2026-09-04): try up to 3 eligible candidates per tick.
     # A gecko / USDC-gate / swap rejection falls through to the NEXT candidate instead
