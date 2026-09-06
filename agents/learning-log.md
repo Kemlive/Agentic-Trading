@@ -854,6 +854,12 @@ Append a dated entry under the right section. Never delete old lessons. Format:
 - Live in-and-out now proven on TWO chains: BASE (module, 0.60%) and RH Pons (×2, 1.99%).
 
 
+
+## 2026-09-06 — autopilot small tuning (explicit edits): tg throttle + relief sooner + gate breakdown
+- zero_eligible NO-ENTRY Telegram only on anchors (1,3,5,10,20,30) or every 3rd empty run; log always.
+- RELIEF_BAR activation dry_runs >= 1 (second consecutive empty tick may use relief). Reason guard aligned to dry_runs < 1.
+- Empty streaks log autopilot_gate_breakdown (flags/liq/fdv/m5/h1/age) once per streak via lastGateLog; tg only at er 1/5/10. SIZE_USDC/gecko/bull floors untouched. py_compile + import OK.
+
 ## 2026-09-06 — autopilot.py fixes (explicit edits): same-coin rebuy + dry-tick diagnostics
 - Added prune_banned / blocked_mints / ban_mint / rank_key; 24h re-entry ban on ANY close (win/loss/dust) via prev.bannedMints; candidate pool now excludes tried + banned + open mints; empty ticks log `autopilot_no_entry` with reason (cooldown/reserve/max_open/zero_eligible/all_blocked_or_tried/no_scan_file_or_empty) + Telegram 🛑 NO-ENTRY. SIZE_USDC, regime floors, RELIEF_BAR, gecko thresholds unchanged. py_compile OK (760 lines) + import OK.
 

@@ -631,7 +631,7 @@ def main():
     cands = pool
     bar, entry_note = _BAR, _BAR.get("mode", "NEUTRAL_SNATCH")
     strict = [c for c in cands if eligible(c, bar)]
-    relief = [c for c in cands if eligible(c, RELIEF_BAR)] if (not strict and dry_runs >= 2) else []
+    relief = [c for c in cands if eligible(c, RELIEF_BAR)] if (not strict and dry_runs >= 1) else []
     queue = (strict or relief)[:3]
     log({"event": "autopilot_hunt", "mode": entry_note,
          "queue": [{"s": c.get("symbol"), "liq": c.get("liqUsd"), "fdv": c.get("fdv"),
@@ -646,15 +646,40 @@ def main():
             reason = "no_scan_file_or_empty"
         elif not pool and (tried_set or blocked):
             reason = "all_blocked_or_tried"
-        elif not strict and dry_runs < 2:
+        elif not strict and dry_runs < 1:
             reason = "zero_eligible_strict_relief_pending"
         open_n = len([p for p in holdings_snap.get("positions", []) if str(p.get("status")) == "open"])
+        er = dry_runs + 1
         diag = ("🛑 NO-ENTRY reason=%s mode=%s emptyRuns=%d open=%d blocked=%d scanned=%d "
                 "strict=0 relief=%d reserve=$%.2f barLiq=%s" %
-                (reason, entry_note, dry_runs + 1, open_n, len(blocked), len(raw),
+                (reason, entry_note, er, open_n, len(blocked), len(raw),
                  len(relief), cash_disp, _BAR.get("minLiq")))
         log({"event": "autopilot_no_entry", "reason": reason, "detail": diag})
-        tg(diag)
+        # Telegram throttle: zero_eligible noise only on anchors (1,3,5,10,20,...) or every 3rd.
+        tg_ok = (not reason.startswith("zero_eligible")) or (er in (1, 3, 5, 10, 20, 30) or er % 3 == 0)
+        if tg_ok:
+            tg(diag)
+        # Gate breakdown once per empty streak (tg only at streak anchors 1/5/10).
+        if raw and prev.get("lastGateLog", -1) != er:
+            def _f(x):
+                try:
+                    return 0.0 if x is None else float(str(x).replace(",", "").replace(" ", ""))
+                except Exception:
+                    return 0.0
+            bd = {"event": "autopilot_gate_breakdown", "scanned": len(raw),
+                  "flags": sum(1 for c in raw if (c.get("flags") or [])),
+                  "liq": sum(1 for c in raw if _f(c.get("liqUsd")) < _f(bar.get("minLiq"))),
+                  "fdv": sum(1 for c in raw if _f(c.get("fdv")) < _f(bar.get("minFdv"))),
+                  "m5": sum(1 for c in raw if _f(c.get("chg_m5")) > _f(bar.get("m5Max"))),
+                  "h1": sum(1 for c in raw if _f(c.get("chg_h1")) <= 0 or _f(c.get("chg_h1")) > _f(bar.get("maxH1"))),
+                  "age": sum(1 for c in raw if not (_f(bar.get("minAge")) <= _f(c.get("ageH")) <= _f(bar.get("maxAge")))),
+                  "er": er}
+            log(bd)
+            prev["lastGateLog"] = er
+            atomic_write(STATE, prev)
+            if er in (1, 5, 10):
+                tg("📊 GATE BREAKDOWN scanned=%d flags=%d liq=%d fdv=%d m5=%d h1=%d age=%d (er %d)"
+                   % (bd["scanned"], bd["flags"], bd["liq"], bd["fdv"], bd["m5"], bd["h1"], bd["age"], er))
         return 0
     # MULTI-SHOT HUNT (boss 2026-09-04): try up to 3 eligible candidates per tick.
     # A gecko / USDC-gate / swap rejection falls through to the NEXT candidate instead
